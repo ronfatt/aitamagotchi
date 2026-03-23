@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>AI Tamagotchi</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700&family=Nunito:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="phone-shell">
+      <section class="screen">
+        <header class="topbar">
+          <div class="topbar-chip">
+            <span class="label">Day</span>
+            <strong id="day-count">1</strong>
+          </div>
+          <div class="topbar-center">
+            <span class="signal-dot"></span>
+            <span class="signal-dot"></span>
+            <span class="signal-dot"></span>
+          </div>
+          <div class="topbar-chip topbar-coin">
+            <span class="label">星糖</span>
+            <strong id="coins-count">28</strong>
+          </div>
+        </header>
+
+        <section class="pet-roster" id="pet-roster" aria-label="宠物切换"></section>
+
+        <section class="pet-stage" aria-label="宠物舞台">
+          <div class="room-glow"></div>
+          <div class="speech-bubble" id="pet-line">啵啵想玩接球球！</div>
+
+          <div class="pet-area">
+            <div class="pet-face happy bobo" id="pet-face" aria-hidden="true">
+              <span class="pet-blush left"></span>
+              <span class="pet-blush right"></span>
+              <span class="pet-eye left"></span>
+              <span class="pet-eye right"></span>
+              <span class="pet-mouth"></span>
+            </div>
+            <div class="pet-shadow"></div>
+          </div>
+
+          <div class="stage-meta">
+            <div class="pet-nameplate">
+              <strong id="pet-name">啵啵</strong>
+              <span id="pet-trait">撒娇型</span>
+            </div>
+            <div class="event-badge" id="event-badge">状态稳定</div>
+          </div>
+        </section>
+
+        <section class="growth-card">
+          <div class="story-heading">
+            <h1>成长进度</h1>
+            <span class="growth-stage" id="growth-stage">幼崽期</span>
+          </div>
+          <div class="growth-grid">
+            <article class="growth-metric">
+              <span class="metric-label">等级</span>
+              <strong id="level-value">Lv. 1</strong>
+            </article>
+            <article class="growth-metric">
+              <span class="metric-label">羁绊</span>
+              <strong id="bond-value">12</strong>
+            </article>
+            <article class="growth-metric">
+              <span class="metric-label">进化值</span>
+              <strong id="xp-value">18 / 100</strong>
+            </article>
+          </div>
+          <div class="bar-track large">
+            <div class="bar-fill accent" id="growth-fill" style="width: 18%"></div>
+          </div>
+        </section>
+
+        <section class="status-panel" aria-label="宠物状态">
+          <div class="status-grid" id="status-grid"></div>
+        </section>
+
+        <section class="action-panel" aria-label="互动按钮">
+          <button class="action-button feed" data-action="feed">喂食</button>
+          <button class="action-button play" data-action="play">玩耍</button>
+          <button class="action-button wash" data-action="wash">清洁</button>
+          <button class="action-button sleep" data-action="sleep">睡觉</button>
+        </section>
+
+        <section class="quest-card">
+          <div class="story-heading">
+            <h2>今日情节</h2>
+            <button class="tiny-button" id="advance-quest">推进剧情</button>
+          </div>
+          <p class="quest-title" id="quest-title">零食王国的门票</p>
+          <p class="story-copy" id="story-copy">
+            今早醒来后，啵啵盯着窗外发呆，说云朵像一块没吃完的棉花糖。
+          </p>
+          <div class="quest-progress-row">
+            <span id="quest-progress-text">进度 0 / 3</span>
+            <div class="bar-track quest-track">
+              <div class="bar-fill quest" id="quest-fill" style="width: 0%"></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="inventory-card">
+          <div class="story-heading">
+            <h2>背包</h2>
+            <button class="tiny-button secondary" id="cheer-up">聊天</button>
+          </div>
+          <div class="inventory-list" id="inventory-list"></div>
+        </section>
+
+        <section class="log-card">
+          <div class="story-heading">
+            <h2>今日记录</h2>
+            <button class="tiny-button secondary" id="next-turn">推进 1 小时</button>
+          </div>
+          <ul class="event-log" id="event-log"></ul>
+        </section>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
