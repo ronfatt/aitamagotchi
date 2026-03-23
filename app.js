@@ -64,7 +64,100 @@ const inventoryCatalog = {
     effect: { mood: 12, energy: -6, hunger: -4, bond: 3, xp: 8 },
     log: "你们用弹跳球玩追逐赛，整个房间都热闹起来。",
   },
+  ribbon: {
+    label: "闪亮丝带",
+    icon: "🎀",
+    effect: { mood: 10, bond: 4, xp: 10 },
+    log: "你别上闪亮丝带后，宠物立刻进入了想被夸夸模式。",
+  },
+  cocoa: {
+    label: "暖暖可可",
+    icon: "☕",
+    effect: { energy: 10, health: 6, mood: 5, xp: 7 },
+    log: "暖暖可可让宠物放松下来，呼吸都变得平稳了。",
+  },
 };
+
+const unlockCatalog = {
+  bobo: [
+    { level: 3, icon: "🎀", title: "撒娇丝带", description: "解锁 1 个闪亮丝带，互动时更容易涨羁绊。", reward: { ribbon: 1 } },
+    { level: 5, icon: "🧁", title: "甜点时间", description: "额外获得 2 个草莓布丁，啵啵的新剧情也会变多。", reward: { pudding: 2 } },
+    { level: 7, icon: "👑", title: "星糖骑士", description: "进入最终成长称号，并额外获得 20 星糖。", reward: { coins: 20 } },
+  ],
+  momo: [
+    { level: 3, icon: "☕", title: "安静茶会", description: "解锁 1 杯暖暖可可，恢复节奏更轻松。", reward: { cocoa: 1 } },
+    { level: 5, icon: "🫧", title: "月海泡泡", description: "获得 2 个泡泡喷雾，并开启更多巡游类事件。", reward: { bubble: 2 } },
+    { level: 7, icon: "🌙", title: "月海守望者", description: "成长为终阶形态，额外获得 20 星糖。", reward: { coins: 20 } },
+  ],
+  pipi: [
+    { level: 3, icon: "🎭", title: "开场表演", description: "获得 1 个弹跳球，表演欲会让剧情更热闹。", reward: { toyball: 1 } },
+    { level: 5, icon: "🎀", title: "舞台装饰", description: "获得 1 个闪亮丝带和 1 个草莓布丁。", reward: { ribbon: 1, pudding: 1 } },
+    { level: 7, icon: "🌟", title: "舞台明星", description: "进入终阶称号，额外获得 20 星糖。", reward: { coins: 20 } },
+  ],
+};
+
+const choiceEventPool = [
+  {
+    title: "路过的神秘纸箱",
+    description: (pet) => `${pet.name}发现门口有个会轻轻晃动的纸箱，你们准备怎么处理？`,
+    options: [
+      {
+        label: "悄悄打开",
+        detail: "看看里面藏了什么，可能有奖励也可能被吓一跳。",
+        effect: { mood: 8, xp: 10, coins: 4 },
+        result: (pet) => `${pet.name}在纸箱里翻到一张贴纸和几颗星糖，得意得不行。`,
+        log: (pet) => `${pet.name}选择打开纸箱，结果幸运地找到了一点奖励。`,
+      },
+      {
+        label: "先绕着观察",
+        detail: "稳一点，减少风险，但惊喜感会小一些。",
+        effect: { mood: 4, bond: 3, health: 2, xp: 6 },
+        result: (pet) => `${pet.name}认真巡视了一圈，最后把纸箱安全拖回了角落。`,
+        log: (pet) => `${pet.name}谨慎地观察纸箱，虽然没爆大奖，但过程很安心。`,
+      },
+    ],
+  },
+  {
+    title: "下午茶邀请",
+    description: (pet) => `${pet.name}突然想来一场小小下午茶，你想走哪种路线？`,
+    options: [
+      {
+        label: "甜点派对",
+        detail: "偏快乐和羁绊，适合冲心情。",
+        effect: { hunger: 10, mood: 10, bond: 4, xp: 8 },
+        result: (pet) => `${pet.name}抱着盘子晃来晃去，宣布这是一场非常成功的茶会。`,
+        log: (pet) => `${pet.name}选了甜点派对路线，整个下午都甜甜的。`,
+      },
+      {
+        label: "热饮恢复",
+        detail: "偏体力和健康，适合稳住状态。",
+        effect: { energy: 10, health: 8, mood: 4, xp: 8 },
+        result: (pet) => `${pet.name}捧着热饮坐了一会儿，整只宠物都柔和了下来。`,
+        log: (pet) => `${pet.name}选择慢慢喝热饮，状态被稳稳拉了回来。`,
+      },
+    ],
+  },
+  {
+    title: "今晚的小冒险",
+    description: (pet) => `${pet.name}想把夜晚过得特别一点，你们要走冒险派还是休息派？`,
+    options: [
+      {
+        label: "继续探险",
+        detail: "推进成长更快，但会消耗一点体力。",
+        effect: { mood: 8, energy: -8, xp: 14, bond: 3 },
+        result: (pet) => `${pet.name}在房间里完成了一场迷你夜探，回来说今晚超值得。`,
+        log: (pet) => `${pet.name}拉着你继续夜间冒险，虽然有点累，但非常满足。`,
+      },
+      {
+        label: "早点收尾",
+        detail: "更适合保状态，适合睡前。",
+        effect: { health: 8, energy: 6, mood: 3, xp: 6 },
+        result: (pet) => `${pet.name}把小窝整理得整整齐齐，决定用平静结束今天。`,
+        log: (pet) => `${pet.name}选择提早收尾，今晚的节奏格外舒服。`,
+      },
+    ],
+  },
+];
 
 const questTemplates = [
   {
@@ -94,6 +187,24 @@ const questTemplates = [
     reward: { coins: 9, hygiene: 10, bond: 4, xp: 14 },
     completeText: (pet) => `${pet.name}宣布这次大扫除获得满分，并给你颁发闪亮丝带。`,
   },
+  {
+    title: "午后演出排练",
+    description: (pet) =>
+      `${pet.name}想在傍晚前排出一段像样的小演出，需要通过玩耍、聊天和互动把状态炒热。`,
+    target: 4,
+    tags: ["play", "chat", "tap"],
+    reward: { coins: 12, mood: 10, bond: 5, xp: 20 },
+    completeText: (pet) => `${pet.name}顺利完成排练，观众只有你一个，但掌声特别响。`,
+  },
+  {
+    title: "夜晚热饮补给",
+    description: (pet) =>
+      `${pet.name}准备在晚间来一场小小恢复仪式，吃点东西、喝点热的，再早点休息。`,
+    target: 3,
+    tags: ["feed", "sleep", "item"],
+    reward: { coins: 9, health: 12, xp: 16 },
+    completeText: (pet) => `${pet.name}完成晚安仪式后，窝在软垫里说今天真的很满足。`,
+  },
 ];
 
 const defaultState = {
@@ -110,12 +221,15 @@ const defaultState = {
     pudding: 3,
     bubble: 2,
     toyball: 2,
+    ribbon: 0,
+    cocoa: 0,
   },
   quest: {
     index: 0,
     progress: 0,
     completed: 0,
   },
+  pendingChoice: null,
   globalStory: "今早醒来后，啵啵盯着窗外发呆，说云朵像一块没吃完的棉花糖。",
   logs: [
     { time: "08:00", text: "今天的宠物屋开门营业，三只小家伙都在自己的角落醒来了。" },
@@ -219,6 +333,36 @@ const eventPool = [
       log: `${pet.name}捡到一颗星糖，开心得转了三圈。`,
     }),
   },
+  {
+    condition: (pet) => state.hour >= 18 && pet.stats.energy < 60,
+    apply: (pet) => ({
+      badge: "夜晚降临",
+      story: `${pet.name}看着窗外一点点变暗，忽然安静下来，想把今天最后一段时间过得柔软一点。`,
+      line: "天快黑了，我们是不是该准备晚安仪式啦？",
+      effect: { mood: 3, xp: 6 },
+      log: `${pet.name}在傍晚时分变得格外安静，像在等待一天的收尾。`,
+    }),
+  },
+  {
+    condition: (pet) => state.hour <= 10 && pet.stats.energy > 50,
+    apply: (pet) => ({
+      badge: "清晨灵感",
+      story: `${pet.name}一大早就精神饱满，开始构思今天的新游戏和新冒险。`,
+      line: "早上最适合出发了，我已经想到今天的第一关了。",
+      effect: { mood: 5, xp: 8 },
+      log: `${pet.name}一早就冒出很多新点子，整个房间都跟着热闹起来。`,
+    }),
+  },
+  {
+    condition: (pet) => pet.bond >= 24,
+    apply: (pet) => ({
+      badge: "羁绊片段",
+      story: `${pet.name}突然靠过来贴了你一下，像在确认“你还会一直陪我吧”。`,
+      line: "我最近常常觉得，只要一回头就能找到你。",
+      effect: { mood: 6, health: 2, xp: 8 },
+      log: `${pet.name}触发了一段更亲近的羁绊剧情。`,
+    }),
+  },
 ];
 
 const elements = {
@@ -235,10 +379,16 @@ const elements = {
   bond: document.querySelector("#bond-value"),
   xp: document.querySelector("#xp-value"),
   growthFill: document.querySelector("#growth-fill"),
+  unlockHint: document.querySelector("#unlock-hint"),
+  unlockList: document.querySelector("#unlock-list"),
   questTitle: document.querySelector("#quest-title"),
   questText: document.querySelector("#story-copy"),
   questProgressText: document.querySelector("#quest-progress-text"),
   questFill: document.querySelector("#quest-fill"),
+  choiceCard: document.querySelector("#choice-card"),
+  choiceTitle: document.querySelector("#choice-title"),
+  choiceCopy: document.querySelector("#choice-copy"),
+  choiceActions: document.querySelector("#choice-actions"),
   grid: document.querySelector("#status-grid"),
   inventory: document.querySelector("#inventory-list"),
   log: document.querySelector("#event-log"),
@@ -259,6 +409,7 @@ function createPetState(id, stats) {
     currentLine: `${petCatalog[id].name}想玩接球球！`,
     currentStory: `${petCatalog[id].name}在小窝前晃来晃去，等待今天的第一场互动。`,
     badge: "状态稳定",
+    unlockedMilestones: [],
     stats,
   };
 }
@@ -293,6 +444,7 @@ function loadState() {
     merged.activePetId = parsed.activePetId ?? merged.activePetId;
     merged.inventory = { ...merged.inventory, ...(parsed.inventory || {}) };
     merged.quest = { ...merged.quest, ...(parsed.quest || {}) };
+    merged.pendingChoice = parsed.pendingChoice || null;
     merged.globalStory = parsed.globalStory || merged.globalStory;
     merged.logs = Array.isArray(parsed.logs) ? parsed.logs.slice(0, 6) : merged.logs;
 
@@ -340,6 +492,10 @@ function applyPetChanges(pet, changes) {
       return;
     }
 
+    if (!(key in pet.stats)) {
+      return;
+    }
+
     pet.stats[key] = clamp(pet.stats[key] + amount);
   });
 
@@ -362,6 +518,34 @@ function maybeLevelUp(pet) {
     pet.currentLine = "我好像变得更厉害，也更想跟你一起冒险了。";
     addLog(`${petCatalog[pet.id].name}完成了一次成长进化。`);
   }
+
+  unlockMilestonesForPet(pet);
+}
+
+function applyInventoryRewards(reward) {
+  Object.entries(reward).forEach(([key, amount]) => {
+    if (key === "coins") {
+      state.coins += amount;
+      return;
+    }
+
+    state.inventory[key] = (state.inventory[key] || 0) + amount;
+  });
+}
+
+function unlockMilestonesForPet(pet) {
+  const milestones = unlockCatalog[pet.id] || [];
+  milestones.forEach((milestone) => {
+    if (pet.level < milestone.level) return;
+    if (pet.unlockedMilestones.includes(milestone.level)) return;
+
+    pet.unlockedMilestones.push(milestone.level);
+    applyInventoryRewards(milestone.reward);
+    pet.badge = "解锁奖励";
+    pet.currentStory = `${petCatalog[pet.id].name}解锁了“${milestone.title}”，宠物屋里多了一份新的收藏。`;
+    pet.currentLine = `${petCatalog[pet.id].name}兴奋地围着新奖励转圈，像在催你立刻试试看。`;
+    addLog(`${petCatalog[pet.id].name}达成 Lv.${milestone.level}，解锁了${milestone.title}。`);
+  });
 }
 
 function getMoodProfile(pet) {
@@ -439,6 +623,29 @@ function maybeTriggerEvent() {
     return;
   }
 
+  if (!state.pendingChoice && Math.random() < 0.36) {
+    const choiceEvent = choiceEventPool[Math.floor(Math.random() * choiceEventPool.length)];
+    const info = activePetInfo();
+    state.pendingChoice = {
+      petId: state.activePetId,
+      title: choiceEvent.title,
+      description: choiceEvent.description(info),
+      options: choiceEvent.options.map((option) => ({
+        label: option.label,
+        detail: option.detail,
+        effect: option.effect,
+        result: option.result(info),
+        log: option.log(info),
+      })),
+    };
+    pet.badge = "需要决定";
+    pet.currentStory = state.pendingChoice.description;
+    pet.currentLine = `${info.name}抬头看着你，像在等你拍板。`;
+    state.globalStory = pet.currentStory;
+    addLog(`${info.name}遇到一个需要你来决定的小事件。`);
+    return;
+  }
+
   const candidates = eventPool.filter((event) => event.condition(pet));
   const selected = candidates[Math.floor(Math.random() * candidates.length)].apply(activePetInfo());
   applyPetChanges(pet, selected.effect);
@@ -447,6 +654,25 @@ function maybeTriggerEvent() {
   pet.badge = selected.badge;
   state.globalStory = selected.story;
   addLog(selected.log);
+}
+
+function resolveChoice(optionIndex) {
+  if (!state.pendingChoice) return;
+  if (state.pendingChoice.petId !== state.activePetId) return;
+
+  const pet = activePet();
+  const option = state.pendingChoice.options[optionIndex];
+  if (!option) return;
+
+  applyPetChanges(pet, option.effect);
+  pet.currentStory = option.result;
+  pet.currentLine = `${activePetInfo().name}对你的决定点了点头，马上照做。`;
+  pet.badge = "选择完成";
+  state.globalStory = pet.currentStory;
+  addLog(option.log);
+  updateQuestProgress("tap");
+  state.pendingChoice = null;
+  render();
 }
 
 function performAction(actionKey) {
@@ -519,6 +745,7 @@ function petTapReaction() {
   applyPetChanges(pet, { mood: 4, bond: 2, xp: 4 });
   state.globalStory = pet.currentStory;
   addLog(`你点了点${info.name}，它立刻给了你一个可爱的回应。`);
+  updateQuestProgress("tap");
   render();
 }
 
@@ -680,12 +907,62 @@ function renderGrowth() {
   elements.growthFill.style.width = `${percent}%`;
 }
 
+function renderUnlocks() {
+  const pet = activePet();
+  const milestones = unlockCatalog[pet.id] || [];
+  const nextLocked = milestones.find((milestone) => !pet.unlockedMilestones.includes(milestone.level));
+  elements.unlockHint.textContent = nextLocked ? `下一奖励 Lv. ${nextLocked.level}` : "已解锁全部奖励";
+  elements.unlockList.innerHTML = milestones
+    .map((milestone) => {
+      const unlocked = pet.unlockedMilestones.includes(milestone.level);
+      return `
+        <article class="unlock-item ${unlocked ? "" : "locked"}">
+          <div class="unlock-meta">
+            <span class="unlock-icon">${milestone.icon}</span>
+            <div class="unlock-copy">
+              <strong>${milestone.title}</strong>
+              <span>Lv.${milestone.level} · ${milestone.description}</span>
+            </div>
+          </div>
+          <span class="unlock-badge">${unlocked ? "已解锁" : "未解锁"}</span>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function renderChoiceCard() {
+  if (!state.pendingChoice || state.pendingChoice.petId !== state.activePetId) {
+    elements.choiceCard.classList.add("hidden");
+    elements.choiceActions.innerHTML = "";
+    return;
+  }
+
+  elements.choiceCard.classList.remove("hidden");
+  elements.choiceTitle.textContent = state.pendingChoice.title;
+  elements.choiceCopy.textContent = state.pendingChoice.description;
+  elements.choiceActions.innerHTML = state.pendingChoice.options
+    .map(
+      (option, index) => `
+        <button class="choice-button" data-choice="${index}">
+          <strong>${option.label}</strong>
+          <span>${option.detail}</span>
+        </button>
+      `
+    )
+    .join("");
+
+  elements.choiceActions.querySelectorAll(".choice-button").forEach((button) => {
+    button.addEventListener("click", () => resolveChoice(Number(button.dataset.choice)));
+  });
+}
+
 function renderPetFace() {
   const pet = activePet();
   const info = activePetInfo();
   const profile = getMoodProfile(pet);
   const currentFace = pet.badge === "互动完成" || pet.badge === "剧情完成" ? "excited" : profile.face;
-  elements.petFace.className = `pet-face ${currentFace} ${info.faceClass}`;
+  elements.petFace.className = `pet-face stage-${pet.stage} ${currentFace} ${info.faceClass}`;
   elements.petName.textContent = info.name;
   elements.petTrait.textContent = `${info.trait} · ${info.species}`;
   if (!pet.currentLine || pet.badge === "状态稳定") {
@@ -698,7 +975,9 @@ function render() {
   renderRoster();
   renderStats();
   renderGrowth();
+  renderUnlocks();
   renderQuest();
+  renderChoiceCard();
   renderInventory();
   renderLogs();
   renderPetFace();
