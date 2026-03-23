@@ -13,6 +13,27 @@
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
+    <section class="welcome-shell" id="welcome-shell">
+      <div class="welcome-card">
+        <p class="welcome-kicker">Rumah Kucing AI</p>
+        <h1>Selamat Datang</h1>
+        <p class="welcome-copy">
+          Masukkan ID pemain ringkas untuk terus masuk. Progres kucing anda akan disimpan pada peranti ini.
+        </p>
+        <label class="welcome-label" for="player-id-input">ID Pemain</label>
+        <input
+          class="welcome-input"
+          id="player-id-input"
+          type="text"
+          maxlength="18"
+          placeholder="contoh: ali123"
+          autocomplete="off"
+        />
+        <button class="welcome-button" id="start-game">Mula Bermain</button>
+        <p class="welcome-note" id="welcome-note">Setiap ID akan simpan permainan yang berasingan.</p>
+      </div>
+    </section>
+
     <main class="phone-shell">
       <section class="screen">
         <header class="topbar">
@@ -106,6 +127,10 @@
             <span class="unlock-hint">Terus aktif</span>
           </div>
           <div class="settings-list">
+            <button class="settings-toggle" id="switch-player">
+              <span>Tukar ID</span>
+              <strong id="player-id-state">-</strong>
+            </button>
             <button class="settings-toggle" id="toggle-sound">
               <span>Bunyi</span>
               <strong id="sound-state">Tutup</strong>

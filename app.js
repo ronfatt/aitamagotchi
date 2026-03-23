@@ -1,4 +1,5 @@
-const storageKey = "ai-tamagotchi-save-v2";
+const storageKeyPrefix = "ai-tamagotchi-save-v3";
+const activePlayerKey = "ai-tamagotchi-active-player";
 
 const petCatalog = {
   bobo: {
@@ -335,6 +336,7 @@ const defaultState = {
   ],
 };
 
+let currentPlayerId = loadActivePlayerId();
 const state = loadState();
 
 const statsConfig = [
@@ -495,7 +497,13 @@ const elements = {
   choiceCopy: document.querySelector("#choice-copy"),
   choiceActions: document.querySelector("#choice-actions"),
   settingsCard: document.querySelector("#settings-card"),
+  welcomeShell: document.querySelector("#welcome-shell"),
+  playerIdInput: document.querySelector("#player-id-input"),
+  startGame: document.querySelector("#start-game"),
+  welcomeNote: document.querySelector("#welcome-note"),
   toggleSettings: document.querySelector("#toggle-settings"),
+  switchPlayer: document.querySelector("#switch-player"),
+  playerIdState: document.querySelector("#player-id-state"),
   toggleSound: document.querySelector("#toggle-sound"),
   toggleMotion: document.querySelector("#toggle-motion"),
   resetSave: document.querySelector("#reset-save"),
@@ -647,6 +655,22 @@ function cloneDefaultState() {
   return JSON.parse(JSON.stringify(defaultState));
 }
 
+function sanitizePlayerId(value) {
+  return value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 18);
+}
+
+function getPlayerStorageKey(playerId) {
+  return `${storageKeyPrefix}-${playerId}`;
+}
+
+function loadActivePlayerId() {
+  return sanitizePlayerId(window.localStorage.getItem(activePlayerKey) || "");
+}
+
+function saveActivePlayerId(playerId) {
+  window.localStorage.setItem(activePlayerKey, playerId);
+}
+
 function clamp(value) {
   return Math.max(0, Math.min(100, value));
 }
@@ -661,7 +685,9 @@ function activePetInfo() {
 
 function loadState() {
   try {
-    const raw = window.localStorage.getItem(storageKey);
+    if (!currentPlayerId) return cloneDefaultState();
+
+    const raw = window.localStorage.getItem(getPlayerStorageKey(currentPlayerId));
     if (!raw) return cloneDefaultState();
 
     const parsed = JSON.parse(raw);
@@ -702,7 +728,8 @@ function loadState() {
 }
 
 function saveState() {
-  window.localStorage.setItem(storageKey, JSON.stringify(state));
+  if (!currentPlayerId) return;
+  window.localStorage.setItem(getPlayerStorageKey(currentPlayerId), JSON.stringify(state));
 }
 
 function playSound(type = "soft") {
@@ -1123,9 +1150,39 @@ function resetSaveData() {
     delete state[key];
   });
   Object.assign(state, freshState);
-  window.localStorage.removeItem(storageKey);
+  if (currentPlayerId) {
+    window.localStorage.removeItem(getPlayerStorageKey(currentPlayerId));
+  }
   applyMotionSetting();
   render();
+}
+
+function enterGameWithPlayer(playerId) {
+  const cleanId = sanitizePlayerId(playerId);
+  if (!cleanId) {
+    elements.welcomeNote.textContent = "Masukkan ID ringkas menggunakan huruf atau nombor.";
+    return;
+  }
+
+  currentPlayerId = cleanId;
+  saveActivePlayerId(cleanId);
+  const freshState = loadState();
+  Object.keys(state).forEach((key) => delete state[key]);
+  Object.assign(state, freshState);
+  document.body.classList.remove("app-locked");
+  elements.welcomeNote.textContent = "Setiap ID akan simpan permainan yang berasingan.";
+  render();
+}
+
+function showWelcomeScreen() {
+  document.body.classList.add("app-locked");
+  elements.playerIdInput.value = currentPlayerId || "";
+}
+
+function switchPlayerFlow() {
+  const confirmed = window.confirm("Tukar ID pemain? Progres semasa sudah disimpan pada ID ini.");
+  if (!confirmed) return;
+  showWelcomeScreen();
 }
 
 function setMathGrade(grade) {
@@ -1405,6 +1462,7 @@ function renderMathCard() {
 function renderSettings() {
   elements.soundState.textContent = state.settings.soundOn ? "Buka" : "Tutup";
   elements.motionState.textContent = state.settings.motionOn ? "Buka" : "Tutup";
+  elements.playerIdState.textContent = currentPlayerId || "-";
   applyMotionSetting();
 }
 
@@ -1479,5 +1537,17 @@ elements.toggleSettings.addEventListener("click", toggleSettingsPanel);
 elements.toggleSound.addEventListener("click", toggleSoundSetting);
 elements.toggleMotion.addEventListener("click", toggleMotionSetting);
 elements.resetSave.addEventListener("click", resetSaveData);
+elements.switchPlayer.addEventListener("click", switchPlayerFlow);
+elements.startGame.addEventListener("click", () => enterGameWithPlayer(elements.playerIdInput.value));
+elements.playerIdInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    enterGameWithPlayer(elements.playerIdInput.value);
+  }
+});
 
-render();
+if (currentPlayerId) {
+  document.body.classList.remove("app-locked");
+  render();
+} else {
+  showWelcomeScreen();
+}

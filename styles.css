@@ -35,6 +35,95 @@ body {
   font-family: "Nunito", sans-serif;
 }
 
+body.app-locked .phone-shell {
+  display: none;
+}
+
+.welcome-shell {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at top, rgba(255, 245, 196, 0.95), transparent 26%),
+    linear-gradient(180deg, #ffd875 0%, #ff9f7d 42%, #ff6b6b 100%);
+}
+
+body.app-locked .welcome-shell {
+  display: flex;
+}
+
+.welcome-card {
+  width: min(100%, 380px);
+  padding: 26px 22px;
+  border-radius: 28px;
+  background: rgba(255, 251, 244, 0.96);
+  box-shadow: 0 22px 56px rgba(118, 33, 42, 0.2);
+}
+
+.welcome-kicker {
+  margin: 0 0 8px;
+  color: #c76b54;
+  font-size: 0.8rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.welcome-card h1 {
+  margin: 0;
+  font-family: "Baloo 2", cursive;
+  font-size: 2rem;
+}
+
+.welcome-copy,
+.welcome-note {
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.welcome-copy {
+  margin: 10px 0 16px;
+}
+
+.welcome-note {
+  margin: 12px 0 0;
+  font-size: 0.8rem;
+}
+
+.welcome-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+
+.welcome-input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 18px;
+  background: rgba(255, 241, 222, 0.92);
+  color: var(--ink);
+  font: inherit;
+  box-shadow: inset 0 -2px 0 rgba(255, 159, 125, 0.25);
+}
+
+.welcome-button {
+  width: 100%;
+  margin-top: 14px;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #5fd4cd, #2ca8c2);
+  color: #fffdf6;
+  font: inherit;
+  font-weight: 900;
+  box-shadow: 0 14px 28px rgba(44, 168, 194, 0.24);
+}
+
 button {
   font: inherit;
 }
