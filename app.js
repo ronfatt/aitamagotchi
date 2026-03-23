@@ -1,5 +1,6 @@
 const storageKeyPrefix = "ai-tamagotchi-save-v3";
 const activePlayerKey = "ai-tamagotchi-active-player";
+const recentPlayersKey = "ai-tamagotchi-recent-players";
 
 const petCatalog = {
   bobo: {
@@ -324,6 +325,12 @@ const defaultState = {
     completed: 0,
   },
   math: createMathState(4),
+  rewardTrack: {
+    lastLoginDate: "",
+    loginStreak: 0,
+    lastMathCompleteDate: "",
+    mathCompleteStreak: 0,
+  },
   settings: {
     soundOn: false,
     motionOn: true,
@@ -492,6 +499,7 @@ const elements = {
   mathProgressText: document.querySelector("#math-progress-text"),
   mathFill: document.querySelector("#math-fill"),
   mathRewardCopy: document.querySelector("#math-reward-copy"),
+  mathFeedback: document.querySelector("#math-feedback"),
   choiceCard: document.querySelector("#choice-card"),
   choiceTitle: document.querySelector("#choice-title"),
   choiceCopy: document.querySelector("#choice-copy"),
@@ -501,6 +509,8 @@ const elements = {
   playerIdInput: document.querySelector("#player-id-input"),
   startGame: document.querySelector("#start-game"),
   welcomeNote: document.querySelector("#welcome-note"),
+  recentPlayersBlock: document.querySelector("#recent-players-block"),
+  recentPlayerList: document.querySelector("#recent-player-list"),
   toggleSettings: document.querySelector("#toggle-settings"),
   switchPlayer: document.querySelector("#switch-player"),
   playerIdState: document.querySelector("#player-id-state"),
@@ -509,6 +519,10 @@ const elements = {
   resetSave: document.querySelector("#reset-save"),
   soundState: document.querySelector("#sound-state"),
   motionState: document.querySelector("#motion-state"),
+  loginStreakValue: document.querySelector("#login-streak-value"),
+  studyStreakValue: document.querySelector("#study-streak-value"),
+  dailyStatusPill: document.querySelector("#daily-status-pill"),
+  dailyRewardNote: document.querySelector("#daily-reward-note"),
   stage: document.querySelector(".pet-stage"),
   grid: document.querySelector("#status-grid"),
   inventory: document.querySelector("#inventory-list"),
@@ -541,6 +555,8 @@ function createMathState(grade = 4) {
     currentIndex: 0,
     completed: 0,
     streak: 0,
+    lastRefreshedDate: getTodayKey(),
+    feedback: null,
     questions: createMathQuestions(grade),
   };
 }
@@ -553,11 +569,13 @@ function shuffle(list) {
   return [...list].sort(() => Math.random() - 0.5);
 }
 
-function buildQuestion(theme, prompt, answer, wrongAnswers) {
+function buildQuestion(theme, prompt, answer, wrongAnswers, hint) {
   return {
     theme,
     prompt,
     answer,
+    hint,
+    attempts: 0,
     choices: shuffle([answer, ...wrongAnswers]).slice(0, 4),
   };
 }
@@ -568,7 +586,7 @@ function createArithmeticQuestion(grade) {
     const b = randomInt(3, 9);
     const prompt = `Oyen sedang berlatih melompat. Dia buat ${a} lompatan, kemudian tambah ${b} lagi. Berapa jumlah semuanya?`;
     const answer = a + b;
-    return buildQuestion("arithmetic", prompt, answer, [answer - 2, answer + 3, answer + 5]);
+    return buildQuestion("arithmetic", prompt, answer, [answer - 2, answer + 3, answer + 5], "Petunjuk: ini soalan tambah. Gabungkan dua jumlah lompatan itu.");
   }
 
   if (grade === 5) {
@@ -576,14 +594,14 @@ function createArithmeticQuestion(grade) {
     const b = randomInt(4, 9);
     const prompt = `Tompok mahu sediakan hiasan persembahan. Setiap baris ada ${a} belon dan ada ${b} baris. Berapa jumlah belon semuanya?`;
     const answer = a * b;
-    return buildQuestion("arithmetic", prompt, answer, [answer - b, answer + a, answer + 6]);
+    return buildQuestion("arithmetic", prompt, answer, [answer - b, answer + a, answer + 6], "Petunjuk: darab bilangan belon setiap baris dengan jumlah baris.");
   }
 
   const a = randomInt(24, 72);
   const b = randomInt(3, 8);
   const prompt = `Abu kumpul ${a} bintang dan mahu bahagi sama rata kepada ${b} bahagian. Setiap bahagian ada berapa?`;
   const answer = Math.floor(a / b);
-  return buildQuestion("arithmetic", prompt, answer, [answer - 2, answer + 1, answer + 3]);
+  return buildQuestion("arithmetic", prompt, answer, [answer - 2, answer + 1, answer + 3], "Petunjuk: bahagi jumlah bintang sama rata kepada semua bahagian.");
 }
 
 function createMoneyQuestion(grade) {
@@ -595,7 +613,8 @@ function createMoneyQuestion(grade) {
       "money",
       `Seekor kucing mahu beli ${qty} snek. Setiap satu RM${price}. Jumlah semuanya berapa?`,
       `RM${answer}`,
-      [`RM${answer + price}`, `RM${Math.max(1, answer - qty)}`, `RM${answer + 2}`]
+      [`RM${answer + price}`, `RM${Math.max(1, answer - qty)}`, `RM${answer + 2}`],
+      "Petunjuk: untuk cari jumlah harga, darab harga satu snek dengan bilangan snek."
     );
   }
 
@@ -607,7 +626,8 @@ function createMoneyQuestion(grade) {
       "money",
       `Kamu bawa RM${wallet} untuk beli mainan kucing. Selepas belanja RM${spend}, baki tinggal berapa?`,
       `RM${answer}`,
-      [`RM${answer + 2}`, `RM${Math.max(0, answer - 3)}`, `RM${wallet + spend}`]
+      [`RM${answer + 2}`, `RM${Math.max(0, answer - 3)}`, `RM${wallet + spend}`],
+      "Petunjuk: baki wang = jumlah asal tolak jumlah yang dibelanjakan."
     );
   }
 
@@ -618,7 +638,8 @@ function createMoneyQuestion(grade) {
     "money",
     `Beg kucing berharga RM${price}, sekarang diskaun RM${discount}. Harga selepas diskaun berapa?`,
     `RM${answer}`,
-    [`RM${price + discount}`, `RM${discount}`, `RM${answer + 3}`]
+    [`RM${price + discount}`, `RM${discount}`, `RM${answer + 3}`],
+    "Petunjuk: harga selepas diskaun diperoleh dengan menolak nilai diskaun."
   );
 }
 
@@ -639,7 +660,8 @@ function createTimeQuestion(grade) {
       `${resultHour}:${String((resultMinute + 15) % 60).padStart(2, "0")}`,
       `${Math.max(0, resultHour - 1)}:${String(resultMinute).padStart(2, "0")}`,
       `${resultHour + 1}:${String(resultMinute).padStart(2, "0")}`,
-    ]
+    ],
+    "Petunjuk: tukar masa sekarang kepada minit, tambah minit baru, kemudian tukar semula kepada jam dan minit."
   );
 }
 
@@ -659,6 +681,16 @@ function sanitizePlayerId(value) {
   return value.trim().toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 18);
 }
 
+function getTodayKey() {
+  return new Date().toLocaleDateString("en-CA");
+}
+
+function getYesterdayKey() {
+  const date = new Date();
+  date.setDate(date.getDate() - 1);
+  return date.toLocaleDateString("en-CA");
+}
+
 function getPlayerStorageKey(playerId) {
   return `${storageKeyPrefix}-${playerId}`;
 }
@@ -669,6 +701,26 @@ function loadActivePlayerId() {
 
 function saveActivePlayerId(playerId) {
   window.localStorage.setItem(activePlayerKey, playerId);
+}
+
+function loadRecentPlayers() {
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(recentPlayersKey) || "[]");
+    return Array.isArray(parsed) ? parsed.map((item) => sanitizePlayerId(item)).filter(Boolean).slice(0, 5) : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveRecentPlayers(list) {
+  window.localStorage.setItem(recentPlayersKey, JSON.stringify(list.slice(0, 5)));
+}
+
+function rememberRecentPlayer(playerId) {
+  const cleanId = sanitizePlayerId(playerId);
+  if (!cleanId) return;
+  const next = [cleanId, ...loadRecentPlayers().filter((item) => item !== cleanId)].slice(0, 5);
+  saveRecentPlayers(next);
 }
 
 function clamp(value) {
@@ -705,6 +757,7 @@ function loadState() {
           ...parsed.math,
         }
       : merged.math;
+    merged.rewardTrack = { ...merged.rewardTrack, ...(parsed.rewardTrack || {}) };
     merged.settings = { ...merged.settings, ...(parsed.settings || {}) };
     merged.pendingChoice = parsed.pendingChoice || null;
     merged.globalStory = parsed.globalStory || merged.globalStory;
@@ -730,6 +783,83 @@ function loadState() {
 function saveState() {
   if (!currentPlayerId) return;
   window.localStorage.setItem(getPlayerStorageKey(currentPlayerId), JSON.stringify(state));
+}
+
+function refreshMathForToday() {
+  const today = getTodayKey();
+  if (state.math.lastRefreshedDate === today) return;
+
+  const grade = state.math.grade || 4;
+  state.math = createMathState(grade);
+  const pet = activePet();
+  pet.badge = "Misi baru";
+  pet.currentLine = `${activePetInfo().name} nampak bersedia untuk set misi matematik yang baru hari ini.`;
+  pet.currentStory = `${activePetInfo().name} menerima senarai misi matematik harian yang segar untuk hari ini.`;
+  state.globalStory = pet.currentStory;
+  addLog(`Misi matematik harian diperbaharui untuk ${today}.`);
+}
+
+function applyDailyLoginReward() {
+  const today = getTodayKey();
+  if (state.rewardTrack.lastLoginDate === today) return;
+
+  state.rewardTrack.loginStreak =
+    state.rewardTrack.lastLoginDate === getYesterdayKey() ? state.rewardTrack.loginStreak + 1 : 1;
+  state.rewardTrack.lastLoginDate = today;
+
+  const bonusCoins = state.rewardTrack.loginStreak >= 7 ? 10 : state.rewardTrack.loginStreak >= 3 ? 8 : 5;
+  state.coins += bonusCoins;
+  if (state.rewardTrack.loginStreak % 3 === 0) {
+    state.inventory.pudding = (state.inventory.pudding || 0) + 1;
+  }
+
+  const pet = activePet();
+  pet.badge = "Ganjaran login";
+  pet.currentLine = `${activePetInfo().name} menyambut kamu pulang dan terus hulur ganjaran harian.`;
+  pet.currentStory = `${activePetInfo().name} gembira kamu datang hari ini. Kamu menerima ${bonusCoins} bintang${state.rewardTrack.loginStreak % 3 === 0 ? " dan 1 puding strawberi" : ""}.`;
+  state.globalStory = pet.currentStory;
+  addLog(`Ganjaran login harian diberi. Streak kini ${state.rewardTrack.loginStreak} hari.`);
+}
+
+function applyMathCompletionStreakReward() {
+  const today = getTodayKey();
+  if (state.rewardTrack.lastMathCompleteDate === today) return;
+
+  state.rewardTrack.mathCompleteStreak =
+    state.rewardTrack.lastMathCompleteDate === getYesterdayKey() ? state.rewardTrack.mathCompleteStreak + 1 : 1;
+  state.rewardTrack.lastMathCompleteDate = today;
+
+  const streakBonus = state.rewardTrack.mathCompleteStreak >= 5 ? 8 : state.rewardTrack.mathCompleteStreak >= 3 ? 5 : 0;
+  if (streakBonus > 0) {
+    state.coins += streakBonus;
+  }
+  if (state.rewardTrack.mathCompleteStreak % 4 === 0) {
+    state.inventory.toyball = (state.inventory.toyball || 0) + 1;
+  }
+}
+
+function renderRecentPlayers() {
+  const recentPlayers = loadRecentPlayers();
+  if (!recentPlayers.length) {
+    elements.recentPlayersBlock.classList.add("hidden");
+    elements.recentPlayerList.innerHTML = "";
+    return;
+  }
+
+  elements.recentPlayersBlock.classList.remove("hidden");
+  elements.recentPlayerList.innerHTML = recentPlayers
+    .map(
+      (playerId) => `
+        <button class="recent-player-chip" data-player="${playerId}">
+          <span>${playerId}</span>
+        </button>
+      `
+    )
+    .join("");
+
+  elements.recentPlayerList.querySelectorAll(".recent-player-chip").forEach((button) => {
+    button.addEventListener("click", () => enterGameWithPlayer(button.dataset.player));
+  });
 }
 
 function playSound(type = "soft") {
@@ -1166,9 +1296,12 @@ function enterGameWithPlayer(playerId) {
 
   currentPlayerId = cleanId;
   saveActivePlayerId(cleanId);
+  rememberRecentPlayer(cleanId);
   const freshState = loadState();
   Object.keys(state).forEach((key) => delete state[key]);
   Object.assign(state, freshState);
+  refreshMathForToday();
+  applyDailyLoginReward();
   document.body.classList.remove("app-locked");
   elements.welcomeNote.textContent = "Setiap ID akan simpan permainan yang berasingan.";
   render();
@@ -1177,6 +1310,7 @@ function enterGameWithPlayer(playerId) {
 function showWelcomeScreen() {
   document.body.classList.add("app-locked");
   elements.playerIdInput.value = currentPlayerId || "";
+  renderRecentPlayers();
 }
 
 function switchPlayerFlow() {
@@ -1192,17 +1326,20 @@ function setMathGrade(grade) {
   render();
 }
 
-function completeMathQuestion(isCorrect) {
+function completeMathQuestion(isCorrect, choice) {
   const pet = activePet();
-  const rewards = isCorrect
-    ? { coins: 3, xp: 8, bond: 2, mood: 3 }
-    : { xp: 2, mood: 1 };
-
-  applyPetChanges(pet, rewards);
+  const question = state.math.questions[state.math.currentIndex];
+  if (!question) return;
 
   if (isCorrect) {
+    applyPetChanges(pet, { coins: 3, xp: 8, bond: 2, mood: 3 });
+    state.math.feedback = {
+      type: "correct",
+      message: "Betul. Kucing anda terus semangat mahu sambung tugasan seterusnya.",
+    };
     state.math.completed += 1;
     state.math.streak += 1;
+    question.attempts = 0;
     pet.currentLine = `${activePetInfo().name} mengiau gembira kerana jawapan itu memang tepat pada masanya.`;
     pet.currentStory = `${activePetInfo().name} berjaya menyelesaikan satu misi matematik dan bersedia mengutip ganjaran ke dalam beg item.`;
     pet.badge = "Misi matematik siap";
@@ -1211,6 +1348,7 @@ function completeMathQuestion(isCorrect) {
 
     if (state.math.completed >= state.math.questions.length) {
       state.inventory.pudding = (state.inventory.pudding || 0) + 1;
+      applyMathCompletionStreakReward();
       pet.currentLine = `${activePetInfo().name} mengumumkan semua misi matematik hari ini sudah siap dan ganjaran boleh diambil.`;
       pet.currentStory = `${activePetInfo().name} menyiapkan ketiga-tiga misi matematik hari ini dan kamu menerima 1 puding strawberi sebagai bonus.`;
       pet.badge = "Semua misi siap";
@@ -1218,10 +1356,20 @@ function completeMathQuestion(isCorrect) {
       updateQuestProgress("chat");
     } else {
       state.math.currentIndex += 1;
+      state.math.feedback = null;
     }
 
     playSound("happy");
   } else {
+    question.attempts = (question.attempts || 0) + 1;
+    state.math.feedback = {
+      type: "wrong",
+      message:
+        question.attempts >= 2
+          ? `${question.hint} Jawapan yang betul ialah ${question.answer}. Cuba ingat langkah ini untuk soalan seterusnya.`
+          : question.hint,
+      choice,
+    };
     pet.currentLine = `${activePetInfo().name} kata tak apa, mari tengok soalan itu sekali lagi dengan tenang.`;
     pet.currentStory = `${activePetInfo().name} tidak marah, malah masih mahu cuba semula misi matematik bersama kamu.`;
     pet.badge = "Cuba lagi";
@@ -1236,7 +1384,7 @@ function completeMathQuestion(isCorrect) {
 function answerMathQuestion(choice) {
   const question = state.math.questions[state.math.currentIndex];
   if (!question) return;
-  completeMathQuestion(choice === question.answer);
+  completeMathQuestion(choice === question.answer, choice);
 }
 
 function switchPet(petId) {
@@ -1434,6 +1582,8 @@ function renderMathCard() {
     elements.mathTitle.textContent = "Semua misi matematik selesai";
     elements.mathQuestion.textContent = "Kamu sudah bantu kucing menyiapkan semua tugasan matematik hari ini. Datang semula esok.";
     elements.mathOptions.innerHTML = "";
+    elements.mathFeedback.classList.add("hidden");
+    elements.mathFeedback.textContent = "";
     elements.mathRewardCopy.textContent = "Ganjaran hari ini sudah diberi, dan si kucing sangat puas hati.";
   } else {
     elements.mathTitle.textContent = mathMissionThemes[question.theme];
@@ -1441,7 +1591,7 @@ function renderMathCard() {
     elements.mathOptions.innerHTML = question.choices
       .map(
         (choice) => `
-          <button class="math-option" data-answer="${choice}">
+          <button class="math-option ${state.math.feedback?.type === "wrong" && state.math.feedback.choice === choice ? "wrong" : ""}" data-answer="${choice}">
             <strong>${choice}</strong>
           </button>
         `
@@ -1452,7 +1602,18 @@ function renderMathCard() {
       button.addEventListener("click", () => answerMathQuestion(button.dataset.answer));
     });
 
-    elements.mathRewardCopy.textContent = "Jawapan betul memberi 3 bintang, XP pertumbuhan dan ganjaran ikatan.";
+    if (state.math.feedback?.message) {
+      elements.mathFeedback.classList.remove("hidden");
+      elements.mathFeedback.classList.toggle("wrong", state.math.feedback.type === "wrong");
+      elements.mathFeedback.classList.toggle("correct", state.math.feedback.type === "correct");
+      elements.mathFeedback.textContent = state.math.feedback.message;
+    } else {
+      elements.mathFeedback.classList.add("hidden");
+      elements.mathFeedback.classList.remove("wrong", "correct");
+      elements.mathFeedback.textContent = "";
+    }
+
+    elements.mathRewardCopy.textContent = "Jawapan betul memberi 3 bintang, XP pertumbuhan dan ganjaran ikatan. Selepas 3 misi siap, dapat 1 puding strawberi.";
   }
 
   elements.mathProgressText.textContent = `Progres ${completed} / ${state.math.questions.length}`;
@@ -1464,6 +1625,18 @@ function renderSettings() {
   elements.motionState.textContent = state.settings.motionOn ? "Buka" : "Tutup";
   elements.playerIdState.textContent = currentPlayerId || "-";
   applyMotionSetting();
+}
+
+function renderDailyRewards() {
+  const today = getTodayKey();
+  elements.loginStreakValue.textContent = `${state.rewardTrack.loginStreak || 0} hari`;
+  elements.studyStreakValue.textContent = `${state.rewardTrack.mathCompleteStreak || 0} hari`;
+  elements.dailyStatusPill.textContent =
+    state.rewardTrack.lastMathCompleteDate === today ? "Misi hari ini lengkap" : "Hari ini aktif";
+  elements.dailyRewardNote.textContent =
+    state.rewardTrack.lastMathCompleteDate === today
+      ? "Hebat. Misi matematik hari ini sudah selesai dan streak pembelajaran anda terus naik."
+      : `Login berturut memberi bintang tambahan. Siapkan semua misi matematik hari ini untuk sambung streak ${state.rewardTrack.mathCompleteStreak || 0} hari.`;
 }
 
 function renderStageAtmosphere() {
@@ -1501,10 +1674,12 @@ function renderPetFace() {
 
 function render() {
   const pet = activePet();
+  refreshMathForToday();
   renderRoster();
   renderStats();
   renderGrowth();
   renderUnlocks();
+  renderDailyRewards();
   renderMathCard();
   renderQuest();
   renderChoiceCard();
@@ -1546,6 +1721,8 @@ elements.playerIdInput.addEventListener("keydown", (event) => {
 });
 
 if (currentPlayerId) {
+  refreshMathForToday();
+  applyDailyLoginReward();
   document.body.classList.remove("app-locked");
   render();
 } else {
