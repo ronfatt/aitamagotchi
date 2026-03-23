@@ -48,8 +48,8 @@ body.app-locked .phone-shell {
   justify-content: center;
   padding: 24px;
   background:
-    radial-gradient(circle at top, rgba(255, 245, 196, 0.95), transparent 26%),
-    linear-gradient(180deg, #ffd875 0%, #ff9f7d 42%, #ff6b6b 100%);
+    radial-gradient(circle at top, rgba(124, 86, 228, 0.38), transparent 24%),
+    linear-gradient(180deg, #10081f 0%, #1a1033 46%, #26144a 100%);
 }
 
 body.app-locked .welcome-shell {
@@ -59,11 +59,14 @@ body.app-locked .welcome-shell {
 .welcome-card {
   width: min(100%, 380px);
   padding: 24px 22px 26px;
-  border-radius: 28px;
+  border-radius: 32px;
   background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.92), rgba(255, 247, 237, 0.96) 58%),
-    rgba(255, 251, 244, 0.96);
-  box-shadow: 0 22px 56px rgba(118, 33, 42, 0.2);
+    radial-gradient(circle at top, rgba(151, 96, 255, 0.18), transparent 32%),
+    linear-gradient(180deg, rgba(33, 20, 59, 0.98), rgba(18, 11, 31, 0.98));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 28px 62px rgba(8, 4, 18, 0.56),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 
 .welcome-badge {
@@ -72,13 +75,13 @@ body.app-locked .welcome-shell {
   gap: 8px;
   padding: 8px 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.82);
-  color: #c76b54;
+  background: rgba(65, 36, 119, 0.9);
+  color: #ffb25e;
   font-size: 0.82rem;
   font-weight: 900;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  box-shadow: 0 10px 22px rgba(164, 90, 74, 0.12);
+  box-shadow: 0 10px 22px rgba(7, 4, 18, 0.22);
 }
 
 .welcome-badge::before {
@@ -91,8 +94,38 @@ body.app-locked .welcome-shell {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 170px;
-  margin-bottom: 6px;
+  min-height: 228px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at top, rgba(141, 86, 255, 0.24), transparent 32%),
+    linear-gradient(180deg, rgba(27, 16, 49, 0.95), rgba(41, 22, 70, 0.98));
+}
+
+.welcome-room-glow,
+.welcome-stage-floor {
+  position: absolute;
+}
+
+.welcome-room-glow {
+  bottom: 42px;
+  left: 50%;
+  width: 180px;
+  height: 72px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 108, 223, 0.42), rgba(117, 72, 255, 0.08) 68%, transparent 76%);
+  filter: blur(8px);
+}
+
+.welcome-stage-floor {
+  inset: auto 28px 12px;
+  height: 96px;
+  border-radius: 24px 24px 12px 12px;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 8%, transparent 8% 16%, rgba(255, 255, 255, 0.05) 16% 24%, transparent 24% 32%, rgba(255, 255, 255, 0.05) 32% 40%, transparent 40% 48%, rgba(255, 255, 255, 0.05) 48% 56%, transparent 56% 64%, rgba(255, 255, 255, 0.05) 64% 72%, transparent 72% 80%, rgba(255, 255, 255, 0.05) 80% 88%, transparent 88% 100%),
+    linear-gradient(180deg, rgba(93, 53, 150, 0.18), rgba(32, 16, 56, 0.66));
 }
 
 .welcome-cat,
@@ -102,112 +135,136 @@ body.app-locked .welcome-shell {
 .welcome-cat-mouth,
 .welcome-cat-paw,
 .welcome-cat-tail,
+.welcome-cat-bow,
+.welcome-cat-belly,
 .welcome-float {
   position: absolute;
 }
 
 .welcome-cat {
   position: relative;
-  width: 150px;
-  height: 132px;
-  border-radius: 44% 44% 40% 40%;
+  width: 164px;
+  height: 176px;
+  border-radius: 42% 42% 38% 38%;
   background:
-    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.96), transparent 16%),
-    linear-gradient(180deg, #ffd97f 0%, #ffb265 70%, #ff8b67 100%);
-  border: 6px solid rgba(255, 255, 255, 0.82);
-  box-shadow: 0 18px 32px rgba(255, 147, 94, 0.25);
+    radial-gradient(circle at 32% 22%, rgba(255, 255, 255, 0.96), transparent 16%),
+    linear-gradient(180deg, #fff4d6 0%, #ffe59f 34%, #ffcc8d 72%, #ffb17d 100%);
+  border: 7px solid rgba(255, 244, 255, 0.9);
+  box-shadow:
+    0 18px 32px rgba(7, 4, 18, 0.3),
+    inset 0 -12px 0 rgba(255, 255, 255, 0.08);
   animation: bob 2.8s ease-in-out infinite;
 }
 
 .welcome-cat-ear {
-  top: -18px;
-  width: 34px;
-  height: 42px;
+  top: -24px;
+  width: 42px;
+  height: 50px;
   border-radius: 18px 18px 10px 10px;
-  border: 6px solid rgba(255, 255, 255, 0.82);
-  background: #ffc96f;
+  border: 7px solid rgba(255, 244, 255, 0.9);
+  background: #ffd7a3;
 }
 
 .welcome-cat-ear.left {
-  left: 20px;
+  left: 24px;
   transform: rotate(-16deg);
 }
 
 .welcome-cat-ear.right {
-  right: 20px;
+  right: 24px;
   transform: rotate(16deg);
 }
 
 .welcome-cat-eye {
-  top: 52px;
-  width: 14px;
+  top: 76px;
+  width: 18px;
   height: 24px;
   border-radius: 999px;
-  background: #41292c;
+  background: #2f4f9f;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5) inset;
 }
 
 .welcome-cat-eye.left {
-  left: 42px;
+  left: 46px;
 }
 
 .welcome-cat-eye.right {
-  right: 42px;
+  right: 46px;
 }
 
 .welcome-cat-cheek {
-  top: 78px;
-  width: 20px;
+  top: 108px;
+  width: 24px;
   height: 10px;
   border-radius: 999px;
   background: rgba(255, 120, 134, 0.34);
 }
 
 .welcome-cat-cheek.left {
-  left: 20px;
+  left: 24px;
 }
 
 .welcome-cat-cheek.right {
-  right: 20px;
+  right: 24px;
 }
 
 .welcome-cat-mouth {
   left: 50%;
-  bottom: 28px;
-  width: 34px;
-  height: 16px;
-  border-bottom: 4px solid #8f3f2c;
+  bottom: 52px;
+  width: 26px;
+  height: 10px;
+  border-bottom: 4px solid #6f4f67;
   border-radius: 0 0 20px 20px;
   transform: translateX(-50%);
 }
 
 .welcome-cat-paw {
-  bottom: 10px;
-  width: 26px;
-  height: 18px;
+  bottom: 12px;
+  width: 28px;
+  height: 20px;
   border-radius: 14px;
-  background: rgba(255, 240, 228, 0.95);
-  box-shadow: inset 0 -2px 0 rgba(255, 159, 125, 0.2);
+  background: rgba(255, 238, 230, 0.96);
+}
+
+.welcome-cat-belly {
+  left: 50%;
+  bottom: 18px;
+  width: 72px;
+  height: 36px;
+  border-radius: 999px;
+  background: rgba(255, 248, 242, 0.72);
+  transform: translateX(-50%);
+}
+
+.welcome-cat-bow {
+  top: 62px;
+  right: 26px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ff4f88;
+  box-shadow: -10px 0 0 0 #ff78a6, 10px 0 0 0 #ff78a6;
 }
 
 .welcome-cat-paw.left {
-  left: 34px;
+  left: 36px;
 }
 
 .welcome-cat-paw.right {
-  right: 34px;
+  right: 36px;
 }
 
 .welcome-cat-tail {
-  right: -16px;
-  bottom: 20px;
+  right: -20px;
+  bottom: 36px;
   width: 48px;
   height: 18px;
   border-radius: 999px;
-  border: 6px solid rgba(255, 255, 255, 0.82);
+  border: 7px solid rgba(255, 244, 255, 0.9);
   border-left: 0;
-  border-top-color: #ffc96f;
-  border-right-color: #ffc96f;
-  border-bottom-color: #ff996f;
+  border-top-color: #ffd7a3;
+  border-right-color: #ffd7a3;
+  border-bottom-color: #ffb17d;
   transform: rotate(24deg);
 }
 
@@ -229,23 +286,23 @@ body.app-locked .welcome-shell {
 }
 
 .welcome-float.star.a {
-  top: 24px;
-  left: 54px;
+  top: 26px;
+  left: 46px;
 }
 
 .welcome-float.star.b {
-  top: 44px;
-  right: 48px;
+  top: 42px;
+  right: 42px;
   animation-delay: 0.8s;
 }
 
 .welcome-float.fish {
-  right: 62px;
-  bottom: 18px;
+  right: 34px;
+  bottom: 104px;
   width: 38px;
   height: 22px;
   border-radius: 16px 14px 14px 16px;
-  background: linear-gradient(180deg, #5fd4cd, #2ca8c2);
+  background: linear-gradient(180deg, #8d52ff, #612eff);
 }
 
 .welcome-float.fish::before {
@@ -260,8 +317,8 @@ body.app-locked .welcome-shell {
 }
 
 .welcome-float.heart {
-  left: 58px;
-  bottom: 24px;
+  left: 42px;
+  bottom: 104px;
   width: 28px;
   height: 28px;
   color: #ff7d93;
@@ -275,7 +332,7 @@ body.app-locked .welcome-shell {
 
 .welcome-kicker {
   margin: 0 0 8px;
-  color: #c76b54;
+  color: #ffb25e;
   font-size: 0.82rem;
   font-weight: 900;
   letter-spacing: 0.08em;
@@ -287,18 +344,19 @@ body.app-locked .welcome-shell {
   font-family: "Baloo 2", cursive;
   font-size: 2.15rem;
   line-height: 1;
+  color: #fff7ff;
 }
 
 .welcome-subtitle {
   margin: 10px 0 0;
-  color: #8c5b52;
+  color: rgba(236, 225, 255, 0.88);
   font-weight: 800;
   line-height: 1.35;
 }
 
 .welcome-copy,
 .welcome-note {
-  color: var(--muted);
+  color: rgba(223, 210, 246, 0.78);
   line-height: 1.45;
 }
 
@@ -314,12 +372,12 @@ body.app-locked .welcome-shell {
 .recent-players {
   margin-top: 16px;
   padding-top: 14px;
-  border-top: 1px dashed rgba(199, 107, 84, 0.22);
+  border-top: 1px dashed rgba(255, 255, 255, 0.12);
 }
 
 .recent-title {
   margin: 0 0 10px;
-  color: #8c5b52;
+  color: #ffb25e;
   font-size: 0.8rem;
   font-weight: 800;
 }
@@ -334,17 +392,18 @@ body.app-locked .welcome-shell {
   padding: 10px 12px;
   border: 0;
   border-radius: 999px;
-  background: rgba(255, 241, 222, 0.96);
-  color: var(--ink);
+  background: rgba(58, 35, 102, 0.96);
+  color: #fff7ff;
   font: inherit;
   font-weight: 800;
-  box-shadow: inset 0 -2px 0 rgba(255, 159, 125, 0.22);
+  box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.08);
 }
 
 .welcome-label {
   display: block;
   margin-bottom: 8px;
   font-weight: 800;
+  color: #fff7ff;
 }
 
 .welcome-input {
@@ -352,10 +411,12 @@ body.app-locked .welcome-shell {
   padding: 14px 16px;
   border: 0;
   border-radius: 18px;
-  background: rgba(255, 241, 222, 0.92);
-  color: var(--ink);
+  background: rgba(48, 29, 85, 0.94);
+  color: #fff7ff;
   font: inherit;
-  box-shadow: inset 0 -2px 0 rgba(255, 159, 125, 0.25);
+  box-shadow:
+    inset 0 -2px 0 rgba(255, 255, 255, 0.06),
+    0 10px 22px rgba(7, 4, 18, 0.18);
 }
 
 .welcome-button {
@@ -364,11 +425,13 @@ body.app-locked .welcome-shell {
   padding: 14px 16px;
   border: 0;
   border-radius: 18px;
-  background: linear-gradient(180deg, #5fd4cd, #2ca8c2);
+  background: linear-gradient(180deg, #ffb24c, #ff8d29);
   color: #fffdf6;
   font: inherit;
   font-weight: 900;
-  box-shadow: 0 14px 28px rgba(44, 168, 194, 0.24);
+  box-shadow:
+    0 18px 28px rgba(255, 141, 41, 0.26),
+    inset 0 -3px 0 rgba(255, 255, 255, 0.12);
 }
 
 @keyframes floaty {
@@ -2006,6 +2069,18 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.07);
 }
 
+.unlock-hint,
+.growth-stage,
+.unlock-badge {
+  background: rgba(255, 191, 118, 0.92);
+  color: #6a3d14;
+}
+
+.unlock-item.locked .unlock-badge {
+  background: rgba(213, 199, 195, 0.88);
+  color: #6f4f47;
+}
+
 .growth-metric,
 .unlock-item,
 .settings-toggle,
@@ -2064,6 +2139,12 @@ body {
 }
 
 .bottom-nav {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 14px);
+  transform: translateX(-50%);
+  width: min(calc(100vw - 44px), 364px);
+  margin-top: 0;
   background: rgba(20, 11, 36, 0.94);
 }
 
