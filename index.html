@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="ms">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>AI Tamagotchi</title>
+    <title>Kucing AI</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -17,7 +17,7 @@
       <section class="screen">
         <header class="topbar">
           <div class="topbar-chip">
-            <span class="label">Day</span>
+            <span class="label">Hari</span>
             <strong id="day-count">1</strong>
           </div>
           <div class="topbar-center">
@@ -26,15 +26,15 @@
             <span class="signal-dot"></span>
           </div>
           <div class="topbar-chip topbar-coin">
-            <span class="label">星糖</span>
+            <span class="label">Bintang</span>
             <strong id="coins-count">28</strong>
           </div>
-          <button class="topbar-icon" id="toggle-settings" aria-label="设置">⚙</button>
+          <button class="topbar-icon" id="toggle-settings" aria-label="Tetapan">⚙</button>
         </header>
 
-        <section class="pet-roster" id="pet-roster" aria-label="宠物切换"></section>
+        <section class="pet-roster" id="pet-roster" aria-label="Tukar kucing"></section>
 
-        <section class="pet-stage" aria-label="宠物舞台">
+        <section class="pet-stage" aria-label="Pentas kucing">
           <div class="stage-sky" id="stage-sky">
             <span class="sky-orb" id="sky-orb"></span>
             <span class="sky-star star-1"></span>
@@ -46,7 +46,7 @@
             <span class="floor-toy toy-left"></span>
             <span class="floor-toy toy-right"></span>
           </div>
-          <div class="speech-bubble" id="pet-line">啵啵想玩接球球！</div>
+          <div class="speech-bubble" id="pet-line">Oyen nak main tangkap bola!</div>
 
           <div class="pet-area">
             <div class="pet-face happy bobo" id="pet-face" aria-hidden="true">
@@ -61,29 +61,29 @@
 
           <div class="stage-meta">
             <div class="pet-nameplate">
-              <strong id="pet-name">啵啵</strong>
-              <span id="pet-trait">撒娇型</span>
+              <strong id="pet-name">Oyen</strong>
+              <span id="pet-trait">Jenis manja</span>
             </div>
-            <div class="event-badge" id="event-badge">状态稳定</div>
+            <div class="event-badge" id="event-badge">Keadaan stabil</div>
           </div>
         </section>
 
         <section class="growth-card">
           <div class="story-heading">
-            <h1>成长进度</h1>
-            <span class="growth-stage" id="growth-stage">幼崽期</span>
+            <h1>Perkembangan</h1>
+            <span class="growth-stage" id="growth-stage">Anak kucing</span>
           </div>
           <div class="growth-grid">
             <article class="growth-metric">
-              <span class="metric-label">等级</span>
+              <span class="metric-label">Tahap</span>
               <strong id="level-value">Lv. 1</strong>
             </article>
             <article class="growth-metric">
-              <span class="metric-label">羁绊</span>
+              <span class="metric-label">Ikatan</span>
               <strong id="bond-value">12</strong>
             </article>
             <article class="growth-metric">
-              <span class="metric-label">进化值</span>
+              <span class="metric-label">XP</span>
               <strong id="xp-value">18 / 100</strong>
             </article>
           </div>
@@ -94,76 +94,76 @@
 
         <section class="unlock-card">
           <div class="story-heading">
-            <h2>解锁橱窗</h2>
-            <span class="unlock-hint" id="unlock-hint">下一奖励 Lv. 3</span>
+            <h2>Ganjaran Buka Kunci</h2>
+            <span class="unlock-hint" id="unlock-hint">Ganjaran seterusnya Lv. 3</span>
           </div>
           <div class="unlock-list" id="unlock-list"></div>
         </section>
 
         <section class="settings-card hidden" id="settings-card">
           <div class="story-heading">
-            <h2>小设置</h2>
-            <span class="unlock-hint">即时生效</span>
+            <h2>Tetapan Ringkas</h2>
+            <span class="unlock-hint">Terus aktif</span>
           </div>
           <div class="settings-list">
             <button class="settings-toggle" id="toggle-sound">
-              <span>音效</span>
-              <strong id="sound-state">关闭</strong>
+              <span>Bunyi</span>
+              <strong id="sound-state">Tutup</strong>
             </button>
             <button class="settings-toggle" id="toggle-motion">
-              <span>动效</span>
-              <strong id="motion-state">开启</strong>
+              <span>Animasi</span>
+              <strong id="motion-state">Buka</strong>
             </button>
             <button class="settings-toggle danger" id="reset-save">
-              <span>重置存档</span>
-              <strong>重新开始</strong>
+              <span>Reset simpanan</span>
+              <strong>Mula semula</strong>
             </button>
           </div>
         </section>
 
-        <section class="status-panel" aria-label="宠物状态">
+        <section class="status-panel" aria-label="Status kucing">
           <div class="status-grid" id="status-grid"></div>
         </section>
 
-        <section class="action-panel" aria-label="互动按钮">
-          <button class="action-button feed" data-action="feed">喂食</button>
-          <button class="action-button play" data-action="play">玩耍</button>
-          <button class="action-button wash" data-action="wash">清洁</button>
-          <button class="action-button sleep" data-action="sleep">睡觉</button>
+        <section class="action-panel" aria-label="Butang interaksi">
+          <button class="action-button feed" data-action="feed">Bagi makan</button>
+          <button class="action-button play" data-action="play">Main</button>
+          <button class="action-button wash" data-action="wash">Bersihkan</button>
+          <button class="action-button sleep" data-action="sleep">Tidur</button>
         </section>
 
         <section class="math-card">
           <div class="story-heading">
-            <h2>今日数学委托</h2>
+            <h2>Misi Matematik Hari Ini</h2>
             <div class="grade-switch" id="grade-switch">
-              <button class="grade-chip active" data-grade="4">4年级</button>
-              <button class="grade-chip" data-grade="5">5年级</button>
-              <button class="grade-chip" data-grade="6">6年级</button>
+              <button class="grade-chip active" data-grade="4">Tahun 4</button>
+              <button class="grade-chip" data-grade="5">Tahun 5</button>
+              <button class="grade-chip" data-grade="6">Tahun 6</button>
             </div>
           </div>
-          <p class="quest-title" id="math-title">宠物零食采购</p>
-          <p class="story-copy" id="math-question">加载题目中...</p>
+          <p class="quest-title" id="math-title">Beli snek kucing</p>
+          <p class="story-copy" id="math-question">Soalan sedang dimuatkan...</p>
           <div class="math-options" id="math-options"></div>
           <div class="quest-progress-row">
-            <span id="math-progress-text">进度 0 / 3</span>
+            <span id="math-progress-text">Progres 0 / 3</span>
             <div class="bar-track quest-track">
               <div class="bar-fill quest" id="math-fill" style="width: 0%"></div>
             </div>
           </div>
-          <p class="reward-copy" id="math-reward-copy">完成后可获得星糖、经验和宠物小道具。</p>
+          <p class="reward-copy" id="math-reward-copy">Selesai untuk dapat bintang, XP dan item kucing.</p>
         </section>
 
         <section class="quest-card">
           <div class="story-heading">
-            <h2>今日情节</h2>
-            <button class="tiny-button" id="advance-quest">推进剧情</button>
+            <h2>Cerita Hari Ini</h2>
+            <button class="tiny-button" id="advance-quest">Gerak cerita</button>
           </div>
-          <p class="quest-title" id="quest-title">零食王国的门票</p>
+          <p class="quest-title" id="quest-title">Tiket ke Dunia Snek</p>
           <p class="story-copy" id="story-copy">
-            今早醒来后，啵啵盯着窗外发呆，说云朵像一块没吃完的棉花糖。
+            Pagi tadi Oyen termenung di tepi tingkap dan kata awan nampak macam kapas gula yang belum habis dimakan.
           </p>
           <div class="quest-progress-row">
-            <span id="quest-progress-text">进度 0 / 3</span>
+            <span id="quest-progress-text">Progres 0 / 3</span>
             <div class="bar-track quest-track">
               <div class="bar-fill quest" id="quest-fill" style="width: 0%"></div>
             </div>
@@ -172,8 +172,8 @@
 
         <section class="choice-card hidden" id="choice-card">
           <div class="story-heading">
-            <h2 id="choice-title">临时选择</h2>
-            <span class="choice-hint">二选一</span>
+            <h2 id="choice-title">Pilihan Ringkas</h2>
+            <span class="choice-hint">Pilih satu</span>
           </div>
           <p class="story-copy" id="choice-copy"></p>
           <div class="choice-actions" id="choice-actions"></div>
@@ -181,16 +181,16 @@
 
         <section class="inventory-card">
           <div class="story-heading">
-            <h2>背包</h2>
-            <button class="tiny-button secondary" id="cheer-up">聊天</button>
+            <h2>Beg Item</h2>
+            <button class="tiny-button secondary" id="cheer-up">Sembang</button>
           </div>
           <div class="inventory-list" id="inventory-list"></div>
         </section>
 
         <section class="log-card">
           <div class="story-heading">
-            <h2>今日记录</h2>
-            <button class="tiny-button secondary" id="next-turn">推进 1 小时</button>
+            <h2>Catatan Hari Ini</h2>
+            <button class="tiny-button secondary" id="next-turn">Laju 1 jam</button>
           </div>
           <ul class="event-log" id="event-log"></ul>
         </section>

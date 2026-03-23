@@ -2,244 +2,244 @@ const storageKey = "ai-tamagotchi-save-v2";
 
 const petCatalog = {
   bobo: {
-    name: "啵啵",
-    trait: "撒娇型",
-    species: "阳光团子",
+    name: "Oyen",
+    trait: "Manja",
+    species: "Kucing Oren",
     faceClass: "bobo",
-    avatar: "啵",
-    stageTitles: ["幼崽期", "探险期", "星糖骑士"],
+    avatar: "O",
+    stageTitles: ["Anak kucing", "Kucing remaja", "Jaguh rumah"],
     moodLines: {
-      excited: "我今天状态超好，想和你把整个房间都玩遍。",
-      okay: "只要你在旁边，我就能继续元气满满。",
-      sleepy: "我有点困，但如果你叫我，我还是会爬起来。",
-      sad: "今天有一点点脆弱，抱一抱我就会恢复。",
+      excited: "Hari ini aku sangat bertenaga. Jom kuasai satu rumah ni sama-sama.",
+      okay: "Kalau kamu ada dekat sini, aku masih boleh kekal ceria.",
+      sleepy: "Aku dah mula mengantuk, tapi kalau kamu panggil aku masih larat bangun.",
+      sad: "Hari ini hati aku agak lembut. Peluk sikit, mesti okay semula.",
     },
   },
   momo: {
-    name: "默默",
-    trait: "冷静型",
-    species: "云朵水母",
+    name: "Abu",
+    trait: "Tenang",
+    species: "Kucing Kelabu",
     faceClass: "momo",
-    avatar: "默",
-    stageTitles: ["幼崽期", "巡游期", "月海守望者"],
+    avatar: "A",
+    stageTitles: ["Anak kucing", "Penjaga halaman", "Pengawas malam"],
     moodLines: {
-      excited: "能量稳定而充沛，今天适合做一件厉害的事。",
-      okay: "我在观察今天的空气流向，一切都还不错。",
-      sleepy: "让房间安静一点，我也许会梦到新的地图。",
-      sad: "我的节奏乱了些，先陪我待一会儿吧。",
+      excited: "Tenaga aku penuh dan stabil. Hari ini sesuai buat sesuatu yang hebat.",
+      okay: "Aku tengah perhati suasana rumah. Setakat ni semuanya baik.",
+      sleepy: "Bagi suasana senyap sikit. Mungkin aku boleh mimpi tempat baru.",
+      sad: "Rentak aku hari ini sedikit lari. Teman aku sekejap ya.",
     },
   },
   pipi: {
-    name: "皮皮",
-    trait: "戏精型",
-    species: "糖心蝠球",
+    name: "Tompok",
+    trait: "Nakal",
+    species: "Kucing Bertompok",
     faceClass: "pipi",
-    avatar: "皮",
-    stageTitles: ["幼崽期", "表演期", "舞台明星"],
+    avatar: "T",
+    stageTitles: ["Anak kucing", "Si lincah", "Bintang rumah"],
     moodLines: {
-      excited: "聚光灯请立刻打过来，我准备好闪亮登场了。",
-      okay: "今天的可爱度维持在专业水平线以上。",
-      sleepy: "我得先补个美容觉，醒来再继续发光。",
-      sad: "没有掌声的时候，我会有一点小失落。",
+      excited: "Cepat pasang spotlight, aku dah sedia untuk buat hal comel.",
+      okay: "Tahap comel aku hari ini masih pada paras profesional.",
+      sleepy: "Aku kena tidur kejap dulu. Lepas bangun baru sambung bersinar.",
+      sad: "Kalau tak ada yang layan, aku memang rasa sedikit muram.",
     },
   },
 };
 
 const inventoryCatalog = {
   pudding: {
-    label: "草莓布丁",
+    label: "Puding Strawberi",
     icon: "🍮",
     effect: { hunger: 16, mood: 6, health: 3, bond: 2, xp: 6 },
-    log: "你拿出草莓布丁，宠物舔着勺子开心得眼睛发亮。",
+    log: "Kamu keluarkan puding strawberi, si kucing terus jilat sudu dengan mata yang bersinar.",
   },
   bubble: {
-    label: "泡泡喷雾",
+    label: "Semburan Buih",
     icon: "🫧",
     effect: { hygiene: 18, mood: 4, xp: 5 },
-    log: "细小泡泡在空中打转，宠物洗得香喷喷。",
+    log: "Buih kecil berterbangan dan si kucing pun jadi bersih serta wangi.",
   },
   toyball: {
-    label: "弹跳球",
+    label: "Bola Mainan",
     icon: "🧶",
     effect: { mood: 12, energy: -6, hunger: -4, bond: 3, xp: 8 },
-    log: "你们用弹跳球玩追逐赛，整个房间都热闹起来。",
+    log: "Kamu bermain kejar bola dengan si kucing sampai satu bilik jadi riuh.",
   },
   ribbon: {
-    label: "闪亮丝带",
+    label: "Riben Berkilat",
     icon: "🎀",
     effect: { mood: 10, bond: 4, xp: 10 },
-    log: "你别上闪亮丝带后，宠物立刻进入了想被夸夸模式。",
+    log: "Bila riben berkilat dipakaikan, si kucing terus masuk mod mahu dipuji.",
   },
   cocoa: {
-    label: "暖暖可可",
+    label: "Koko Suam",
     icon: "☕",
     effect: { energy: 10, health: 6, mood: 5, xp: 7 },
-    log: "暖暖可可让宠物放松下来，呼吸都变得平稳了。",
+    log: "Koko suam menenangkan si kucing hingga nafasnya jadi lebih teratur.",
   },
 };
 
 const unlockCatalog = {
   bobo: [
-    { level: 3, icon: "🎀", title: "撒娇丝带", description: "解锁 1 个闪亮丝带，互动时更容易涨羁绊。", reward: { ribbon: 1 } },
-    { level: 5, icon: "🧁", title: "甜点时间", description: "额外获得 2 个草莓布丁，啵啵的新剧情也会变多。", reward: { pudding: 2 } },
-    { level: 7, icon: "👑", title: "星糖骑士", description: "进入最终成长称号，并额外获得 20 星糖。", reward: { coins: 20 } },
+    { level: 3, icon: "🎀", title: "Riben Oyen", description: "Buka 1 riben berkilat. Oyen jadi lebih mudah tambah ikatan.", reward: { ribbon: 1 } },
+    { level: 5, icon: "🧁", title: "Masa Snek", description: "Dapat 2 puding strawberi tambahan dan lebih banyak cerita Oyen.", reward: { pudding: 2 } },
+    { level: 7, icon: "👑", title: "Raja Rumah", description: "Masuk gelaran akhir dan dapat 20 bintang tambahan.", reward: { coins: 20 } },
   ],
   momo: [
-    { level: 3, icon: "☕", title: "安静茶会", description: "解锁 1 杯暖暖可可，恢复节奏更轻松。", reward: { cocoa: 1 } },
-    { level: 5, icon: "🫧", title: "月海泡泡", description: "获得 2 个泡泡喷雾，并开启更多巡游类事件。", reward: { bubble: 2 } },
-    { level: 7, icon: "🌙", title: "月海守望者", description: "成长为终阶形态，额外获得 20 星糖。", reward: { coins: 20 } },
+    { level: 3, icon: "☕", title: "Rehat Tenang", description: "Buka 1 koko suam untuk bantu Abu pulih dengan lebih mudah.", reward: { cocoa: 1 } },
+    { level: 5, icon: "🫧", title: "Buih Malam", description: "Dapat 2 semburan buih dan lebih banyak acara ronda.", reward: { bubble: 2 } },
+    { level: 7, icon: "🌙", title: "Penjaga Malam", description: "Abu capai bentuk akhir dan dapat 20 bintang tambahan.", reward: { coins: 20 } },
   ],
   pipi: [
-    { level: 3, icon: "🎭", title: "开场表演", description: "获得 1 个弹跳球，表演欲会让剧情更热闹。", reward: { toyball: 1 } },
-    { level: 5, icon: "🎀", title: "舞台装饰", description: "获得 1 个闪亮丝带和 1 个草莓布丁。", reward: { ribbon: 1, pudding: 1 } },
-    { level: 7, icon: "🌟", title: "舞台明星", description: "进入终阶称号，额外获得 20 星糖。", reward: { coins: 20 } },
+    { level: 3, icon: "🎭", title: "Aksi Nakal", description: "Dapat 1 bola mainan. Tompok jadi lebih seronok buat hal.", reward: { toyball: 1 } },
+    { level: 5, icon: "🎀", title: "Hiasan Comel", description: "Dapat 1 riben berkilat dan 1 puding strawberi.", reward: { ribbon: 1, pudding: 1 } },
+    { level: 7, icon: "🌟", title: "Bintang Rumah", description: "Masuk gelaran akhir dan dapat 20 bintang tambahan.", reward: { coins: 20 } },
   ],
 };
 
 const choiceEventPool = [
   {
-    title: "路过的神秘纸箱",
-    description: (pet) => `${pet.name}发现门口有个会轻轻晃动的纸箱，你们准备怎么处理？`,
+    title: "Kotak Misteri di Pintu",
+    description: (pet) => `${pet.name} nampak satu kotak di depan pintu yang bergerak-gerak sedikit. Nak buat apa?`,
     rarity: "common",
     options: [
       {
-        label: "悄悄打开",
-        detail: "看看里面藏了什么，可能有奖励也可能被吓一跳。",
+        label: "Buka perlahan-lahan",
+        detail: "Mungkin ada hadiah, mungkin juga ada kejutan.",
         effect: { mood: 8, xp: 10, coins: 4 },
-        result: (pet) => `${pet.name}在纸箱里翻到一张贴纸和几颗星糖，得意得不行。`,
-        log: (pet) => `${pet.name}选择打开纸箱，结果幸运地找到了一点奖励。`,
+        result: (pet) => `${pet.name} jumpa pelekat kecil dan beberapa bintang di dalam kotak, lalu terus bangga dengan diri sendiri.`,
+        log: (pet) => `${pet.name} pilih untuk buka kotak dan berjaya jumpa sedikit hadiah.`,
         rareOutcome: {
           chance: 0.18,
           effect: { coins: 10, xp: 14, mood: 6 },
-          result: (pet) => `${pet.name}居然在最里面翻出一枚亮晶晶徽章，今天的好运直接拉满了。`,
-          log: (pet) => `${pet.name}触发了稀有好运，从纸箱深处翻到了大奖。`,
-          tone: "好运暴击",
+          result: (pet) => `${pet.name} malah berjaya jumpa lencana berkilat di bahagian paling bawah. Memang hari bertuah.`,
+          log: (pet) => `${pet.name} terkena tuah luar biasa dan jumpa hadiah besar dalam kotak.`,
+          tone: "Tuah besar",
         },
       },
       {
-        label: "先绕着观察",
-        detail: "稳一点，减少风险，但惊喜感会小一些。",
+        label: "Pusing tengok dulu",
+        detail: "Lebih selamat, tapi kurang kejutan.",
         effect: { mood: 4, bond: 3, health: 2, xp: 6 },
-        result: (pet) => `${pet.name}认真巡视了一圈，最后把纸箱安全拖回了角落。`,
-        log: (pet) => `${pet.name}谨慎地观察纸箱，虽然没爆大奖，但过程很安心。`,
+        result: (pet) => `${pet.name} periksa sekeliling dengan teliti sebelum menarik kotak itu ke sudut rumah dengan selamat.`,
+        log: (pet) => `${pet.name} memerhati kotak dengan berhati-hati. Tak meletup pun, tapi rasa lebih tenang.`,
         badOutcome: {
           chance: 0.16,
           effect: { mood: -4, energy: -4 },
-          result: (pet) => `${pet.name}绕太久把自己都绕晕了，最后只好坐下来缓一会儿。`,
-          log: (pet) => `${pet.name}过度谨慎反而把自己折腾得有点疲惫。`,
-          tone: "小小翻车",
+          result: (pet) => `${pet.name} terlalu lama berlegar sampai sendiri pun pening, lalu terus duduk diam sekejap.`,
+          log: (pet) => `${pet.name} terlalu berhati-hati sampai jadi sedikit letih.`,
+          tone: "Tersilap sikit",
         },
       },
     ],
   },
   {
-    title: "下午茶邀请",
-    description: (pet) => `${pet.name}突然想来一场小小下午茶，你想走哪种路线？`,
+    title: "Jemputan Minum Petang",
+    description: (pet) => `${pet.name} tiba-tiba mahu sesi minum petang kecil. Kamu nak pilih cara yang mana?`,
     rarity: "common",
     options: [
       {
-        label: "甜点派对",
-        detail: "偏快乐和羁绊，适合冲心情。",
+        label: "Pesta snek",
+        detail: "Bagus untuk mood dan ikatan.",
         effect: { hunger: 10, mood: 10, bond: 4, xp: 8 },
-        result: (pet) => `${pet.name}抱着盘子晃来晃去，宣布这是一场非常成功的茶会。`,
-        log: (pet) => `${pet.name}选了甜点派对路线，整个下午都甜甜的。`,
+        result: (pet) => `${pet.name} berjalan sambil memeluk pinggan kecil dan mengisytiharkan sesi minum petang itu memang berjaya.`,
+        log: (pet) => `${pet.name} pilih pesta snek dan petang itu terus terasa manis.`,
         badOutcome: {
           chance: 0.14,
           effect: { health: -4, energy: -3 },
-          result: (pet) => `${pet.name}吃太快有点腻住了，只好窝在垫子上慢慢缓过来。`,
-          log: (pet) => `${pet.name}下午茶太兴奋，一不小心吃得有点过头。`,
-          tone: "甜蜜失误",
+          result: (pet) => `${pet.name} makan terlalu laju sampai rasa sedikit muak, lalu berehat atas kusyen dulu.`,
+          log: (pet) => `${pet.name} terlalu teruja ketika minum petang dan termakan berlebihan.`,
+          tone: "Silap manis",
         },
       },
       {
-        label: "热饮恢复",
-        detail: "偏体力和健康，适合稳住状态。",
+        label: "Minuman suam",
+        detail: "Lebih baik untuk tenaga dan kesihatan.",
         effect: { energy: 10, health: 8, mood: 4, xp: 8 },
-        result: (pet) => `${pet.name}捧着热饮坐了一会儿，整只宠物都柔和了下来。`,
-        log: (pet) => `${pet.name}选择慢慢喝热饮，状态被稳稳拉了回来。`,
+        result: (pet) => `${pet.name} duduk diam sambil menikmati minuman suam sehingga seluruh badannya nampak lebih tenang.`,
+        log: (pet) => `${pet.name} pilih minuman suam dan keadaannya kembali stabil.`,
         rareOutcome: {
           chance: 0.15,
           effect: { health: 10, bond: 4, xp: 10 },
-          result: (pet) => `${pet.name}在热气里突然说出一句超级真诚的心里话，你们的距离一下近了很多。`,
-          log: (pet) => `${pet.name}在安静时刻触发了稀有羁绊剧情。`,
-          tone: "羁绊暴击",
+          result: (pet) => `${pet.name} tiba-tiba mengiau dengan cara yang sangat lembut, dan hubungan kamu berdua terasa lebih rapat.`,
+          log: (pet) => `${pet.name} mencetuskan detik ikatan yang jarang berlaku semasa saat tenang itu.`,
+          tone: "Ikatan kuat",
         },
       },
     ],
   },
   {
-    title: "今晚的小冒险",
-    description: (pet) => `${pet.name}想把夜晚过得特别一点，你们要走冒险派还是休息派？`,
+    title: "Pengembaraan Malam",
+    description: (pet) => `${pet.name} mahu menjadikan malam ini lebih istimewa. Nak pilih cara lasak atau santai?`,
     rarity: "rare",
     options: [
       {
-        label: "继续探险",
-        detail: "推进成长更快，但会消耗一点体力。",
+        label: "Terus meneroka",
+        detail: "Naik XP lebih cepat, tapi guna lebih tenaga.",
         effect: { mood: 8, energy: -8, xp: 14, bond: 3 },
-        result: (pet) => `${pet.name}在房间里完成了一场迷你夜探，回来说今晚超值得。`,
-        log: (pet) => `${pet.name}拉着你继续夜间冒险，虽然有点累，但非常满足。`,
+        result: (pet) => `${pet.name} habiskan satu ronda malam kecil dalam rumah dan pulang dengan muka puas hati.`,
+        log: (pet) => `${pet.name} tarik kamu ikut pengembaraan malam. Memang penat, tapi sangat berbaloi.`,
         rareOutcome: {
           chance: 0.22,
           effect: { coins: 12, xp: 18, bond: 5 },
-          result: (pet) => `${pet.name}居然在夜探终点发现了传说中的星糖藏点，这一晚直接封神。`,
-          log: (pet) => `${pet.name}在夜间冒险里触发了稀有大成功。`,
-          tone: "传奇发现",
+          result: (pet) => `${pet.name} jumpa tempat simpanan bintang yang tersembunyi. Malam ini memang luar biasa.`,
+          log: (pet) => `${pet.name} mencetuskan kejayaan besar semasa pengembaraan malam.`,
+          tone: "Penemuan hebat",
         },
         badOutcome: {
           chance: 0.14,
           effect: { health: -6, energy: -8, mood: -3 },
-          result: (pet) => `${pet.name}夜里跑太快差点撞翻玩具堆，回来后决定乖乖休息。`,
-          log: (pet) => `${pet.name}在冒险途中有点翻车，今晚的后半程只能收着点。`,
-          tone: "冒险失手",
+          result: (pet) => `${pet.name} berlari terlalu laju dan hampir langgar timbunan mainan, jadi akhirnya dia berehat sahaja.`,
+          log: (pet) => `${pet.name} tersalah langkah sedikit semasa pengembaraan malam.`,
+          tone: "Silap langkah",
         },
       },
       {
-        label: "早点收尾",
-        detail: "更适合保状态，适合睡前。",
+        label: "Tamat awal",
+        detail: "Lebih sesuai untuk jaga keadaan sebelum tidur.",
         effect: { health: 8, energy: 6, mood: 3, xp: 6 },
-        result: (pet) => `${pet.name}把小窝整理得整整齐齐，决定用平静结束今天。`,
-        log: (pet) => `${pet.name}选择提早收尾，今晚的节奏格外舒服。`,
+        result: (pet) => `${pet.name} kemaskan tempat tidurnya dan memilih untuk menutup hari ini dengan tenang.`,
+        log: (pet) => `${pet.name} pilih untuk tamat awal dan malam jadi sangat selesa.`,
         rareOutcome: {
           chance: 0.18,
           effect: { health: 10, energy: 10, xp: 10 },
-          result: (pet) => `${pet.name}在安静收尾后做了一个超甜的梦，醒来时整只宠物都亮亮的。`,
-          log: (pet) => `${pet.name}因为早点休息触发了稀有“好梦加成”。`,
-          tone: "完美收尾",
+          result: (pet) => `${pet.name} tidur awal dan bermimpi indah, lalu bangun dengan wajah yang sangat segar.`,
+          log: (pet) => `${pet.name} mendapat bonus mimpi indah kerana tidur awal.`,
+          tone: "Penutup sempurna",
         },
       },
     ],
   },
   {
-    title: "流星擦过窗边",
-    description: (pet) => `${pet.name}突然看见一颗流星划过窗外，你们只有一瞬间能决定要做什么。`,
+    title: "Bintang Jatuh di Tingkap",
+    description: (pet) => `${pet.name} ternampak bintang jatuh di luar tingkap. Kamu cuma ada sekejap untuk buat pilihan.`,
     rarity: "rare",
     options: [
       {
-        label: "立刻许愿",
-        detail: "赌一个高回报，可能直接抽到大成功。",
+        label: "Terus buat hajat",
+        detail: "Ganjaran boleh jadi sangat tinggi kalau bernasib baik.",
         effect: { mood: 10, xp: 12 },
-        result: (pet) => `${pet.name}闭眼许下一个夸张的愿望，整只宠物都被浪漫感击中了。`,
-        log: (pet) => `${pet.name}对着流星飞快许愿，气氛一下子梦幻起来。`,
+        result: (pet) => `${pet.name} pejam mata dan buat satu hajat besar. Suasana terus terasa magis.`,
+        log: (pet) => `${pet.name} cepat-cepat buat hajat pada bintang jatuh.`,
         rareOutcome: {
           chance: 0.24,
           effect: { coins: 16, bond: 6, xp: 16 },
-          result: (pet) => `${pet.name}的愿望像被真的听见了一样，窗台上竟多了一小袋星糖。`,
-          log: (pet) => `${pet.name}在流星事件里触发了稀有愿望成真。`,
-          tone: "愿望成真",
+          result: (pet) => `${pet.name} rasa macam hajat itu didengar. Atas tingkap tiba-tiba muncul satu uncang kecil bintang.`,
+          log: (pet) => `${pet.name} berjaya mencetuskan hajat yang benar-benar menjadi kenyataan.`,
+          tone: "Hajat jadi nyata",
         },
       },
       {
-        label: "静静看完",
-        detail: "更稳，也更像一段安静羁绊剧情。",
+        label: "Tengok sampai habis",
+        detail: "Lebih stabil dan sesuai untuk detik ikatan yang tenang.",
         effect: { bond: 5, mood: 6, health: 4, xp: 8 },
-        result: (pet) => `${pet.name}和你一起把那道光看完，像把今天悄悄收进了记忆盒。`,
-        log: (pet) => `${pet.name}选择静静看完流星，这一刻很安静也很珍贵。`,
+        result: (pet) => `${pet.name} duduk bersama kamu melihat cahaya itu sampai hilang, seolah-olah menyimpan hari ini dalam kotak kenangan.`,
+        log: (pet) => `${pet.name} memilih untuk melihat bintang jatuh dengan tenang. Saat itu memang sangat berharga.`,
         badOutcome: {
           chance: 0.12,
           effect: { mood: -3 },
-          result: (pet) => `${pet.name}刚准备认真欣赏，流星却已经消失，只剩一点点可惜。`,
-          log: (pet) => `${pet.name}错过了最亮的那一秒，心里有点小失落。`,
-          tone: "擦肩而过",
+          result: (pet) => `${pet.name} baru nak lihat betul-betul, tapi bintang itu sudah hilang. Tinggal rasa terkilan sedikit.`,
+          log: (pet) => `${pet.name} terlepas saat paling terang dan jadi sedikit sedih.`,
+          tone: "Terlepas peluang",
         },
       },
     ],
@@ -248,56 +248,56 @@ const choiceEventPool = [
 
 const questTemplates = [
   {
-    title: "零食王国的门票",
+    title: "Tiket ke Dunia Snek",
     description: (pet) =>
-      `${pet.name}相信窗外那朵云后面藏着零食王国，想先收集 3 次“快乐证明”。`,
+      `${pet.name} yakin di balik awan ada dunia snek dan mahu kumpul 3 bukti kegembiraan dahulu.`,
     target: 3,
     tags: ["feed", "play", "chat"],
     reward: { coins: 10, bond: 6, xp: 18 },
-    completeText: (pet) => `${pet.name}拿到了闪亮门票，宣布你是今天的最佳搭档。`,
+    completeText: (pet) => `${pet.name} berjaya dapat tiket berkilat dan mengisytiharkan kamu pasangan terbaik hari ini.`,
   },
   {
-    title: "午睡星星计划",
+    title: "Pelan Tidur Siang",
     description: (pet) =>
-      `${pet.name}想要一场完美午睡，需要连续推进时间或睡觉来找回安静节奏。`,
+      `${pet.name} mahu tidur siang yang sempurna dan perlu beberapa langkah tenang untuk dapatkan rentak semula.`,
     target: 4,
     tags: ["sleep", "time"],
     reward: { coins: 8, health: 8, xp: 15 },
-    completeText: (pet) => `${pet.name}做了一个甜甜的梦，醒来后送了你一颗梦境星糖。`,
+    completeText: (pet) => `${pet.name} bermimpi indah dan menghadiahkan kamu sebutir bintang mimpi selepas bangun.`,
   },
   {
-    title: "房间可爱大扫除",
+    title: "Gotong-Royong Sudut Kucing",
     description: (pet) =>
-      `${pet.name}决定举办房间可爱比赛，想把自己和小窝都整理到闪闪发亮。`,
+      `${pet.name} mahu jadikan sudut tidur paling comel dan berkilat di rumah.`,
     target: 3,
     tags: ["wash", "item"],
     reward: { coins: 9, hygiene: 10, bond: 4, xp: 14 },
-    completeText: (pet) => `${pet.name}宣布这次大扫除获得满分，并给你颁发闪亮丝带。`,
+    completeText: (pet) => `${pet.name} umumkan aktiviti bersih-bersih itu dapat markah penuh lalu menghadiahkan riben berkilat.`,
   },
   {
-    title: "午后演出排练",
+    title: "Latihan Aksi Petang",
     description: (pet) =>
-      `${pet.name}想在傍晚前排出一段像样的小演出，需要通过玩耍、聊天和互动把状态炒热。`,
+      `${pet.name} mahu buat aksi petang yang kemas sebelum senja, jadi perlukan sesi main dan interaksi.`,
     target: 4,
     tags: ["play", "chat", "tap"],
     reward: { coins: 12, mood: 10, bond: 5, xp: 20 },
-    completeText: (pet) => `${pet.name}顺利完成排练，观众只有你一个，但掌声特别响。`,
+    completeText: (pet) => `${pet.name} berjaya habiskan latihan, dan walaupun penonton cuma kamu seorang, tepukannya paling kuat.`,
   },
   {
-    title: "夜晚热饮补给",
+    title: "Persediaan Malam Selesa",
     description: (pet) =>
-      `${pet.name}准备在晚间来一场小小恢复仪式，吃点东西、喝点热的，再早点休息。`,
+      `${pet.name} mahu malam yang selesa dengan sedikit makanan, minuman hangat dan rehat awal.`,
     target: 3,
     tags: ["feed", "sleep", "item"],
     reward: { coins: 9, health: 12, xp: 16 },
-    completeText: (pet) => `${pet.name}完成晚安仪式后，窝在软垫里说今天真的很满足。`,
+    completeText: (pet) => `${pet.name} selesai rutin malamnya lalu berbaring atas kusyen sambil nampak sangat puas hati.`,
   },
 ];
 
 const mathMissionThemes = {
-  arithmetic: "宠物训练计算",
-  money: "宠物零食采购",
-  time: "宠物日程安排",
+  arithmetic: "Kiraan latihan kucing",
+  money: "Membeli snek kucing",
+  time: "Jadual harian kucing",
 };
 
 const defaultState = {
@@ -328,21 +328,21 @@ const defaultState = {
     motionOn: true,
   },
   pendingChoice: null,
-  globalStory: "今早醒来后，啵啵盯着窗外发呆，说云朵像一块没吃完的棉花糖。",
+  globalStory: "Pagi tadi Oyen termenung di tepi tingkap dan kata awan nampak macam kapas gula yang belum habis dimakan.",
   logs: [
-    { time: "08:00", text: "今天的宠物屋开门营业，三只小家伙都在自己的角落醒来了。" },
-    { time: "08:10", text: "啵啵先跑来打招呼，默默和皮皮则在观察今天的天气。" },
+    { time: "08:00", text: "Rumah kucing dibuka pagi ini, dan tiga ekor kucing kecil mula bangun di sudut masing-masing." },
+    { time: "08:10", text: "Oyen datang dahulu untuk beri salam, sementara Abu dan Tompok memerhati cuaca di luar." },
   ],
 };
 
 const state = loadState();
 
 const statsConfig = [
-  { key: "hunger", label: "饱足", icon: "🍓", color: "#ff7a59" },
-  { key: "mood", label: "心情", icon: "🌈", color: "#2cb8b0" },
-  { key: "energy", label: "体力", icon: "⚡", color: "#7a71ff" },
-  { key: "hygiene", label: "清洁", icon: "🫧", color: "#4f93ff" },
-  { key: "health", label: "健康", icon: "💖", color: "#97db4f" },
+  { key: "hunger", label: "Kenyang", icon: "🍓", color: "#ff7a59" },
+  { key: "mood", label: "Mood", icon: "🌈", color: "#2cb8b0" },
+  { key: "energy", label: "Tenaga", icon: "⚡", color: "#7a71ff" },
+  { key: "hygiene", label: "Bersih", icon: "🫧", color: "#4f93ff" },
+  { key: "health", label: "Sihat", icon: "💖", color: "#97db4f" },
 ];
 
 const actionEffects = {
@@ -351,32 +351,32 @@ const actionEffects = {
     coins: -2,
     bond: 3,
     xp: 9,
-    log: (pet) => `你喂了${pet.name}一顿香香餐，它满足地舔了舔嘴角。`,
-    story: (pet) => `你端来热乎乎的小餐盘，${pet.name}吃饱后连耳朵都跟着精神起来。`,
+    log: (pet) => `Kamu beri ${pet.name} makan dan dia menjilat mulutnya dengan sangat puas.`,
+    story: (pet) => `Kamu hulurkan satu pinggan kecil makanan hangat, dan ${pet.name} terus nampak lebih segar selepas kenyang.`,
   },
   play: {
     stats: { mood: 15, energy: -10, hunger: -8, hygiene: -4 },
     coins: 0,
     bond: 4,
     xp: 11,
-    log: (pet) => `你陪${pet.name}疯玩了一阵，它现在眼睛亮亮的。`,
-    story: (pet) => `你和${pet.name}在房间里追逐玩耍，它笑得快要滚成一个圆球。`,
+    log: (pet) => `Kamu melayan ${pet.name} bermain seketika dan matanya terus bersinar terang.`,
+    story: (pet) => `Kamu dan ${pet.name} berkejaran dalam rumah sampai dia hampir bergolek kerana terlalu seronok.`,
   },
   wash: {
     stats: { hygiene: 22, mood: 6, health: 3 },
     coins: -1,
     bond: 2,
     xp: 8,
-    log: (pet) => `你帮${pet.name}认真清洁了一遍，它看起来舒服多了。`,
-    story: (pet) => `泡泡在空中飞来飞去，${pet.name}洗完后软乎乎地蹭了你一下。`,
+    log: (pet) => `Kamu membersihkan ${pet.name} dengan teliti dan dia nampak jauh lebih selesa.`,
+    story: (pet) => `Buih berterbangan di udara dan selepas siap dibersihkan, ${pet.name} menggesel lembut pada kamu.`,
   },
   sleep: {
     stats: { energy: 24, health: 5, mood: 2, hunger: -6 },
     coins: 0,
     bond: 2,
     xp: 7,
-    log: (pet) => `${pet.name}小睡了一会儿，呼吸变得平稳又安心。`,
-    story: (pet) => `你替${pet.name}盖好小被子，它抱着星星玩偶很快就睡熟了。`,
+    log: (pet) => `${pet.name} tidur sekejap dan nafasnya jadi lebih tenang.`,
+    story: (pet) => `Kamu rapikan tempat tidurnya, dan ${pet.name} pun cepat lena sambil memeluk bantal kecil.`,
   },
 };
 
@@ -384,81 +384,81 @@ const eventPool = [
   {
     condition: (pet) => pet.stats.mood < 45,
     apply: (pet) => ({
-      badge: "需要安慰",
-      story: `${pet.name}抱着小毯子缩成一团，像在等一句今天也很棒。`,
-      line: `${pet.name}低声问你，今天可不可以只慢慢地待在一起。`,
+      badge: "Perlu dipujuk",
+      story: `${pet.name} meringkuk atas kain kecilnya seolah-olah hanya mahu ditemani dengan tenang.`,
+      line: `${pet.name} mengiau perlahan, seolah-olah meminta kamu duduk bersamanya sekejap.`,
       effect: { mood: 8, bond: 2 },
-      log: `${pet.name}闹了点小情绪，安慰后明显放松了。`,
+      log: `${pet.name} sedikit merajuk, tetapi nampak lebih lega selepas dipujuk.`,
     }),
   },
   {
     condition: (pet) => pet.stats.hunger < 40,
     apply: (pet) => ({
-      badge: "肚子咕咕叫",
-      story: `${pet.name}正盯着厨房方向发呆，像在等待什么奇迹发生。`,
-      line: "有没有一种可能，现在就是零食时间？",
+      badge: "Perut berbunyi",
+      story: `${pet.name} asyik memandang ke arah dapur seperti menunggu keajaiban makanan berlaku.`,
+      line: "Ada kemungkinan tak... sekarang ni masa snek?",
       effect: { health: -2 },
-      log: `${pet.name}太饿了，连走路节奏都慢下来一点。`,
+      log: `${pet.name} terlalu lapar sampai langkahnya pun jadi perlahan sedikit.`,
     }),
   },
   {
     condition: (pet) => pet.stats.hygiene < 50,
     apply: (pet) => ({
-      badge: "有点灰扑扑",
-      story: `${pet.name}滚进抱枕堆里，把自己玩成了一只毛绒小团子。`,
-      line: "先别拍照，我今天是灰尘限定皮肤。",
+      badge: "Sedikit comot",
+      story: `${pet.name} bergolek dalam timbunan kusyen sampai badannya jadi penuh habuk halus.`,
+      line: "Jangan ambil gambar dulu, bulu aku tengah versi berdebu.",
       effect: { mood: -2 },
-      log: `${pet.name}玩得太疯后，身上沾了不少灰。`,
+      log: `${pet.name} bermain terlalu seronok sampai badannya diselaputi habuk.`,
     }),
   },
   {
     condition: () => true,
     apply: (pet) => ({
-      badge: "剧情片段",
-      story: `${pet.name}突然宣布地板上的光斑是一扇秘密门，邀请你一起守着它。`,
-      line: "只要我们够认真，门后面就会出现新的冒险。",
+      badge: "Babak kecil",
+      story: `${pet.name} tiba-tiba mengisytiharkan tompokan cahaya di lantai ialah pintu rahsia dan mengajak kamu menjaganya.`,
+      line: "Kalau kita serius cukup lama, mesti ada pengembaraan di belakang pintu ni.",
       effect: { mood: 5, xp: 8 },
-      log: `${pet.name}拉着你演了一小段临时冒险剧情。`,
+      log: `${pet.name} mengajak kamu berlakon satu pengembaraan kecil secara spontan.`,
     }),
   },
   {
     condition: () => true,
     apply: (pet) => ({
-      badge: "好运掉落",
-      story: `窗边掉进一颗亮晶晶的小星糖，${pet.name}把它当成今天的幸运物。`,
-      line: "我刚刚被幸运轻轻撞了一下。",
+      badge: "Tuah kecil",
+      story: `Satu bintang kecil jatuh dekat tingkap dan ${pet.name} terus anggapnya sebagai pembawa tuah hari ini.`,
+      line: "Aku rasa macam tuah baru singgah tadi.",
       effect: { mood: 4, coins: 4 },
-      log: `${pet.name}捡到一颗星糖，开心得转了三圈。`,
+      log: `${pet.name} jumpa sebutir bintang dan berpusing gembira tiga kali.`,
     }),
   },
   {
     condition: (pet) => state.hour >= 18 && pet.stats.energy < 60,
     apply: (pet) => ({
-      badge: "夜晚降临",
-      story: `${pet.name}看着窗外一点点变暗，忽然安静下来，想把今天最后一段时间过得柔软一点。`,
-      line: "天快黑了，我们是不是该准备晚安仪式啦？",
+      badge: "Malam tiba",
+      story: `${pet.name} memandang langit yang makin gelap dan mahu habiskan waktu terakhir hari ini dengan tenang.`,
+      line: "Hari dah nak malam. Patutkah kita mula rutin sebelum tidur?",
       effect: { mood: 3, xp: 6 },
-      log: `${pet.name}在傍晚时分变得格外安静，像在等待一天的收尾。`,
+      log: `${pet.name} jadi lebih senyap waktu petang, seolah-olah menunggu hari ini ditutup dengan lembut.`,
     }),
   },
   {
     condition: (pet) => state.hour <= 10 && pet.stats.energy > 50,
     apply: (pet) => ({
-      badge: "清晨灵感",
-      story: `${pet.name}一大早就精神饱满，开始构思今天的新游戏和新冒险。`,
-      line: "早上最适合出发了，我已经想到今天的第一关了。",
+      badge: "Idea pagi",
+      story: `${pet.name} bangun dengan tenaga penuh dan terus dapat idea untuk permainan baru hari ini.`,
+      line: "Waktu pagi paling sesuai untuk mula. Aku dah fikir cabaran pertama kita.",
       effect: { mood: 5, xp: 8 },
-      log: `${pet.name}一早就冒出很多新点子，整个房间都跟着热闹起来。`,
+      log: `${pet.name} sudah penuh idea sejak pagi dan seluruh rumah terasa lebih hidup.`,
     }),
   },
   {
     condition: (pet) => pet.bond >= 24,
     apply: (pet) => ({
-      badge: "羁绊片段",
-      story: `${pet.name}突然靠过来贴了你一下，像在确认“你还会一直陪我吧”。`,
-      line: "我最近常常觉得，只要一回头就能找到你。",
+      badge: "Detik ikatan",
+      story: `${pet.name} datang rapat dan menggesel pada kamu seperti mahu memastikan kamu akan terus ada di sisinya.`,
+      line: "Sekarang aku rasa, bila aku toleh saja, mesti kamu ada dekat sini.",
       effect: { mood: 6, health: 2, xp: 8 },
-      log: `${pet.name}触发了一段更亲近的羁绊剧情。`,
+      log: `${pet.name} mencetuskan satu detik hubungan yang lebih rapat dengan kamu.`,
     }),
   },
 ];
@@ -519,9 +519,9 @@ function createPetState(id, stats) {
     bond: 12,
     xp: 18,
     stage: 0,
-    currentLine: `${petCatalog[id].name}想玩接球球！`,
-    currentStory: `${petCatalog[id].name}在小窝前晃来晃去，等待今天的第一场互动。`,
-    badge: "状态稳定",
+    currentLine: `${petCatalog[id].name} nak main tangkap bola!`,
+    currentStory: `${petCatalog[id].name} mundar-mandir di depan tempat tidur sambil menunggu interaksi pertama hari ini.`,
+    badge: "Keadaan stabil",
     unlockedMilestones: [],
     stats,
   };
@@ -558,7 +558,7 @@ function createArithmeticQuestion(grade) {
   if (grade === 4) {
     const a = randomInt(12, 48);
     const b = randomInt(3, 9);
-    const prompt = `啵啵要做训练，今天完成了 ${a} 次跳跃，又追加了 ${b} 次，一共多少次？`;
+    const prompt = `Oyen sedang berlatih melompat. Dia buat ${a} lompatan, kemudian tambah ${b} lagi. Berapa jumlah semuanya?`;
     const answer = a + b;
     return buildQuestion("arithmetic", prompt, answer, [answer - 2, answer + 3, answer + 5]);
   }
@@ -566,14 +566,14 @@ function createArithmeticQuestion(grade) {
   if (grade === 5) {
     const a = randomInt(6, 12);
     const b = randomInt(4, 9);
-    const prompt = `皮皮要准备表演，一排放 ${a} 个气球，共 ${b} 排，一共有多少个气球？`;
+    const prompt = `Tompok mahu sediakan hiasan persembahan. Setiap baris ada ${a} belon dan ada ${b} baris. Berapa jumlah belon semuanya?`;
     const answer = a * b;
     return buildQuestion("arithmetic", prompt, answer, [answer - b, answer + a, answer + 6]);
   }
 
   const a = randomInt(24, 72);
   const b = randomInt(3, 8);
-  const prompt = `默默收集了 ${a} 颗星糖，想平均分成 ${b} 份，每份有多少颗？`;
+  const prompt = `Abu kumpul ${a} bintang dan mahu bahagi sama rata kepada ${b} bahagian. Setiap bahagian ada berapa?`;
   const answer = Math.floor(a / b);
   return buildQuestion("arithmetic", prompt, answer, [answer - 2, answer + 1, answer + 3]);
 }
@@ -585,7 +585,7 @@ function createMoneyQuestion(grade) {
     const answer = price * qty;
     return buildQuestion(
       "money",
-      `宠物想买 ${qty} 个零食，每个 RM${price}，一共要多少钱？`,
+      `Seekor kucing mahu beli ${qty} snek. Setiap satu RM${price}. Jumlah semuanya berapa?`,
       `RM${answer}`,
       [`RM${answer + price}`, `RM${Math.max(1, answer - qty)}`, `RM${answer + 2}`]
     );
@@ -597,7 +597,7 @@ function createMoneyQuestion(grade) {
     const answer = wallet - spend;
     return buildQuestion(
       "money",
-      `你带着 RM${wallet} 去帮宠物买玩具，花了 RM${spend}，还剩多少？`,
+      `Kamu bawa RM${wallet} untuk beli mainan kucing. Selepas belanja RM${spend}, baki tinggal berapa?`,
       `RM${answer}`,
       [`RM${answer + 2}`, `RM${Math.max(0, answer - 3)}`, `RM${wallet + spend}`]
     );
@@ -608,7 +608,7 @@ function createMoneyQuestion(grade) {
   const answer = price - discount;
   return buildQuestion(
     "money",
-    `宠物背包原价 RM${price}，现在便宜了 RM${discount}，折后是多少钱？`,
+    `Beg kucing berharga RM${price}, sekarang diskaun RM${discount}. Harga selepas diskaun berapa?`,
     `RM${answer}`,
     [`RM${price + discount}`, `RM${discount}`, `RM${answer + 3}`]
   );
@@ -625,7 +625,7 @@ function createTimeQuestion(grade) {
   const formatTime = `${resultHour}:${String(resultMinute).padStart(2, "0")}`;
   return buildQuestion(
     "time",
-    `现在是 ${hour}:${String(minute).padStart(2, "0")}，再过 ${extra} 分钟，宠物几点开始活动？`,
+    `Sekarang pukul ${hour}:${String(minute).padStart(2, "0")}. Selepas ${extra} minit, pukul berapa kucing mula aktiviti?`,
     formatTime,
     [
       `${resultHour}:${String((resultMinute + 15) % 60).padStart(2, "0")}`,
@@ -775,16 +775,16 @@ function maybeLevelUp(pet) {
     pet.xp -= pet.level * 100;
     pet.level += 1;
     pet.bond += 4;
-    addLog(`${petCatalog[pet.id].name}升到了 Lv.${pet.level}，看起来比刚才更有精神。`);
+    addLog(`${petCatalog[pet.id].name} naik ke Lv.${pet.level} dan nampak lebih bertenaga daripada tadi.`);
   }
 
   const nextStage = pet.level >= 7 ? 2 : pet.level >= 3 ? 1 : 0;
   if (nextStage !== pet.stage) {
     pet.stage = nextStage;
-    pet.badge = "完成进化";
-    pet.currentStory = `${petCatalog[pet.id].name}被柔光包围，顺利成长到了${petCatalog[pet.id].stageTitles[nextStage]}。`;
-    pet.currentLine = "我好像变得更厉害，也更想跟你一起冒险了。";
-    addLog(`${petCatalog[pet.id].name}完成了一次成长进化。`);
+    pet.badge = "Naik tahap";
+    pet.currentStory = `${petCatalog[pet.id].name} diselubungi cahaya lembut dan berjaya membesar menjadi ${petCatalog[pet.id].stageTitles[nextStage]}.`;
+    pet.currentLine = "Aku rasa makin hebat sekarang, dan makin seronok nak buat aktiviti dengan kamu.";
+    addLog(`${petCatalog[pet.id].name} baru sahaja melalui perubahan tahap pertumbuhan.`);
   }
 
   unlockMilestonesForPet(pet);
@@ -809,10 +809,10 @@ function unlockMilestonesForPet(pet) {
 
     pet.unlockedMilestones.push(milestone.level);
     applyInventoryRewards(milestone.reward);
-    pet.badge = "解锁奖励";
-    pet.currentStory = `${petCatalog[pet.id].name}解锁了“${milestone.title}”，宠物屋里多了一份新的收藏。`;
-    pet.currentLine = `${petCatalog[pet.id].name}兴奋地围着新奖励转圈，像在催你立刻试试看。`;
-    addLog(`${petCatalog[pet.id].name}达成 Lv.${milestone.level}，解锁了${milestone.title}。`);
+    pet.badge = "Ganjaran baru";
+    pet.currentStory = `${petCatalog[pet.id].name} membuka ganjaran "${milestone.title}", dan rumah kucing kini ada koleksi baru.`;
+    pet.currentLine = `${petCatalog[pet.id].name} berpusing-pusing dengan gembira seolah-olah menyuruh kamu cuba ganjaran itu sekarang juga.`;
+    addLog(`${petCatalog[pet.id].name} mencapai Lv.${milestone.level} dan membuka ${milestone.title}.`);
   });
 }
 
@@ -823,18 +823,18 @@ function getMoodProfile(pet) {
   const lines = petCatalog[pet.id].moodLines;
 
   if (average >= 78) {
-    return { face: "excited", line: lines.excited, badge: "超有活力" };
+    return { face: "excited", line: lines.excited, badge: "Sangat aktif" };
   }
 
   if (average >= 48) {
-    return { face: "happy", line: lines.okay, badge: "状态稳定" };
+    return { face: "happy", line: lines.okay, badge: "Keadaan stabil" };
   }
 
   if (pet.stats.energy < 35) {
-    return { face: "sleepy", line: lines.sleepy, badge: "有点困了" };
+    return { face: "sleepy", line: lines.sleepy, badge: "Sudah mengantuk" };
   }
 
-  return { face: "sad", line: lines.sad, badge: "需要照顾" };
+  return { face: "sad", line: lines.sad, badge: "Perlu dijaga" };
 }
 
 function getCurrentQuest() {
@@ -848,7 +848,7 @@ function updateQuestProgress(tag) {
   state.quest.progress += 1;
   const pet = activePet();
   pet.currentStory = quest.description(activePetInfo());
-  pet.badge = "剧情推进";
+  pet.badge = "Cerita bergerak";
   if (state.quest.progress >= quest.target) {
     completeQuest();
   }
@@ -859,10 +859,10 @@ function completeQuest() {
   const pet = activePet();
   applyPetChanges(pet, quest.reward);
   pet.currentStory = quest.completeText(activePetInfo());
-  pet.currentLine = `${activePetInfo().name}把奖励认真地交到你手上。`;
-  pet.badge = "剧情完成";
+  pet.currentLine = `${activePetInfo().name} serahkan ganjaran itu pada kamu dengan penuh bangga.`;
+  pet.badge = "Cerita selesai";
   state.globalStory = pet.currentStory;
-  addLog(`${quest.title}完成，获得了额外奖励。`);
+  addLog(`${quest.title} selesai dan kamu menerima ganjaran tambahan.`);
   state.quest.completed += 1;
   state.quest.index += 1;
   state.quest.progress = 0;
@@ -886,7 +886,7 @@ function maybeTriggerEvent() {
     const profile = getMoodProfile(pet);
     pet.currentLine = profile.line;
     pet.badge = profile.badge;
-    pet.currentStory = `${activePetInfo().name}在小房间里晃来晃去，等待下一次和你的互动。`;
+    pet.currentStory = `${activePetInfo().name} mundar-mandir dalam ruang kecilnya sambil menunggu interaksi seterusnya dengan kamu.`;
     state.globalStory = pet.currentStory;
     return;
   }
@@ -928,11 +928,11 @@ function maybeTriggerEvent() {
           : null,
       })),
     };
-    pet.badge = choiceEvent.rarity === "rare" ? "稀有事件" : "需要决定";
+    pet.badge = choiceEvent.rarity === "rare" ? "Acara rare" : "Perlu pilih";
     pet.currentStory = state.pendingChoice.description;
-    pet.currentLine = `${info.name}抬头看着你，像在等你拍板。`;
+    pet.currentLine = `${info.name} mendongak memandang kamu, seolah-olah menunggu keputusan akhir.`;
     state.globalStory = pet.currentStory;
-    addLog(`${info.name}遇到一个需要你来决定的小事件。`);
+    addLog(`${info.name} berdepan satu peristiwa kecil yang memerlukan keputusan kamu.`);
     return;
   }
 
@@ -957,7 +957,7 @@ function resolveChoice(optionIndex) {
   applyPetChanges(pet, option.effect);
   let outcomeStory = option.result;
   let outcomeLog = option.log;
-  let outcomeBadge = state.pendingChoice.rarity === "rare" ? "稀有选择" : "选择完成";
+  let outcomeBadge = state.pendingChoice.rarity === "rare" ? "Pilihan rare" : "Pilihan selesai";
   let outcomeQuestTag = "tap";
 
   if (option.rareOutcome && Math.random() < option.rareOutcome.chance) {
@@ -975,13 +975,13 @@ function resolveChoice(optionIndex) {
   }
 
   pet.currentStory = outcomeStory;
-  pet.currentLine = `${activePetInfo().name}对你的决定点了点头，马上照做。`;
+  pet.currentLine = `${activePetInfo().name} mengangguk kecil dan terus ikut keputusan kamu.`;
   pet.badge = outcomeBadge;
   state.globalStory = pet.currentStory;
   addLog(outcomeLog);
   updateQuestProgress(outcomeQuestTag);
   state.pendingChoice = null;
-  playSound(outcomeBadge === "选择完成" ? "happy" : outcomeQuestTag === "play" ? "rare" : "soft");
+  playSound(outcomeBadge === "Pilihan selesai" ? "happy" : outcomeQuestTag === "play" ? "rare" : "soft");
   render();
 }
 
@@ -995,7 +995,7 @@ function performAction(actionKey) {
   state.coins = Math.max(0, state.coins + action.coins);
   pet.currentLine = generateContextLine(info, actionKey);
   pet.currentStory = action.story(info);
-  pet.badge = actionKey === "sleep" ? "正在恢复" : "互动完成";
+  pet.badge = actionKey === "sleep" ? "Sedang pulih" : "Interaksi selesai";
   state.globalStory = pet.currentStory;
   addLog(action.log(info));
   updateQuestProgress(actionKey);
@@ -1007,13 +1007,13 @@ function generateContextLine(info, context) {
   const pet = activePet();
   const profile = getMoodProfile(pet);
   const map = {
-    feed: `${info.name}满意地眯起眼睛，说今天这餐值得记进幸福日记。`,
-    play: `${info.name}在原地转了一圈，宣布刚才的比赛非常精彩。`,
-    wash: `${info.name}闻了闻自己，确认现在已经是香喷喷状态。`,
-    sleep: `${info.name}打了个哈欠，抱着小枕头准备再做一会儿好梦。`,
-    chat: `${info.name}认真看着你，像是把每一句话都偷偷记了下来。`,
-    tap: `${info.name}被你轻轻碰了一下，立刻露出“我知道你在意我”的表情。`,
-    quest: `${info.name}对新任务很认真，连尾巴摆动都带着计划感。`,
+    feed: `${info.name} mengecilkan mata dengan puas, seolah-olah mahu simpan hidangan ini dalam diari bahagia.`,
+    play: `${info.name} berpusing setempat dan mengisytiharkan permainan tadi memang hebat.`,
+    wash: `${info.name} menghidu badannya sendiri dan mengesahkan dia kini sangat wangi.`,
+    sleep: `${info.name} menguap sambil memeluk kusyen kecil, bersedia untuk satu lagi tidur yang lena.`,
+    chat: `${info.name} memandang kamu penuh fokus, seolah-olah menyimpan setiap kata dalam hati.`,
+    tap: `${info.name} disentuh perlahan dan terus tunjuk muka seperti faham kamu memang sayang padanya.`,
+    quest: `${info.name} nampak sangat serius dengan tugas baru, sampai ekornya pun bergerak penuh semangat.`,
   };
 
   return map[context] || profile.line;
@@ -1025,7 +1025,7 @@ function advanceHour() {
     state.hour = 0;
     state.day += 1;
     state.coins += 6;
-    addLog("新的一天开始了，系统发放了登录奖励 6 星糖。");
+    addLog("Hari baru bermula dan kamu menerima 6 bintang sebagai ganjaran masuk.");
   }
 
   decayOverTime();
@@ -1038,11 +1038,11 @@ function cheerUpPet() {
   const pet = activePet();
   const info = activePetInfo();
   pet.currentLine = generateContextLine(info, "chat");
-  pet.currentStory = `你蹲下来和${info.name}说了会儿话，它专心听着，尾巴轻轻摇来摇去。`;
-  pet.badge = "聊天中";
+  pet.currentStory = `Kamu duduk dekat ${info.name} dan berbual seketika. Dia mendengar dengan penuh fokus sambil menggerakkan ekor perlahan-lahan.`;
+  pet.badge = "Sedang berbual";
   applyPetChanges(pet, { mood: 8, bond: 3, xp: 6 });
   state.globalStory = pet.currentStory;
-  addLog(`你陪${info.name}聊了聊天，它的情绪变得更轻松了。`);
+  addLog(`Kamu meluangkan masa berbual dengan ${info.name}, dan moodnya jadi lebih ringan.`);
   updateQuestProgress("chat");
   playSound("soft");
   render();
@@ -1052,11 +1052,11 @@ function petTapReaction() {
   const pet = activePet();
   const info = activePetInfo();
   pet.currentLine = generateContextLine(info, "tap");
-  pet.currentStory = `你轻轻碰了碰${info.name}，它抬头看你，像是在等下一步指令。`;
-  pet.badge = "正在互动";
+  pet.currentStory = `Kamu sentuh ${info.name} perlahan-lahan, lalu dia mendongak seperti menunggu arahan seterusnya.`;
+  pet.badge = "Sedang berinteraksi";
   applyPetChanges(pet, { mood: 4, bond: 2, xp: 4 });
   state.globalStory = pet.currentStory;
-  addLog(`你点了点${info.name}，它立刻给了你一个可爱的回应。`);
+  addLog(`Kamu sentuh ${info.name} dan dia terus memberi reaksi yang comel.`);
   updateQuestProgress("tap");
   playSound("soft");
   render();
@@ -1070,11 +1070,11 @@ function useItem(itemKey) {
   const info = activePetInfo();
   state.inventory[itemKey] -= 1;
   applyPetChanges(pet, item.effect);
-  pet.currentLine = `${info.name}收到${item.label}后，整只宠物都亮了一点。`;
-  pet.currentStory = `${info.name}抱着${item.label}不肯松手，看起来像拿到了今天最喜欢的礼物。`;
-  pet.badge = "使用道具";
+  pet.currentLine = `${info.name} terus nampak lebih ceria selepas menerima ${item.label}.`;
+  pet.currentStory = `${info.name} memeluk ${item.label} erat-erat seolah-olah itulah hadiah paling disukainya hari ini.`;
+  pet.badge = "Item digunakan";
   state.globalStory = pet.currentStory;
-  addLog(item.log.replace("宠物", info.name));
+  addLog(item.log.replace("si kucing", info.name));
   updateQuestProgress("item");
   playSound("happy");
   render();
@@ -1085,10 +1085,10 @@ function advanceQuestManually() {
   const info = activePetInfo();
   pet.currentLine = generateContextLine(info, "quest");
   pet.currentStory = getCurrentQuest().description(info);
-  pet.badge = "任务更新";
+  pet.badge = "Tugas dikemas kini";
   state.globalStory = pet.currentStory;
   applyPetChanges(pet, { mood: 3, xp: 5 });
-  addLog(`${info.name}认真研究了当前的小情节目标。`);
+  addLog(`${info.name} meneliti sasaran cerita semasa dengan bersungguh-sungguh.`);
   updateQuestProgress("time");
   playSound("soft");
   render();
@@ -1115,7 +1115,7 @@ function toggleMotionSetting() {
 }
 
 function resetSaveData() {
-  const confirmed = window.confirm("要清空当前电子宠物进度并重新开始吗？");
+  const confirmed = window.confirm("Padam semua progres kucing sekarang dan mula semula?");
   if (!confirmed) return;
 
   const freshState = cloneDefaultState();
@@ -1130,8 +1130,8 @@ function resetSaveData() {
 
 function setMathGrade(grade) {
   state.math = createMathState(grade);
-  state.globalStory = `${activePetInfo().name}换上了 ${grade} 年级的数学委托清单，准备开始新的任务。`;
-  addLog(`你把数学委托切换到了 ${grade} 年级模式。`);
+  state.globalStory = `${activePetInfo().name} kini menggunakan senarai misi matematik Tahun ${grade} dan bersedia untuk tugasan baru.`;
+  addLog(`Kamu menukar misi matematik ke mod Tahun ${grade}.`);
   render();
 }
 
@@ -1146,18 +1146,18 @@ function completeMathQuestion(isCorrect) {
   if (isCorrect) {
     state.math.completed += 1;
     state.math.streak += 1;
-    pet.currentLine = `${activePetInfo().name}开心地说，这题算得太及时了。`;
-    pet.currentStory = `${activePetInfo().name}顺利完成了一项数学委托，准备把奖励收进背包。`;
-    pet.badge = "数学完成";
+    pet.currentLine = `${activePetInfo().name} mengiau gembira kerana jawapan itu memang tepat pada masanya.`;
+    pet.currentStory = `${activePetInfo().name} berjaya menyelesaikan satu misi matematik dan bersedia mengutip ganjaran ke dalam beg item.`;
+    pet.badge = "Misi matematik siap";
     state.globalStory = pet.currentStory;
-    addLog(`${activePetInfo().name}完成了一道数学委托，获得了成长奖励。`);
+    addLog(`${activePetInfo().name} menyelesaikan satu misi matematik dan mendapat ganjaran perkembangan.`);
 
     if (state.math.completed >= state.math.questions.length) {
       state.inventory.pudding = (state.inventory.pudding || 0) + 1;
-      pet.currentLine = `${activePetInfo().name}宣布今日数学委托全部完成，可以去领奖了。`;
-      pet.currentStory = `${activePetInfo().name}把今日 3 道数学委托都做完了，你们拿到了一份草莓布丁奖励。`;
-      pet.badge = "数学全清";
-      addLog(`今日数学委托全部完成，额外获得 1 个草莓布丁。`);
+      pet.currentLine = `${activePetInfo().name} mengumumkan semua misi matematik hari ini sudah siap dan ganjaran boleh diambil.`;
+      pet.currentStory = `${activePetInfo().name} menyiapkan ketiga-tiga misi matematik hari ini dan kamu menerima 1 puding strawberi sebagai bonus.`;
+      pet.badge = "Semua misi siap";
+      addLog(`Semua misi matematik hari ini selesai. Kamu mendapat 1 puding strawberi tambahan.`);
       updateQuestProgress("chat");
     } else {
       state.math.currentIndex += 1;
@@ -1165,11 +1165,11 @@ function completeMathQuestion(isCorrect) {
 
     playSound("happy");
   } else {
-    pet.currentLine = `${activePetInfo().name}说没关系，我们再认真看一次题目。`;
-    pet.currentStory = `${activePetInfo().name}没有生气，只是想和你再试一次数学委托。`;
-    pet.badge = "继续尝试";
+    pet.currentLine = `${activePetInfo().name} kata tak apa, mari tengok soalan itu sekali lagi dengan tenang.`;
+    pet.currentStory = `${activePetInfo().name} tidak marah, malah masih mahu cuba semula misi matematik bersama kamu.`;
+    pet.badge = "Cuba lagi";
     state.globalStory = pet.currentStory;
-    addLog(`${activePetInfo().name}这道数学题答错了，但它愿意继续陪你尝试。`);
+    addLog(`${activePetInfo().name} tersalah satu soalan matematik, tetapi masih mahu terus mencuba bersama kamu.`);
     playSound("soft");
   }
 
@@ -1190,7 +1190,7 @@ function switchPet(petId) {
     pet.currentLine = profile.line;
   }
   if (!pet.currentStory) {
-    pet.currentStory = `${activePetInfo().name}回到了舞台中央。`;
+    pet.currentStory = `${activePetInfo().name} kembali ke tengah pentas.`;
   }
   render();
 }
@@ -1210,10 +1210,10 @@ function renderRoster() {
 
       return `
         <button class="roster-chip ${active}" data-pet="${petId}">
-          <span class="chip-avatar" style="background:${bg};">${info.avatar}</span>
+            <span class="chip-avatar" style="background:${bg};">${info.avatar}</span>
           <span class="chip-copy">
             <strong>${info.name}</strong>
-            <span>Lv.${pet.level} ${info.trait}</span>
+            <span>Lv.${pet.level} · ${info.trait}</span>
           </span>
         </button>
       `;
@@ -1258,12 +1258,12 @@ function renderInventory() {
             <span class="inventory-icon">${item.icon}</span>
             <div class="inventory-copy">
               <strong>${item.label}</strong>
-              <span>小道具支援本轮养成</span>
+              <span>Item kecil untuk bantu penjagaan kucing</span>
             </div>
           </div>
           <div>
             <span class="inventory-count">x${count}</span>
-            <button class="use-item-button" data-item="${key}" ${count <= 0 ? "disabled" : ""}>使用</button>
+            <button class="use-item-button" data-item="${key}" ${count <= 0 ? "disabled" : ""}>Guna</button>
           </div>
         </article>
       `;
@@ -1294,7 +1294,7 @@ function renderQuest() {
   const percent = (progress / quest.target) * 100;
   elements.questTitle.textContent = quest.title;
   elements.questText.textContent = state.globalStory || quest.description(activePetInfo());
-  elements.questProgressText.textContent = `进度 ${progress} / ${quest.target}`;
+  elements.questProgressText.textContent = `Progres ${progress} / ${quest.target}`;
   elements.questFill.style.width = `${percent}%`;
 }
 
@@ -1314,7 +1314,7 @@ function renderUnlocks() {
   const pet = activePet();
   const milestones = unlockCatalog[pet.id] || [];
   const nextLocked = milestones.find((milestone) => !pet.unlockedMilestones.includes(milestone.level));
-  elements.unlockHint.textContent = nextLocked ? `下一奖励 Lv. ${nextLocked.level}` : "已解锁全部奖励";
+  elements.unlockHint.textContent = nextLocked ? `Ganjaran seterusnya Lv. ${nextLocked.level}` : "Semua ganjaran sudah dibuka";
   elements.unlockList.innerHTML = milestones
     .map((milestone) => {
       const unlocked = pet.unlockedMilestones.includes(milestone.level);
@@ -1327,7 +1327,7 @@ function renderUnlocks() {
               <span>Lv.${milestone.level} · ${milestone.description}</span>
             </div>
           </div>
-          <span class="unlock-badge">${unlocked ? "已解锁" : "未解锁"}</span>
+          <span class="unlock-badge">${unlocked ? "Sudah buka" : "Belum buka"}</span>
         </article>
       `;
     })
@@ -1345,7 +1345,7 @@ function renderChoiceCard() {
   elements.choiceTitle.textContent = state.pendingChoice.title;
   elements.choiceCopy.textContent =
     state.pendingChoice.rarity === "rare"
-      ? `稀有遭遇: ${state.pendingChoice.description}`
+      ? `Acara rare: ${state.pendingChoice.description}`
       : state.pendingChoice.description;
   elements.choiceActions.innerHTML = state.pendingChoice.options
     .map(
@@ -1374,10 +1374,10 @@ function renderMathCard() {
   });
 
   if (!question) {
-    elements.mathTitle.textContent = "今日数学委托完成";
-    elements.mathQuestion.textContent = "你已经帮宠物完成今天所有数学任务了，明天再来继续。";
+    elements.mathTitle.textContent = "Semua misi matematik selesai";
+    elements.mathQuestion.textContent = "Kamu sudah bantu kucing menyiapkan semua tugasan matematik hari ini. Datang semula esok.";
     elements.mathOptions.innerHTML = "";
-    elements.mathRewardCopy.textContent = "今日奖励已经发放，宠物很满意。";
+    elements.mathRewardCopy.textContent = "Ganjaran hari ini sudah diberi, dan si kucing sangat puas hati.";
   } else {
     elements.mathTitle.textContent = mathMissionThemes[question.theme];
     elements.mathQuestion.textContent = question.prompt;
@@ -1395,16 +1395,16 @@ function renderMathCard() {
       button.addEventListener("click", () => answerMathQuestion(button.dataset.answer));
     });
 
-    elements.mathRewardCopy.textContent = "答对可得 3 星糖、成长经验和羁绊奖励。";
+    elements.mathRewardCopy.textContent = "Jawapan betul memberi 3 bintang, XP pertumbuhan dan ganjaran ikatan.";
   }
 
-  elements.mathProgressText.textContent = `进度 ${completed} / ${state.math.questions.length}`;
+  elements.mathProgressText.textContent = `Progres ${completed} / ${state.math.questions.length}`;
   elements.mathFill.style.width = `${percent}%`;
 }
 
 function renderSettings() {
-  elements.soundState.textContent = state.settings.soundOn ? "开启" : "关闭";
-  elements.motionState.textContent = state.settings.motionOn ? "开启" : "关闭";
+  elements.soundState.textContent = state.settings.soundOn ? "Buka" : "Tutup";
+  elements.motionState.textContent = state.settings.motionOn ? "Buka" : "Tutup";
   applyMotionSetting();
 }
 
@@ -1424,17 +1424,19 @@ function renderPetFace() {
   const pet = activePet();
   const info = activePetInfo();
   const profile = getMoodProfile(pet);
-  const currentFace = pet.badge === "互动完成" || pet.badge === "剧情完成" ? "excited" : profile.face;
+  const currentFace = pet.badge === "Interaksi selesai" || pet.badge === "Cerita selesai" ? "excited" : profile.face;
+  const excitedBadges = ["Interaksi selesai", "Pilihan selesai", "Cerita selesai", "Sedang berbual", "Sedang berinteraksi", "Misi matematik siap", "Semua misi siap"];
   const motionClass =
-    pet.badge.includes("稀有") || pet.badge === "传奇发现" || pet.badge === "愿望成真"
+    pet.badge.includes("rare") || pet.badge === "Penemuan hebat" || pet.badge === "Hajat jadi nyata" || pet.badge === "Tuah besar" || pet.badge === "Ikatan kuat"
       ? "rare"
-      : ["互动完成", "选择完成", "剧情完成", "聊天中", "正在互动"].includes(pet.badge)
+      : excitedBadges.includes(pet.badge)
         ? "interact"
         : "";
-  elements.petFace.className = `pet-face stage-${pet.stage} ${currentFace} ${motionClass} ${info.faceClass}`;
+  const resolvedFace = excitedBadges.includes(pet.badge) ? "excited" : currentFace;
+  elements.petFace.className = `pet-face stage-${pet.stage} ${resolvedFace} ${motionClass} ${info.faceClass}`;
   elements.petName.textContent = info.name;
   elements.petTrait.textContent = `${info.trait} · ${info.species}`;
-  if (!pet.currentLine || pet.badge === "状态稳定") {
+  if (!pet.currentLine || pet.badge === "Keadaan stabil") {
     pet.currentLine = profile.line;
   }
 }
