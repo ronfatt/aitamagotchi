@@ -1,0 +1,89 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="150" y1="30" x2="1030" y2="630" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD875"/>
+      <stop offset="0.5" stop-color="#FF9F7D"/>
+      <stop offset="1" stop-color="#FF6B6B"/>
+    </linearGradient>
+    <linearGradient id="card" x1="250" y1="90" x2="950" y2="560" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFDF9" stop-opacity="0.96"/>
+      <stop offset="1" stop-color="#FFF3E3" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="cat" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#FFD97F"/>
+      <stop offset="0.68" stop-color="#FFB265"/>
+      <stop offset="1" stop-color="#FF8B67"/>
+    </linearGradient>
+    <linearGradient id="pill" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#5FD4CD"/>
+      <stop offset="1" stop-color="#2CA8C2"/>
+    </linearGradient>
+    <filter id="shadow" x="180" y="74" width="840" height="500" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="20"/>
+      <feGaussianBlur stdDeviation="22"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0.462745 0 0 0 0 0.129412 0 0 0 0 0.164706 0 0 0 0.18 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_1_1"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_1_1" result="shape"/>
+    </filter>
+  </defs>
+
+  <rect width="1200" height="630" rx="42" fill="url(#bg)"/>
+  <circle cx="160" cy="114" r="76" fill="#FFF3B7" fill-opacity="0.42"/>
+  <circle cx="1056" cy="518" r="94" fill="#FFD7C7" fill-opacity="0.22"/>
+  <circle cx="960" cy="96" r="18" fill="#FFF7D1"/>
+  <circle cx="1020" cy="146" r="10" fill="#FFF7D1"/>
+  <circle cx="112" cy="482" r="10" fill="#FFF7D1"/>
+
+  <g filter="url(#shadow)">
+    <rect x="224" y="96" width="752" height="438" rx="34" fill="url(#card)"/>
+  </g>
+
+  <rect x="272" y="132" width="160" height="46" rx="23" fill="#FFF6ED"/>
+  <text x="316" y="162" fill="#C76B54" font-family="Nunito, Arial, sans-serif" font-size="23" font-weight="800" letter-spacing="1.5">MEOWBAH</text>
+  <text x="286" y="161" font-family="Arial, sans-serif" font-size="22">🐾</text>
+
+  <text x="272" y="246" fill="#4A2B2B" font-family="'Baloo 2', Nunito, Arial, sans-serif" font-size="72" font-weight="700">
+    MeowBah
+  </text>
+  <text x="272" y="300" fill="#8B6F67" font-family="Nunito, Arial, sans-serif" font-size="28" font-weight="700">
+    Permainan kucing AI &amp; matematik harian
+  </text>
+  <text x="272" y="352" fill="#7C6260" font-family="Nunito, Arial, sans-serif" font-size="24">
+    Jaga kucing comel, siapkan misi harian dan kumpul ganjaran
+  </text>
+  <text x="272" y="388" fill="#7C6260" font-family="Nunito, Arial, sans-serif" font-size="24">
+    dalam pengalaman mudah alih Bahasa Melayu yang mesra kanak-kanak.
+  </text>
+
+  <rect x="272" y="430" width="224" height="54" rx="27" fill="url(#pill)"/>
+  <text x="318" y="463" fill="#FFFDF6" font-family="Nunito, Arial, sans-serif" font-size="24" font-weight="800">
+    Mula Bermain
+  </text>
+
+  <g transform="translate(735 138)">
+    <ellipse cx="130" cy="266" rx="126" ry="24" fill="#F9B18B" fill-opacity="0.38"/>
+    <path d="M74 28C80 2 109 6 118 30L112 67H83L74 28Z" fill="#FFC96F" stroke="#FFF6F0" stroke-width="10"/>
+    <path d="M147 30C156 6 185 2 191 28L182 67H153L147 30Z" fill="#FFC96F" stroke="#FFF6F0" stroke-width="10"/>
+    <rect x="44" y="46" width="180" height="168" rx="72" fill="url(#cat)" stroke="#FFF6F0" stroke-width="10"/>
+    <ellipse cx="96" cy="114" rx="10" ry="18" fill="#41292C"/>
+    <ellipse cx="172" cy="114" rx="10" ry="18" fill="#41292C"/>
+    <ellipse cx="74" cy="147" rx="15" ry="8" fill="#FF9AA7" fill-opacity="0.54"/>
+    <ellipse cx="194" cy="147" rx="15" ry="8" fill="#FF9AA7" fill-opacity="0.54"/>
+    <path d="M122 164C126 158 142 158 146 164" stroke="#8F3F2C" stroke-width="6" stroke-linecap="round"/>
+    <path d="M130 172C134 180 140 180 144 172" stroke="#8F3F2C" stroke-width="6" stroke-linecap="round"/>
+    <rect x="74" y="196" width="28" height="20" rx="10" fill="#FFF0E4"/>
+    <rect x="166" y="196" width="28" height="20" rx="10" fill="#FFF0E4"/>
+    <path d="M224 170C250 170 264 194 252 212C245 222 231 228 220 226" stroke="#FFAA79" stroke-width="12" stroke-linecap="round"/>
+    <text x="18" y="52" font-family="Arial, sans-serif" font-size="28" fill="#FFF7D1">✦</text>
+    <text x="236" y="74" font-family="Arial, sans-serif" font-size="28" fill="#FFF7D1">✦</text>
+    <text x="12" y="214" font-family="Arial, sans-serif" font-size="28" fill="#FF7D93">♥</text>
+    <g transform="translate(230 190)">
+      <rect x="0" y="0" width="54" height="28" rx="14" fill="#5FD4CD"/>
+      <path d="M54 6L72 14L54 22V6Z" fill="#2CA8C2"/>
+      <circle cx="14" cy="14" r="3" fill="#F7FEFF"/>
+    </g>
+  </g>
+</svg>
