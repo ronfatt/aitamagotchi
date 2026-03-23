@@ -100,6 +100,7 @@ const choiceEventPool = [
   {
     title: "路过的神秘纸箱",
     description: (pet) => `${pet.name}发现门口有个会轻轻晃动的纸箱，你们准备怎么处理？`,
+    rarity: "common",
     options: [
       {
         label: "悄悄打开",
@@ -107,6 +108,13 @@ const choiceEventPool = [
         effect: { mood: 8, xp: 10, coins: 4 },
         result: (pet) => `${pet.name}在纸箱里翻到一张贴纸和几颗星糖，得意得不行。`,
         log: (pet) => `${pet.name}选择打开纸箱，结果幸运地找到了一点奖励。`,
+        rareOutcome: {
+          chance: 0.18,
+          effect: { coins: 10, xp: 14, mood: 6 },
+          result: (pet) => `${pet.name}居然在最里面翻出一枚亮晶晶徽章，今天的好运直接拉满了。`,
+          log: (pet) => `${pet.name}触发了稀有好运，从纸箱深处翻到了大奖。`,
+          tone: "好运暴击",
+        },
       },
       {
         label: "先绕着观察",
@@ -114,12 +122,20 @@ const choiceEventPool = [
         effect: { mood: 4, bond: 3, health: 2, xp: 6 },
         result: (pet) => `${pet.name}认真巡视了一圈，最后把纸箱安全拖回了角落。`,
         log: (pet) => `${pet.name}谨慎地观察纸箱，虽然没爆大奖，但过程很安心。`,
+        badOutcome: {
+          chance: 0.16,
+          effect: { mood: -4, energy: -4 },
+          result: (pet) => `${pet.name}绕太久把自己都绕晕了，最后只好坐下来缓一会儿。`,
+          log: (pet) => `${pet.name}过度谨慎反而把自己折腾得有点疲惫。`,
+          tone: "小小翻车",
+        },
       },
     ],
   },
   {
     title: "下午茶邀请",
     description: (pet) => `${pet.name}突然想来一场小小下午茶，你想走哪种路线？`,
+    rarity: "common",
     options: [
       {
         label: "甜点派对",
@@ -127,6 +143,13 @@ const choiceEventPool = [
         effect: { hunger: 10, mood: 10, bond: 4, xp: 8 },
         result: (pet) => `${pet.name}抱着盘子晃来晃去，宣布这是一场非常成功的茶会。`,
         log: (pet) => `${pet.name}选了甜点派对路线，整个下午都甜甜的。`,
+        badOutcome: {
+          chance: 0.14,
+          effect: { health: -4, energy: -3 },
+          result: (pet) => `${pet.name}吃太快有点腻住了，只好窝在垫子上慢慢缓过来。`,
+          log: (pet) => `${pet.name}下午茶太兴奋，一不小心吃得有点过头。`,
+          tone: "甜蜜失误",
+        },
       },
       {
         label: "热饮恢复",
@@ -134,12 +157,20 @@ const choiceEventPool = [
         effect: { energy: 10, health: 8, mood: 4, xp: 8 },
         result: (pet) => `${pet.name}捧着热饮坐了一会儿，整只宠物都柔和了下来。`,
         log: (pet) => `${pet.name}选择慢慢喝热饮，状态被稳稳拉了回来。`,
+        rareOutcome: {
+          chance: 0.15,
+          effect: { health: 10, bond: 4, xp: 10 },
+          result: (pet) => `${pet.name}在热气里突然说出一句超级真诚的心里话，你们的距离一下近了很多。`,
+          log: (pet) => `${pet.name}在安静时刻触发了稀有羁绊剧情。`,
+          tone: "羁绊暴击",
+        },
       },
     ],
   },
   {
     title: "今晚的小冒险",
     description: (pet) => `${pet.name}想把夜晚过得特别一点，你们要走冒险派还是休息派？`,
+    rarity: "rare",
     options: [
       {
         label: "继续探险",
@@ -147,6 +178,20 @@ const choiceEventPool = [
         effect: { mood: 8, energy: -8, xp: 14, bond: 3 },
         result: (pet) => `${pet.name}在房间里完成了一场迷你夜探，回来说今晚超值得。`,
         log: (pet) => `${pet.name}拉着你继续夜间冒险，虽然有点累，但非常满足。`,
+        rareOutcome: {
+          chance: 0.22,
+          effect: { coins: 12, xp: 18, bond: 5 },
+          result: (pet) => `${pet.name}居然在夜探终点发现了传说中的星糖藏点，这一晚直接封神。`,
+          log: (pet) => `${pet.name}在夜间冒险里触发了稀有大成功。`,
+          tone: "传奇发现",
+        },
+        badOutcome: {
+          chance: 0.14,
+          effect: { health: -6, energy: -8, mood: -3 },
+          result: (pet) => `${pet.name}夜里跑太快差点撞翻玩具堆，回来后决定乖乖休息。`,
+          log: (pet) => `${pet.name}在冒险途中有点翻车，今晚的后半程只能收着点。`,
+          tone: "冒险失手",
+        },
       },
       {
         label: "早点收尾",
@@ -154,6 +199,48 @@ const choiceEventPool = [
         effect: { health: 8, energy: 6, mood: 3, xp: 6 },
         result: (pet) => `${pet.name}把小窝整理得整整齐齐，决定用平静结束今天。`,
         log: (pet) => `${pet.name}选择提早收尾，今晚的节奏格外舒服。`,
+        rareOutcome: {
+          chance: 0.18,
+          effect: { health: 10, energy: 10, xp: 10 },
+          result: (pet) => `${pet.name}在安静收尾后做了一个超甜的梦，醒来时整只宠物都亮亮的。`,
+          log: (pet) => `${pet.name}因为早点休息触发了稀有“好梦加成”。`,
+          tone: "完美收尾",
+        },
+      },
+    ],
+  },
+  {
+    title: "流星擦过窗边",
+    description: (pet) => `${pet.name}突然看见一颗流星划过窗外，你们只有一瞬间能决定要做什么。`,
+    rarity: "rare",
+    options: [
+      {
+        label: "立刻许愿",
+        detail: "赌一个高回报，可能直接抽到大成功。",
+        effect: { mood: 10, xp: 12 },
+        result: (pet) => `${pet.name}闭眼许下一个夸张的愿望，整只宠物都被浪漫感击中了。`,
+        log: (pet) => `${pet.name}对着流星飞快许愿，气氛一下子梦幻起来。`,
+        rareOutcome: {
+          chance: 0.24,
+          effect: { coins: 16, bond: 6, xp: 16 },
+          result: (pet) => `${pet.name}的愿望像被真的听见了一样，窗台上竟多了一小袋星糖。`,
+          log: (pet) => `${pet.name}在流星事件里触发了稀有愿望成真。`,
+          tone: "愿望成真",
+        },
+      },
+      {
+        label: "静静看完",
+        detail: "更稳，也更像一段安静羁绊剧情。",
+        effect: { bond: 5, mood: 6, health: 4, xp: 8 },
+        result: (pet) => `${pet.name}和你一起把那道光看完，像把今天悄悄收进了记忆盒。`,
+        log: (pet) => `${pet.name}选择静静看完流星，这一刻很安静也很珍贵。`,
+        badOutcome: {
+          chance: 0.12,
+          effect: { mood: -3 },
+          result: (pet) => `${pet.name}刚准备认真欣赏，流星却已经消失，只剩一点点可惜。`,
+          log: (pet) => `${pet.name}错过了最亮的那一秒，心里有点小失落。`,
+          tone: "擦肩而过",
+        },
       },
     ],
   },
@@ -624,21 +711,43 @@ function maybeTriggerEvent() {
   }
 
   if (!state.pendingChoice && Math.random() < 0.36) {
-    const choiceEvent = choiceEventPool[Math.floor(Math.random() * choiceEventPool.length)];
+    const rareRoll = Math.random();
+    const pool = choiceEventPool.filter((event) => (rareRoll < 0.18 ? event.rarity === "rare" : event.rarity !== "rare"));
+    const sourcePool = pool.length > 0 ? pool : choiceEventPool;
+    const choiceEvent = sourcePool[Math.floor(Math.random() * sourcePool.length)];
     const info = activePetInfo();
     state.pendingChoice = {
       petId: state.activePetId,
       title: choiceEvent.title,
       description: choiceEvent.description(info),
+      rarity: choiceEvent.rarity,
       options: choiceEvent.options.map((option) => ({
         label: option.label,
         detail: option.detail,
         effect: option.effect,
         result: option.result(info),
         log: option.log(info),
+        rareOutcome: option.rareOutcome
+          ? {
+              chance: option.rareOutcome.chance,
+              effect: option.rareOutcome.effect,
+              result: option.rareOutcome.result(info),
+              log: option.rareOutcome.log(info),
+              tone: option.rareOutcome.tone,
+            }
+          : null,
+        badOutcome: option.badOutcome
+          ? {
+              chance: option.badOutcome.chance,
+              effect: option.badOutcome.effect,
+              result: option.badOutcome.result(info),
+              log: option.badOutcome.log(info),
+              tone: option.badOutcome.tone,
+            }
+          : null,
       })),
     };
-    pet.badge = "需要决定";
+    pet.badge = choiceEvent.rarity === "rare" ? "稀有事件" : "需要决定";
     pet.currentStory = state.pendingChoice.description;
     pet.currentLine = `${info.name}抬头看着你，像在等你拍板。`;
     state.globalStory = pet.currentStory;
@@ -665,12 +774,31 @@ function resolveChoice(optionIndex) {
   if (!option) return;
 
   applyPetChanges(pet, option.effect);
-  pet.currentStory = option.result;
+  let outcomeStory = option.result;
+  let outcomeLog = option.log;
+  let outcomeBadge = state.pendingChoice.rarity === "rare" ? "稀有选择" : "选择完成";
+  let outcomeQuestTag = "tap";
+
+  if (option.rareOutcome && Math.random() < option.rareOutcome.chance) {
+    applyPetChanges(pet, option.rareOutcome.effect);
+    outcomeStory = option.rareOutcome.result;
+    outcomeLog = option.rareOutcome.log;
+    outcomeBadge = option.rareOutcome.tone;
+    outcomeQuestTag = "play";
+  } else if (option.badOutcome && Math.random() < option.badOutcome.chance) {
+    applyPetChanges(pet, option.badOutcome.effect);
+    outcomeStory = option.badOutcome.result;
+    outcomeLog = option.badOutcome.log;
+    outcomeBadge = option.badOutcome.tone;
+    outcomeQuestTag = "time";
+  }
+
+  pet.currentStory = outcomeStory;
   pet.currentLine = `${activePetInfo().name}对你的决定点了点头，马上照做。`;
-  pet.badge = "选择完成";
+  pet.badge = outcomeBadge;
   state.globalStory = pet.currentStory;
-  addLog(option.log);
-  updateQuestProgress("tap");
+  addLog(outcomeLog);
+  updateQuestProgress(outcomeQuestTag);
   state.pendingChoice = null;
   render();
 }
@@ -940,7 +1068,10 @@ function renderChoiceCard() {
 
   elements.choiceCard.classList.remove("hidden");
   elements.choiceTitle.textContent = state.pendingChoice.title;
-  elements.choiceCopy.textContent = state.pendingChoice.description;
+  elements.choiceCopy.textContent =
+    state.pendingChoice.rarity === "rare"
+      ? `稀有遭遇: ${state.pendingChoice.description}`
+      : state.pendingChoice.description;
   elements.choiceActions.innerHTML = state.pendingChoice.options
     .map(
       (option, index) => `
