@@ -523,6 +523,7 @@ const elements = {
   studyStreakValue: document.querySelector("#study-streak-value"),
   dailyStatusPill: document.querySelector("#daily-status-pill"),
   dailyRewardNote: document.querySelector("#daily-reward-note"),
+  heroPetName: document.querySelector("#hero-pet-name"),
   stage: document.querySelector(".pet-stage"),
   grid: document.querySelector("#status-grid"),
   inventory: document.querySelector("#inventory-list"),
@@ -733,6 +734,10 @@ function activePet() {
 
 function activePetInfo() {
   return petCatalog[state.activePetId];
+}
+
+function storedPetIds() {
+  return Object.keys(state.pets).filter((petId) => petId !== state.activePetId);
 }
 
 function loadState() {
@@ -1026,14 +1031,13 @@ function completeQuest() {
 }
 
 function decayOverTime() {
-  Object.values(state.pets).forEach((pet) => {
-    applyPetChanges(pet, {
-      hunger: -5,
-      mood: -3,
-      energy: -5,
-      hygiene: -4,
-      health: pet.stats.hunger < 35 || pet.stats.hygiene < 35 ? -4 : -1,
-    });
+  const pet = activePet();
+  applyPetChanges(pet, {
+    hunger: -5,
+    mood: -3,
+    energy: -5,
+    hygiene: -4,
+    health: pet.stats.hunger < 35 || pet.stats.hygiene < 35 ? -4 : -1,
   });
 }
 
@@ -1388,6 +1392,9 @@ function answerMathQuestion(choice) {
 }
 
 function switchPet(petId) {
+  if (!state.pets[petId] || petId === state.activePetId) return;
+
+  const previousInfo = activePetInfo();
   state.activePetId = petId;
   const pet = activePet();
   const profile = getMoodProfile(pet);
@@ -1397,15 +1404,22 @@ function switchPet(petId) {
   if (!pet.currentStory) {
     pet.currentStory = `${activePetInfo().name} kembali ke tengah pentas.`;
   }
+  pet.badge = "Kucing semasa";
+  pet.currentStory = `${activePetInfo().name} kini menjadi kucing yang sedang kamu jaga, manakala ${previousInfo.name} berehat dalam koleksi.`;
+  pet.currentLine = `${activePetInfo().name} datang ke depan dengan yakin, bersedia menjadi teman utama kamu sekarang.`;
+  state.globalStory = pet.currentStory;
+  addLog(`${activePetInfo().name} dijadikan kucing semasa. ${previousInfo.name} disimpan dalam koleksi buat sementara waktu.`);
   render();
 }
 
 function renderRoster() {
-  elements.roster.innerHTML = Object.keys(state.pets)
+  const petOrder = [state.activePetId, ...storedPetIds()];
+  elements.roster.innerHTML = petOrder
     .map((petId) => {
       const info = petCatalog[petId];
       const pet = state.pets[petId];
       const active = petId === state.activePetId ? "active" : "";
+      const statusText = petId === state.activePetId ? "Sedang dijaga" : "Dalam koleksi";
       const bg =
         petId === "bobo"
           ? "linear-gradient(180deg, #ffb347, #ff7a59)"
@@ -1419,6 +1433,7 @@ function renderRoster() {
           <span class="chip-copy">
             <strong>${info.name}</strong>
             <span>Lv.${pet.level} · ${info.trait}</span>
+            <span class="chip-state">${statusText}</span>
           </span>
         </button>
       `;
@@ -1666,6 +1681,7 @@ function renderPetFace() {
   const resolvedFace = excitedBadges.includes(pet.badge) ? "excited" : currentFace;
   elements.petFace.className = `pet-face stage-${pet.stage} ${resolvedFace} ${motionClass} ${info.faceClass}`;
   elements.petName.textContent = info.name;
+  elements.heroPetName.textContent = info.name;
   elements.petTrait.textContent = `${info.trait} · ${info.species}`;
   if (!pet.currentLine || pet.badge === "Keadaan stabil") {
     pet.currentLine = profile.line;

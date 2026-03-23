@@ -86,23 +86,47 @@
     <main class="phone-shell">
       <section class="screen">
         <header class="topbar">
-          <div class="topbar-chip">
-            <span class="label">Hari</span>
-            <strong id="day-count">1</strong>
+          <div class="topbar-status">
+            <span class="time-pill">9:41</span>
+            <div class="topbar-center">
+              <span class="signal-dot"></span>
+              <span class="signal-dot"></span>
+              <span class="signal-dot"></span>
+            </div>
           </div>
-          <div class="topbar-center">
-            <span class="signal-dot"></span>
-            <span class="signal-dot"></span>
-            <span class="signal-dot"></span>
+          <div class="topbar-actions">
+            <div class="topbar-chip">
+              <span class="label">Hari</span>
+              <strong id="day-count">1</strong>
+            </div>
+            <div class="topbar-chip topbar-coin">
+              <span class="label">Bintang</span>
+              <strong id="coins-count">28</strong>
+            </div>
+            <button class="topbar-icon" id="toggle-settings" aria-label="Tetapan">⚙</button>
           </div>
-          <div class="topbar-chip topbar-coin">
-            <span class="label">Bintang</span>
-            <strong id="coins-count">28</strong>
-          </div>
-          <button class="topbar-icon" id="toggle-settings" aria-label="Tetapan">⚙</button>
         </header>
 
-        <section class="pet-roster" id="pet-roster" aria-label="Tukar kucing"></section>
+        <section class="app-hero">
+          <div class="app-hero-copy">
+            <p class="app-kicker">MeowBah App</p>
+            <h1>Rumah kucing pintar dalam versi mobile</h1>
+            <p class="app-subcopy">Jaga kucing, buat misi matematik dan kumpul ganjaran seperti aplikasi mini di telefon.</p>
+          </div>
+          <div class="hero-mini-card">
+            <span class="hero-mini-label">Aktif hari ini</span>
+            <strong id="hero-pet-name">Oyen</strong>
+            <span class="hero-mini-meta">Mood ceria dan sedia bermain</span>
+          </div>
+        </section>
+
+        <section class="pet-roster-wrap">
+          <div class="section-cap compact">
+            <span>Kucing semasa</span>
+            <strong>Satu sahaja boleh dijaga pada satu masa</strong>
+          </div>
+          <section class="pet-roster" id="pet-roster" aria-label="Tukar kucing"></section>
+        </section>
 
         <section class="pet-stage" aria-label="Pentas kucing">
           <div class="stage-sky" id="stage-sky">
@@ -214,6 +238,10 @@
         </section>
 
         <section class="status-panel" aria-label="Status kucing">
+          <div class="section-cap">
+            <span>Status langsung</span>
+            <strong>Kemaskini masa nyata</strong>
+          </div>
           <div class="status-grid" id="status-grid"></div>
         </section>
 
@@ -287,6 +315,25 @@
           </div>
           <ul class="event-log" id="event-log"></ul>
         </section>
+
+        <nav class="bottom-nav" aria-label="Navigasi utama">
+          <button class="bottom-nav-item active" type="button">
+            <span class="bottom-nav-icon">🐾</span>
+            <span>Home</span>
+          </button>
+          <button class="bottom-nav-item" type="button">
+            <span class="bottom-nav-icon">🧮</span>
+            <span>Misi</span>
+          </button>
+          <button class="bottom-nav-item" type="button">
+            <span class="bottom-nav-icon">🎒</span>
+            <span>Item</span>
+          </button>
+          <button class="bottom-nav-item" type="button">
+            <span class="bottom-nav-icon">✨</span>
+            <span>Progress</span>
+          </button>
+        </nav>
       </section>
     </main>
 
