@@ -940,7 +940,10 @@ body.motion-off .room-glow {
 
 .pet-eye,
 .pet-mouth,
-.pet-blush {
+.pet-blush,
+.pet-belly,
+.pet-paw,
+.pet-bow {
   position: absolute;
 }
 
@@ -968,6 +971,44 @@ body.motion-off .room-glow {
   border-bottom: 5px solid #8f3f2c;
   border-radius: 0 0 22px 22px;
   transform: translateX(-50%);
+}
+
+.pet-belly {
+  left: 50%;
+  bottom: 12px;
+  width: 74px;
+  height: 38px;
+  border-radius: 999px;
+  background: rgba(255, 248, 242, 0.72);
+  transform: translateX(-50%);
+}
+
+.pet-paw {
+  bottom: 8px;
+  width: 28px;
+  height: 20px;
+  border-radius: 14px;
+  background: rgba(255, 238, 230, 0.96);
+}
+
+.pet-paw.left {
+  left: 42px;
+}
+
+.pet-paw.right {
+  right: 42px;
+}
+
+.pet-bow {
+  top: 44px;
+  right: 30px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff4f88;
+  box-shadow:
+    -10px 0 0 0 #ff78a6,
+    10px 0 0 0 #ff78a6;
 }
 
 .pet-blush {
@@ -1685,6 +1726,353 @@ body.motion-off .room-glow {
   50% {
     filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.7));
   }
+}
+
+/* Game-style mobile app refresh */
+body {
+  background:
+    radial-gradient(circle at top, rgba(86, 53, 170, 0.48), transparent 22%),
+    linear-gradient(180deg, #0f0822 0%, #1b1233 46%, #26144a 100%);
+  color: #f8efff;
+}
+
+.phone-shell {
+  background:
+    linear-gradient(180deg, rgba(93, 59, 177, 0.5), rgba(12, 7, 24, 0.98)),
+    #140a25;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 30px 80px rgba(22, 7, 53, 0.72),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.screen {
+  background:
+    radial-gradient(circle at top, rgba(121, 86, 217, 0.24), transparent 28%),
+    linear-gradient(180deg, rgba(28, 16, 57, 0.98), rgba(13, 9, 24, 0.98));
+}
+
+.screen::before {
+  height: 210px;
+  background:
+    radial-gradient(circle at top center, rgba(160, 112, 255, 0.26), transparent 34%),
+    linear-gradient(180deg, rgba(255, 170, 109, 0.08), transparent);
+}
+
+.time-pill,
+.topbar-chip .label,
+.hero-mini-meta,
+.app-subcopy,
+.chip-copy span,
+.metric-label,
+.inventory-copy span,
+.inventory-count,
+.reward-copy,
+.unlock-copy span,
+.log-time,
+.quest-progress-row span,
+.choice-button span,
+.status-header span:last-child,
+.section-cap strong,
+.pet-nameplate span,
+.event-badge,
+.unlock-hint,
+.growth-stage {
+  color: rgba(231, 219, 255, 0.78);
+}
+
+.topbar-chip,
+.topbar-icon,
+.app-hero-copy,
+.hero-mini-card,
+.roster-chip,
+.growth-card,
+.unlock-card,
+.daily-card,
+.settings-card,
+.status-panel,
+.choice-card,
+.math-card,
+.quest-card,
+.inventory-card,
+.log-card,
+.bottom-nav {
+  background: rgba(34, 22, 62, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 18px 32px rgba(5, 2, 17, 0.38),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.topbar-chip strong,
+.app-hero-copy h1,
+.hero-mini-card strong,
+.chip-copy strong,
+.story-heading h1,
+.story-heading h2,
+.quest-title,
+.pet-nameplate strong,
+.growth-metric strong,
+.status-header,
+.unlock-copy strong,
+.inventory-copy strong,
+.log-text,
+.choice-button strong,
+.event-badge {
+  color: #fff7ff;
+}
+
+.app-kicker,
+.section-cap span,
+.hero-mini-label {
+  color: #ffb25e;
+}
+
+.hero-mini-card {
+  background:
+    radial-gradient(circle at top, rgba(255, 177, 96, 0.14), transparent 42%),
+    rgba(34, 22, 62, 0.9);
+}
+
+.roster-chip.active {
+  background:
+    linear-gradient(180deg, rgba(142, 86, 255, 0.36), rgba(65, 30, 125, 0.92)),
+    rgba(34, 22, 62, 0.92);
+}
+
+.roster-chip.active .chip-state {
+  color: #93f2ff;
+}
+
+.pet-stage {
+  min-height: 420px;
+  padding: 22px 18px 20px;
+  background:
+    radial-gradient(circle at top center, rgba(138, 76, 255, 0.28), transparent 28%),
+    linear-gradient(180deg, #27134c 0%, #2b1745 42%, #3b1f52 68%, #261330 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 24px 38px rgba(8, 3, 19, 0.4);
+}
+
+.pet-stage::before,
+.pet-stage::after {
+  content: "";
+  position: absolute;
+  top: 58px;
+  bottom: 82px;
+  width: 32px;
+  border-radius: 18px;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02)),
+    rgba(16, 10, 29, 0.55);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+}
+
+.pet-stage::before {
+  left: 14px;
+}
+
+.pet-stage::after {
+  right: 14px;
+}
+
+.room-glow {
+  inset: auto auto 52px 50%;
+  width: 220px;
+  height: 94px;
+  transform: translateX(-50%);
+  background: radial-gradient(circle, rgba(255, 111, 232, 0.42), rgba(124, 70, 255, 0.08) 68%, transparent 76%);
+  filter: blur(10px);
+}
+
+.stage-floor-deco::before {
+  content: "";
+  position: absolute;
+  inset: auto 42px 12px;
+  height: 112px;
+  border-radius: 28px 28px 12px 12px;
+  background:
+    linear-gradient(180deg, rgba(103, 62, 143, 0.2), transparent 18%),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 0 6%, transparent 6% 12%, rgba(255, 255, 255, 0.05) 12% 18%, transparent 18% 24%, rgba(255, 255, 255, 0.05) 24% 30%, transparent 30% 36%, rgba(255, 255, 255, 0.05) 36% 42%, transparent 42% 48%, rgba(255, 255, 255, 0.05) 48% 54%, transparent 54% 60%, rgba(255, 255, 255, 0.05) 60% 66%, transparent 66% 72%, rgba(255, 255, 255, 0.05) 72% 78%, transparent 78% 84%, rgba(255, 255, 255, 0.05) 84% 90%, transparent 90% 100%),
+    linear-gradient(180deg, rgba(87, 48, 135, 0.18), rgba(34, 18, 59, 0.66));
+}
+
+.speech-bubble {
+  max-width: 74%;
+  padding: 12px 14px;
+  border-radius: 18px;
+  background: rgba(28, 18, 48, 0.88);
+  color: #fff6ff;
+  box-shadow:
+    0 12px 24px rgba(7, 3, 19, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.pet-area {
+  bottom: 78px;
+}
+
+.pet-face {
+  width: 196px;
+  height: 204px;
+  border-radius: 42% 42% 38% 38%;
+  border: 7px solid rgba(255, 244, 255, 0.9);
+  box-shadow:
+    0 18px 32px rgba(7, 4, 18, 0.3),
+    inset 0 -12px 0 rgba(255, 255, 255, 0.08);
+}
+
+.pet-face.stage-1 {
+  width: 206px;
+  height: 216px;
+}
+
+.pet-face.stage-2 {
+  width: 216px;
+  height: 228px;
+}
+
+.pet-face::before,
+.pet-face::after {
+  top: -26px;
+  width: 44px;
+  height: 52px;
+}
+
+.pet-face.bobo,
+.pet-face.stage-1.bobo,
+.pet-face.stage-2.bobo {
+  background:
+    radial-gradient(circle at 32% 22%, rgba(255, 255, 255, 0.96), transparent 16%),
+    linear-gradient(180deg, #fff4d6 0%, #ffe59f 34%, #ffcc8d 72%, #ffb17d 100%);
+}
+
+.pet-face.momo,
+.pet-face.stage-1.momo,
+.pet-face.stage-2.momo {
+  background:
+    radial-gradient(circle at 32% 22%, rgba(255, 255, 255, 0.96), transparent 16%),
+    linear-gradient(180deg, #f2f6ff 0%, #d8e6ff 34%, #c7d6ff 72%, #bcb8ff 100%);
+}
+
+.pet-face.pipi,
+.pet-face.stage-1.pipi,
+.pet-face.stage-2.pipi {
+  background:
+    radial-gradient(circle at 32% 22%, rgba(255, 255, 255, 0.96), transparent 16%),
+    linear-gradient(180deg, #fff0f7 0%, #ffd7ea 34%, #ffc7dc 72%, #ffafcb 100%);
+}
+
+.pet-eye {
+  top: 84px;
+  width: 20px;
+  height: 28px;
+  border-radius: 999px;
+  background: #2f4f9f;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.5) inset;
+}
+
+.pet-eye.left {
+  left: 56px;
+}
+
+.pet-eye.right {
+  right: 56px;
+}
+
+.pet-mouth {
+  bottom: 58px;
+  width: 30px;
+  height: 10px;
+  border-bottom: 4px solid #6f4f67;
+}
+
+.pet-blush {
+  top: 118px;
+  width: 24px;
+  height: 12px;
+}
+
+.pet-shadow {
+  width: 148px;
+  height: 28px;
+  background: rgba(22, 10, 48, 0.48);
+}
+
+.pet-nameplate,
+.event-badge {
+  background: rgba(26, 18, 46, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.growth-metric,
+.unlock-item,
+.settings-toggle,
+.math-option,
+.choice-button,
+.inventory-item,
+.log-item {
+  background: rgba(50, 32, 86, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.status-icon,
+.inventory-icon,
+.unlock-icon {
+  background: rgba(99, 64, 154, 0.78);
+}
+
+.bar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.action-button.feed,
+.action-button.play,
+.action-button.wash,
+.action-button.sleep,
+.use-item-button,
+.bottom-nav-item.active,
+.tiny-button,
+.tiny-button.secondary {
+  color: #fff8ef;
+}
+
+.action-button.feed,
+.use-item-button {
+  background: linear-gradient(180deg, #ffb24c, #ff8d29);
+}
+
+.action-button.play {
+  background: linear-gradient(180deg, #8d52ff, #612eff);
+}
+
+.action-button.wash {
+  background: linear-gradient(180deg, #5b8dff, #3564ff);
+}
+
+.action-button.sleep {
+  background: linear-gradient(180deg, #ff63bf, #db2d8d);
+}
+
+.tiny-button {
+  background: linear-gradient(180deg, #8d52ff, #612eff);
+}
+
+.tiny-button.secondary {
+  background: linear-gradient(180deg, #ffb24c, #ff8d29);
+}
+
+.bottom-nav {
+  background: rgba(20, 11, 36, 0.94);
+}
+
+.bottom-nav-item {
+  color: rgba(225, 214, 255, 0.7);
+}
+
+.bottom-nav-item.active {
+  background: linear-gradient(180deg, rgba(255, 169, 72, 0.24), rgba(142, 82, 255, 0.34));
 }
 
 @media (min-width: 768px) {
