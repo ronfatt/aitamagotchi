@@ -29,12 +29,23 @@
             <span class="label">星糖</span>
             <strong id="coins-count">28</strong>
           </div>
+          <button class="topbar-icon" id="toggle-settings" aria-label="设置">⚙</button>
         </header>
 
         <section class="pet-roster" id="pet-roster" aria-label="宠物切换"></section>
 
         <section class="pet-stage" aria-label="宠物舞台">
+          <div class="stage-sky" id="stage-sky">
+            <span class="sky-orb" id="sky-orb"></span>
+            <span class="sky-star star-1"></span>
+            <span class="sky-star star-2"></span>
+            <span class="sky-star star-3"></span>
+          </div>
           <div class="room-glow"></div>
+          <div class="stage-floor-deco">
+            <span class="floor-toy toy-left"></span>
+            <span class="floor-toy toy-right"></span>
+          </div>
           <div class="speech-bubble" id="pet-line">啵啵想玩接球球！</div>
 
           <div class="pet-area">
@@ -89,6 +100,27 @@
           <div class="unlock-list" id="unlock-list"></div>
         </section>
 
+        <section class="settings-card hidden" id="settings-card">
+          <div class="story-heading">
+            <h2>小设置</h2>
+            <span class="unlock-hint">即时生效</span>
+          </div>
+          <div class="settings-list">
+            <button class="settings-toggle" id="toggle-sound">
+              <span>音效</span>
+              <strong id="sound-state">关闭</strong>
+            </button>
+            <button class="settings-toggle" id="toggle-motion">
+              <span>动效</span>
+              <strong id="motion-state">开启</strong>
+            </button>
+            <button class="settings-toggle danger" id="reset-save">
+              <span>重置存档</span>
+              <strong>重新开始</strong>
+            </button>
+          </div>
+        </section>
+
         <section class="status-panel" aria-label="宠物状态">
           <div class="status-grid" id="status-grid"></div>
         </section>
@@ -98,6 +130,27 @@
           <button class="action-button play" data-action="play">玩耍</button>
           <button class="action-button wash" data-action="wash">清洁</button>
           <button class="action-button sleep" data-action="sleep">睡觉</button>
+        </section>
+
+        <section class="math-card">
+          <div class="story-heading">
+            <h2>今日数学委托</h2>
+            <div class="grade-switch" id="grade-switch">
+              <button class="grade-chip active" data-grade="4">4年级</button>
+              <button class="grade-chip" data-grade="5">5年级</button>
+              <button class="grade-chip" data-grade="6">6年级</button>
+            </div>
+          </div>
+          <p class="quest-title" id="math-title">宠物零食采购</p>
+          <p class="story-copy" id="math-question">加载题目中...</p>
+          <div class="math-options" id="math-options"></div>
+          <div class="quest-progress-row">
+            <span id="math-progress-text">进度 0 / 3</span>
+            <div class="bar-track quest-track">
+              <div class="bar-fill quest" id="math-fill" style="width: 0%"></div>
+            </div>
+          </div>
+          <p class="reward-copy" id="math-reward-copy">完成后可获得星糖、经验和宠物小道具。</p>
         </section>
 
         <section class="quest-card">

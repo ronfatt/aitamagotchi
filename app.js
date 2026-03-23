@@ -294,6 +294,12 @@ const questTemplates = [
   },
 ];
 
+const mathMissionThemes = {
+  arithmetic: "宠物训练计算",
+  money: "宠物零食采购",
+  time: "宠物日程安排",
+};
+
 const defaultState = {
   hour: 8,
   day: 1,
@@ -315,6 +321,11 @@ const defaultState = {
     index: 0,
     progress: 0,
     completed: 0,
+  },
+  math: createMathState(4),
+  settings: {
+    soundOn: false,
+    motionOn: true,
   },
   pendingChoice: null,
   globalStory: "今早醒来后，啵啵盯着窗外发呆，说云朵像一块没吃完的棉花糖。",
@@ -472,10 +483,25 @@ const elements = {
   questText: document.querySelector("#story-copy"),
   questProgressText: document.querySelector("#quest-progress-text"),
   questFill: document.querySelector("#quest-fill"),
+  gradeSwitch: document.querySelector("#grade-switch"),
+  mathTitle: document.querySelector("#math-title"),
+  mathQuestion: document.querySelector("#math-question"),
+  mathOptions: document.querySelector("#math-options"),
+  mathProgressText: document.querySelector("#math-progress-text"),
+  mathFill: document.querySelector("#math-fill"),
+  mathRewardCopy: document.querySelector("#math-reward-copy"),
   choiceCard: document.querySelector("#choice-card"),
   choiceTitle: document.querySelector("#choice-title"),
   choiceCopy: document.querySelector("#choice-copy"),
   choiceActions: document.querySelector("#choice-actions"),
+  settingsCard: document.querySelector("#settings-card"),
+  toggleSettings: document.querySelector("#toggle-settings"),
+  toggleSound: document.querySelector("#toggle-sound"),
+  toggleMotion: document.querySelector("#toggle-motion"),
+  resetSave: document.querySelector("#reset-save"),
+  soundState: document.querySelector("#sound-state"),
+  motionState: document.querySelector("#motion-state"),
+  stage: document.querySelector(".pet-stage"),
   grid: document.querySelector("#status-grid"),
   inventory: document.querySelector("#inventory-list"),
   log: document.querySelector("#event-log"),
@@ -499,6 +525,122 @@ function createPetState(id, stats) {
     unlockedMilestones: [],
     stats,
   };
+}
+
+function createMathState(grade = 4) {
+  return {
+    grade,
+    currentIndex: 0,
+    completed: 0,
+    streak: 0,
+    questions: createMathQuestions(grade),
+  };
+}
+
+function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function shuffle(list) {
+  return [...list].sort(() => Math.random() - 0.5);
+}
+
+function buildQuestion(theme, prompt, answer, wrongAnswers) {
+  return {
+    theme,
+    prompt,
+    answer,
+    choices: shuffle([answer, ...wrongAnswers]).slice(0, 4),
+  };
+}
+
+function createArithmeticQuestion(grade) {
+  if (grade === 4) {
+    const a = randomInt(12, 48);
+    const b = randomInt(3, 9);
+    const prompt = `啵啵要做训练，今天完成了 ${a} 次跳跃，又追加了 ${b} 次，一共多少次？`;
+    const answer = a + b;
+    return buildQuestion("arithmetic", prompt, answer, [answer - 2, answer + 3, answer + 5]);
+  }
+
+  if (grade === 5) {
+    const a = randomInt(6, 12);
+    const b = randomInt(4, 9);
+    const prompt = `皮皮要准备表演，一排放 ${a} 个气球，共 ${b} 排，一共有多少个气球？`;
+    const answer = a * b;
+    return buildQuestion("arithmetic", prompt, answer, [answer - b, answer + a, answer + 6]);
+  }
+
+  const a = randomInt(24, 72);
+  const b = randomInt(3, 8);
+  const prompt = `默默收集了 ${a} 颗星糖，想平均分成 ${b} 份，每份有多少颗？`;
+  const answer = Math.floor(a / b);
+  return buildQuestion("arithmetic", prompt, answer, [answer - 2, answer + 1, answer + 3]);
+}
+
+function createMoneyQuestion(grade) {
+  if (grade === 4) {
+    const price = randomInt(2, 6);
+    const qty = randomInt(2, 4);
+    const answer = price * qty;
+    return buildQuestion(
+      "money",
+      `宠物想买 ${qty} 个零食，每个 RM${price}，一共要多少钱？`,
+      `RM${answer}`,
+      [`RM${answer + price}`, `RM${Math.max(1, answer - qty)}`, `RM${answer + 2}`]
+    );
+  }
+
+  if (grade === 5) {
+    const wallet = randomInt(15, 30);
+    const spend = randomInt(6, 14);
+    const answer = wallet - spend;
+    return buildQuestion(
+      "money",
+      `你带着 RM${wallet} 去帮宠物买玩具，花了 RM${spend}，还剩多少？`,
+      `RM${answer}`,
+      [`RM${answer + 2}`, `RM${Math.max(0, answer - 3)}`, `RM${wallet + spend}`]
+    );
+  }
+
+  const price = randomInt(8, 15);
+  const discount = randomInt(1, 4);
+  const answer = price - discount;
+  return buildQuestion(
+    "money",
+    `宠物背包原价 RM${price}，现在便宜了 RM${discount}，折后是多少钱？`,
+    `RM${answer}`,
+    [`RM${price + discount}`, `RM${discount}`, `RM${answer + 3}`]
+  );
+}
+
+function createTimeQuestion(grade) {
+  const hour = randomInt(1, 9);
+  const minuteOptions = [0, 15, 30, 45];
+  const minute = minuteOptions[randomInt(0, minuteOptions.length - 1)];
+  const extra = grade === 4 ? randomInt(15, 45) : grade === 5 ? randomInt(20, 80) : randomInt(30, 90);
+  const totalMinutes = hour * 60 + minute + extra;
+  const resultHour = Math.floor(totalMinutes / 60);
+  const resultMinute = totalMinutes % 60;
+  const formatTime = `${resultHour}:${String(resultMinute).padStart(2, "0")}`;
+  return buildQuestion(
+    "time",
+    `现在是 ${hour}:${String(minute).padStart(2, "0")}，再过 ${extra} 分钟，宠物几点开始活动？`,
+    formatTime,
+    [
+      `${resultHour}:${String((resultMinute + 15) % 60).padStart(2, "0")}`,
+      `${Math.max(0, resultHour - 1)}:${String(resultMinute).padStart(2, "0")}`,
+      `${resultHour + 1}:${String(resultMinute).padStart(2, "0")}`,
+    ]
+  );
+}
+
+function createMathQuestions(grade) {
+  return [
+    createArithmeticQuestion(grade),
+    createMoneyQuestion(grade),
+    createTimeQuestion(grade),
+  ];
 }
 
 function cloneDefaultState() {
@@ -531,6 +673,13 @@ function loadState() {
     merged.activePetId = parsed.activePetId ?? merged.activePetId;
     merged.inventory = { ...merged.inventory, ...(parsed.inventory || {}) };
     merged.quest = { ...merged.quest, ...(parsed.quest || {}) };
+    merged.math = parsed.math
+      ? {
+          ...createMathState(parsed.math.grade || 4),
+          ...parsed.math,
+        }
+      : merged.math;
+    merged.settings = { ...merged.settings, ...(parsed.settings || {}) };
     merged.pendingChoice = parsed.pendingChoice || null;
     merged.globalStory = parsed.globalStory || merged.globalStory;
     merged.logs = Array.isArray(parsed.logs) ? parsed.logs.slice(0, 6) : merged.logs;
@@ -554,6 +703,38 @@ function loadState() {
 
 function saveState() {
   window.localStorage.setItem(storageKey, JSON.stringify(state));
+}
+
+function playSound(type = "soft") {
+  if (!state.settings.soundOn) return;
+
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) return;
+
+  if (!window.__petAudioCtx) {
+    window.__petAudioCtx = new AudioContextClass();
+  }
+
+  const ctx = window.__petAudioCtx;
+  const now = ctx.currentTime;
+  const gain = ctx.createGain();
+  const osc = ctx.createOscillator();
+  const tones = {
+    soft: 520,
+    happy: 660,
+    rare: 820,
+    sleepy: 420,
+  };
+
+  osc.type = "triangle";
+  osc.frequency.setValueAtTime(tones[type] || 520, now);
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.025, now + 0.01);
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.18);
+  osc.connect(gain);
+  gain.connect(ctx.destination);
+  osc.start(now);
+  osc.stop(now + 0.2);
 }
 
 function addLog(text) {
@@ -800,6 +981,7 @@ function resolveChoice(optionIndex) {
   addLog(outcomeLog);
   updateQuestProgress(outcomeQuestTag);
   state.pendingChoice = null;
+  playSound(outcomeBadge === "选择完成" ? "happy" : outcomeQuestTag === "play" ? "rare" : "soft");
   render();
 }
 
@@ -817,6 +999,7 @@ function performAction(actionKey) {
   state.globalStory = pet.currentStory;
   addLog(action.log(info));
   updateQuestProgress(actionKey);
+  playSound(actionKey === "sleep" ? "sleepy" : "happy");
   render();
 }
 
@@ -861,6 +1044,7 @@ function cheerUpPet() {
   state.globalStory = pet.currentStory;
   addLog(`你陪${info.name}聊了聊天，它的情绪变得更轻松了。`);
   updateQuestProgress("chat");
+  playSound("soft");
   render();
 }
 
@@ -874,6 +1058,7 @@ function petTapReaction() {
   state.globalStory = pet.currentStory;
   addLog(`你点了点${info.name}，它立刻给了你一个可爱的回应。`);
   updateQuestProgress("tap");
+  playSound("soft");
   render();
 }
 
@@ -891,6 +1076,7 @@ function useItem(itemKey) {
   state.globalStory = pet.currentStory;
   addLog(item.log.replace("宠物", info.name));
   updateQuestProgress("item");
+  playSound("happy");
   render();
 }
 
@@ -904,7 +1090,96 @@ function advanceQuestManually() {
   applyPetChanges(pet, { mood: 3, xp: 5 });
   addLog(`${info.name}认真研究了当前的小情节目标。`);
   updateQuestProgress("time");
+  playSound("soft");
   render();
+}
+
+function toggleSettingsPanel() {
+  elements.settingsCard.classList.toggle("hidden");
+}
+
+function toggleSoundSetting() {
+  state.settings.soundOn = !state.settings.soundOn;
+  playSound(state.settings.soundOn ? "happy" : "soft");
+  render();
+}
+
+function applyMotionSetting() {
+  document.body.classList.toggle("motion-off", !state.settings.motionOn);
+}
+
+function toggleMotionSetting() {
+  state.settings.motionOn = !state.settings.motionOn;
+  applyMotionSetting();
+  render();
+}
+
+function resetSaveData() {
+  const confirmed = window.confirm("要清空当前电子宠物进度并重新开始吗？");
+  if (!confirmed) return;
+
+  const freshState = cloneDefaultState();
+  Object.keys(state).forEach((key) => {
+    delete state[key];
+  });
+  Object.assign(state, freshState);
+  window.localStorage.removeItem(storageKey);
+  applyMotionSetting();
+  render();
+}
+
+function setMathGrade(grade) {
+  state.math = createMathState(grade);
+  state.globalStory = `${activePetInfo().name}换上了 ${grade} 年级的数学委托清单，准备开始新的任务。`;
+  addLog(`你把数学委托切换到了 ${grade} 年级模式。`);
+  render();
+}
+
+function completeMathQuestion(isCorrect) {
+  const pet = activePet();
+  const rewards = isCorrect
+    ? { coins: 3, xp: 8, bond: 2, mood: 3 }
+    : { xp: 2, mood: 1 };
+
+  applyPetChanges(pet, rewards);
+
+  if (isCorrect) {
+    state.math.completed += 1;
+    state.math.streak += 1;
+    pet.currentLine = `${activePetInfo().name}开心地说，这题算得太及时了。`;
+    pet.currentStory = `${activePetInfo().name}顺利完成了一项数学委托，准备把奖励收进背包。`;
+    pet.badge = "数学完成";
+    state.globalStory = pet.currentStory;
+    addLog(`${activePetInfo().name}完成了一道数学委托，获得了成长奖励。`);
+
+    if (state.math.completed >= state.math.questions.length) {
+      state.inventory.pudding = (state.inventory.pudding || 0) + 1;
+      pet.currentLine = `${activePetInfo().name}宣布今日数学委托全部完成，可以去领奖了。`;
+      pet.currentStory = `${activePetInfo().name}把今日 3 道数学委托都做完了，你们拿到了一份草莓布丁奖励。`;
+      pet.badge = "数学全清";
+      addLog(`今日数学委托全部完成，额外获得 1 个草莓布丁。`);
+      updateQuestProgress("chat");
+    } else {
+      state.math.currentIndex += 1;
+    }
+
+    playSound("happy");
+  } else {
+    pet.currentLine = `${activePetInfo().name}说没关系，我们再认真看一次题目。`;
+    pet.currentStory = `${activePetInfo().name}没有生气，只是想和你再试一次数学委托。`;
+    pet.badge = "继续尝试";
+    state.globalStory = pet.currentStory;
+    addLog(`${activePetInfo().name}这道数学题答错了，但它愿意继续陪你尝试。`);
+    playSound("soft");
+  }
+
+  render();
+}
+
+function answerMathQuestion(choice) {
+  const question = state.math.questions[state.math.currentIndex];
+  if (!question) return;
+  completeMathQuestion(choice === question.answer);
 }
 
 function switchPet(petId) {
@@ -1088,12 +1363,75 @@ function renderChoiceCard() {
   });
 }
 
+function renderMathCard() {
+  const grade = state.math.grade;
+  const question = state.math.questions[state.math.currentIndex];
+  const completed = Math.min(state.math.completed, state.math.questions.length);
+  const percent = (completed / state.math.questions.length) * 100;
+
+  elements.gradeSwitch.querySelectorAll(".grade-chip").forEach((button) => {
+    button.classList.toggle("active", Number(button.dataset.grade) === grade);
+  });
+
+  if (!question) {
+    elements.mathTitle.textContent = "今日数学委托完成";
+    elements.mathQuestion.textContent = "你已经帮宠物完成今天所有数学任务了，明天再来继续。";
+    elements.mathOptions.innerHTML = "";
+    elements.mathRewardCopy.textContent = "今日奖励已经发放，宠物很满意。";
+  } else {
+    elements.mathTitle.textContent = mathMissionThemes[question.theme];
+    elements.mathQuestion.textContent = question.prompt;
+    elements.mathOptions.innerHTML = question.choices
+      .map(
+        (choice) => `
+          <button class="math-option" data-answer="${choice}">
+            <strong>${choice}</strong>
+          </button>
+        `
+      )
+      .join("");
+
+    elements.mathOptions.querySelectorAll(".math-option").forEach((button) => {
+      button.addEventListener("click", () => answerMathQuestion(button.dataset.answer));
+    });
+
+    elements.mathRewardCopy.textContent = "答对可得 3 星糖、成长经验和羁绊奖励。";
+  }
+
+  elements.mathProgressText.textContent = `进度 ${completed} / ${state.math.questions.length}`;
+  elements.mathFill.style.width = `${percent}%`;
+}
+
+function renderSettings() {
+  elements.soundState.textContent = state.settings.soundOn ? "开启" : "关闭";
+  elements.motionState.textContent = state.settings.motionOn ? "开启" : "关闭";
+  applyMotionSetting();
+}
+
+function renderStageAtmosphere() {
+  let stageMode = "day";
+  if (state.hour >= 18) {
+    stageMode = "night";
+  } else if (state.hour >= 16) {
+    stageMode = "sunset";
+  }
+
+  elements.stage.classList.remove("day", "sunset", "night");
+  elements.stage.classList.add(stageMode);
+}
+
 function renderPetFace() {
   const pet = activePet();
   const info = activePetInfo();
   const profile = getMoodProfile(pet);
   const currentFace = pet.badge === "互动完成" || pet.badge === "剧情完成" ? "excited" : profile.face;
-  elements.petFace.className = `pet-face stage-${pet.stage} ${currentFace} ${info.faceClass}`;
+  const motionClass =
+    pet.badge.includes("稀有") || pet.badge === "传奇发现" || pet.badge === "愿望成真"
+      ? "rare"
+      : ["互动完成", "选择完成", "剧情完成", "聊天中", "正在互动"].includes(pet.badge)
+        ? "interact"
+        : "";
+  elements.petFace.className = `pet-face stage-${pet.stage} ${currentFace} ${motionClass} ${info.faceClass}`;
   elements.petName.textContent = info.name;
   elements.petTrait.textContent = `${info.trait} · ${info.species}`;
   if (!pet.currentLine || pet.badge === "状态稳定") {
@@ -1107,8 +1445,11 @@ function render() {
   renderStats();
   renderGrowth();
   renderUnlocks();
+  renderMathCard();
   renderQuest();
   renderChoiceCard();
+  renderSettings();
+  renderStageAtmosphere();
   renderInventory();
   renderLogs();
   renderPetFace();
@@ -1124,9 +1465,17 @@ elements.actionButtons.forEach((button) => {
   button.addEventListener("click", () => performAction(button.dataset.action));
 });
 
+elements.gradeSwitch.querySelectorAll(".grade-chip").forEach((button) => {
+  button.addEventListener("click", () => setMathGrade(Number(button.dataset.grade)));
+});
+
 elements.nextTurn.addEventListener("click", advanceHour);
 elements.cheerUp.addEventListener("click", cheerUpPet);
 elements.advanceQuest.addEventListener("click", advanceQuestManually);
 elements.petFace.addEventListener("click", petTapReaction);
+elements.toggleSettings.addEventListener("click", toggleSettingsPanel);
+elements.toggleSound.addEventListener("click", toggleSoundSetting);
+elements.toggleMotion.addEventListener("click", toggleMotionSetting);
+elements.resetSave.addEventListener("click", resetSaveData);
 
 render();

@@ -79,6 +79,7 @@ button {
 .topbar {
   justify-content: space-between;
   margin-bottom: 12px;
+  gap: 8px;
 }
 
 .topbar-chip {
@@ -97,6 +98,18 @@ button {
 
 .topbar-chip strong {
   font-size: 1rem;
+}
+
+.topbar-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 -2px 0 rgba(255, 159, 125, 0.28);
+  cursor: pointer;
 }
 
 .topbar-center {
@@ -180,6 +193,105 @@ button {
   box-shadow: inset 0 -6px 0 rgba(255, 255, 255, 0.45);
 }
 
+.stage-sky,
+.stage-floor-deco {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.sky-orb,
+.sky-star,
+.floor-toy {
+  position: absolute;
+}
+
+.stage-sky {
+  z-index: 0;
+}
+
+.sky-orb {
+  top: 18px;
+  right: 24px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 244, 180, 0.95);
+  box-shadow: 0 0 24px rgba(255, 243, 180, 0.7);
+}
+
+.sky-star {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  opacity: 0;
+}
+
+.star-1 {
+  top: 30px;
+  left: 34px;
+}
+
+.star-2 {
+  top: 70px;
+  left: 78px;
+}
+
+.star-3 {
+  top: 58px;
+  right: 88px;
+}
+
+.stage-floor-deco {
+  z-index: 0;
+}
+
+.floor-toy {
+  bottom: 18px;
+  width: 26px;
+  height: 26px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.toy-left {
+  left: 28px;
+  transform: rotate(-18deg);
+  background: linear-gradient(180deg, rgba(255, 167, 121, 0.9), rgba(255, 120, 97, 0.8));
+}
+
+.toy-right {
+  right: 76px;
+  transform: rotate(14deg);
+  background: linear-gradient(180deg, rgba(107, 213, 204, 0.9), rgba(76, 136, 255, 0.8));
+}
+
+.pet-stage.day {
+  background:
+    linear-gradient(180deg, rgba(146, 233, 245, 0.95), rgba(255, 255, 255, 0.9) 58%, rgba(255, 214, 161, 0.95) 100%);
+}
+
+.pet-stage.sunset {
+  background:
+    linear-gradient(180deg, rgba(255, 183, 132, 0.96), rgba(255, 220, 179, 0.9) 52%, rgba(255, 183, 146, 0.96) 100%);
+}
+
+.pet-stage.night {
+  background:
+    linear-gradient(180deg, rgba(55, 91, 161, 0.96), rgba(105, 123, 196, 0.88) 45%, rgba(164, 152, 203, 0.94) 100%);
+}
+
+.pet-stage.night .sky-orb {
+  background: rgba(245, 248, 255, 0.9);
+  box-shadow: 0 0 24px rgba(235, 240, 255, 0.7);
+}
+
+.pet-stage.night .sky-star,
+.pet-stage.sunset .sky-star {
+  opacity: 1;
+}
+
 .room-glow {
   position: absolute;
   inset: auto auto 22px -14px;
@@ -215,6 +327,13 @@ button {
   font-family: "Baloo 2", cursive;
   font-size: 1.12rem;
   line-height: 1.15;
+}
+
+body.motion-off .pet-face,
+body.motion-off .pet-shadow,
+body.motion-off .room-glow {
+  animation: none !important;
+  transition: none !important;
 }
 
 .pet-area {
@@ -420,12 +539,25 @@ button {
   transform: scale(1.03);
 }
 
+.pet-face.interact {
+  animation:
+    bob 2.4s ease-in-out infinite,
+    wiggle 0.55s ease-in-out 2;
+}
+
+.pet-face.rare {
+  animation:
+    bob 2.6s ease-in-out infinite,
+    shimmer 1.8s ease-in-out infinite;
+}
+
 .pet-shadow {
   width: 116px;
   height: 22px;
   border-radius: 50%;
   background: rgba(143, 110, 80, 0.2);
   filter: blur(3px);
+  animation: shadowPulse 2.8s ease-in-out infinite;
 }
 
 .pet-face.stage-1 + .pet-shadow {
@@ -463,8 +595,10 @@ button {
 
 .growth-card,
 .unlock-card,
+.settings-card,
 .status-panel,
 .choice-card,
+.math-card,
 .quest-card,
 .inventory-card,
 .log-card {
@@ -544,6 +678,95 @@ button {
   color: #2f8f57;
   font-size: 0.76rem;
   font-weight: 800;
+}
+
+.settings-list {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.grade-switch {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.grade-chip {
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: #fff1c2;
+  color: #845429;
+  font-size: 0.78rem;
+  font-weight: 800;
+}
+
+.grade-chip.active {
+  background: linear-gradient(180deg, #5fd4cd, #2ca8c2);
+  color: #fffdf6;
+}
+
+.math-options {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.math-option {
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 18px;
+  background: rgba(255, 247, 240, 0.95);
+  color: var(--ink);
+  text-align: left;
+  box-shadow: 0 10px 20px rgba(164, 90, 74, 0.1);
+}
+
+.math-option.correct {
+  background: rgba(227, 255, 237, 0.98);
+}
+
+.math-option.wrong {
+  background: rgba(255, 235, 231, 0.98);
+}
+
+.reward-copy {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.settings-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  border: 0;
+  border-radius: 18px;
+  background: rgba(255, 247, 240, 0.9);
+  color: var(--ink);
+  box-shadow: 0 10px 20px rgba(164, 90, 74, 0.08);
+}
+
+.settings-toggle span {
+  font-weight: 800;
+}
+
+.settings-toggle strong {
+  color: var(--muted);
+}
+
+.settings-toggle.danger {
+  background: rgba(255, 235, 231, 0.95);
+}
+
+.settings-toggle.danger span,
+.settings-toggle.danger strong {
+  color: #c04d44;
 }
 
 .unlock-item.locked .unlock-badge {
@@ -852,6 +1075,61 @@ button {
   }
   50% {
     transform: translateY(-8px);
+  }
+}
+
+@keyframes shadowPulse {
+  0%,
+  100% {
+    transform: scaleX(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scaleX(1.08);
+    opacity: 0.55;
+  }
+}
+
+.pet-stage.night .sky-star {
+  animation: twinkle 1.8s ease-in-out infinite;
+}
+
+.pet-stage.sunset .sky-star {
+  animation: twinkle 2.4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    transform: scale(0.8);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+}
+
+@keyframes wiggle {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-2deg);
+  }
+  75% {
+    transform: rotate(2deg);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 rgba(255, 255, 255, 0));
+  }
+  50% {
+    filter: drop-shadow(0 0 14px rgba(255, 255, 255, 0.7));
   }
 }
 
