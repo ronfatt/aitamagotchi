@@ -1885,6 +1885,24 @@ body {
   color: #fff7ff;
 }
 
+.story-copy,
+.math-question,
+.math-option,
+.math-option strong,
+.quest-title {
+  color: #f6ecff;
+}
+
+.reward-copy,
+.quest-progress-row span,
+.math-feedback,
+.inventory-copy span,
+.unlock-copy span,
+.log-time,
+.choice-button span {
+  color: rgba(231, 219, 255, 0.86);
+}
+
 .app-kicker,
 .section-cap span,
 .hero-mini-label {
@@ -2090,6 +2108,10 @@ body {
 .log-item {
   background: rgba(50, 32, 86, 0.76);
   border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.math-option {
+  background: rgba(62, 40, 108, 0.88);
 }
 
 .status-icon,

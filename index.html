@@ -132,7 +132,7 @@
           <section class="pet-roster" id="pet-roster" aria-label="Tukar kucing"></section>
         </section>
 
-        <section class="pet-stage" aria-label="Pentas kucing">
+        <section class="pet-stage" id="home-section" aria-label="Pentas kucing">
           <div class="stage-sky" id="stage-sky">
             <span class="sky-orb" id="sky-orb"></span>
             <span class="sky-star star-1"></span>
@@ -170,7 +170,7 @@
           </div>
         </section>
 
-        <section class="growth-card">
+        <section class="growth-card" id="progress-section">
           <div class="story-heading">
             <h1>Perkembangan</h1>
             <span class="growth-stage" id="growth-stage">Anak kucing</span>
@@ -260,7 +260,7 @@
           <button class="action-button sleep" data-action="sleep">Tidur</button>
         </section>
 
-        <section class="math-card">
+        <section class="math-card" id="mission-section">
           <div class="story-heading">
             <h2>Misi Matematik Hari Ini</h2>
             <div class="grade-switch" id="grade-switch">
@@ -308,7 +308,7 @@
           <div class="choice-actions" id="choice-actions"></div>
         </section>
 
-        <section class="inventory-card">
+        <section class="inventory-card" id="item-section">
           <div class="story-heading">
             <h2>Beg Item</h2>
             <button class="tiny-button secondary" id="cheer-up">Sembang</button>
@@ -325,19 +325,19 @@
         </section>
 
         <nav class="bottom-nav" aria-label="Navigasi utama">
-          <button class="bottom-nav-item active" type="button">
+          <button class="bottom-nav-item active" type="button" data-target="home-section">
             <span class="bottom-nav-icon">🐾</span>
             <span>Home</span>
           </button>
-          <button class="bottom-nav-item" type="button">
+          <button class="bottom-nav-item" type="button" data-target="mission-section">
             <span class="bottom-nav-icon">🧮</span>
             <span>Misi</span>
           </button>
-          <button class="bottom-nav-item" type="button">
+          <button class="bottom-nav-item" type="button" data-target="item-section">
             <span class="bottom-nav-icon">🎒</span>
             <span>Item</span>
           </button>
-          <button class="bottom-nav-item" type="button">
+          <button class="bottom-nav-item" type="button" data-target="progress-section">
             <span class="bottom-nav-icon">✨</span>
             <span>Progress</span>
           </button>

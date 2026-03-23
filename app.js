@@ -524,6 +524,10 @@ const elements = {
   dailyStatusPill: document.querySelector("#daily-status-pill"),
   dailyRewardNote: document.querySelector("#daily-reward-note"),
   heroPetName: document.querySelector("#hero-pet-name"),
+  homeSection: document.querySelector("#home-section"),
+  missionSection: document.querySelector("#mission-section"),
+  itemSection: document.querySelector("#item-section"),
+  progressSection: document.querySelector("#progress-section"),
   stage: document.querySelector(".pet-stage"),
   grid: document.querySelector("#status-grid"),
   inventory: document.querySelector("#inventory-list"),
@@ -533,6 +537,7 @@ const elements = {
   cheerUp: document.querySelector("#cheer-up"),
   advanceQuest: document.querySelector("#advance-quest"),
   actionButtons: [...document.querySelectorAll(".action-button")],
+  bottomNavButtons: [...document.querySelectorAll(".bottom-nav-item")],
 };
 
 function createPetState(id, stats) {
@@ -1688,6 +1693,20 @@ function renderPetFace() {
   }
 }
 
+function setActiveBottomNav(targetId) {
+  elements.bottomNavButtons.forEach((button) => {
+    button.classList.toggle("active", button.dataset.target === targetId);
+  });
+}
+
+function navigateToSection(targetId) {
+  const target = document.querySelector(`#${targetId}`);
+  if (!target) return;
+
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
+  setActiveBottomNav(targetId);
+}
+
 function render() {
   const pet = activePet();
   refreshMathForToday();
@@ -1730,6 +1749,9 @@ elements.toggleMotion.addEventListener("click", toggleMotionSetting);
 elements.resetSave.addEventListener("click", resetSaveData);
 elements.switchPlayer.addEventListener("click", switchPlayerFlow);
 elements.startGame.addEventListener("click", () => enterGameWithPlayer(elements.playerIdInput.value));
+elements.bottomNavButtons.forEach((button) => {
+  button.addEventListener("click", () => navigateToSection(button.dataset.target));
+});
 elements.playerIdInput.addEventListener("keydown", (event) => {
   if (event.key === "Enter") {
     enterGameWithPlayer(elements.playerIdInput.value);
